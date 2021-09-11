@@ -4,6 +4,7 @@ const axios = require('axios');
 const cors = require('cors');
 
 const app = express();
+module.exports = app;
 const path = require('path');
 const config = require('../config.js');
 
@@ -41,3 +42,4 @@ app.use('/api/*', (req, res) => {
 app.listen(PORT, () => {
   console.log('App is listening on http://localhost:3000');
 });
+

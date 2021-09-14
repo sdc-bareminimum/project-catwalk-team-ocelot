@@ -62,15 +62,25 @@ function RelatedItems({ productId, setProductId }) {
 
   return (
     <div style={{
-      maxWidth: 1200, marginLeft: 'auto', marginRight: 'auto', marginTop: 64,
+      maxWidth: 900, marginLeft: '0', marginRight: 'auto', marginTop: 64,
     }}
     >
+      {' '}
+      RELATED PRODUCTS
       <Carousel show={3}>
         {mergedData.map((product) => (
-          <Card style={{ width: '12rem', margin: '10px', border: 'solid', borderWidth: 'thin' }}>
-            <Card.Img variant="top" src={product.photo} style={{ height: '250px' }} />
-            <Card.Body>
-              <Card.Title>{product.name}</Card.Title>
+          <Card style={{
+            width: '14rem', marginRight: '20px', border: 'solid', borderWidth: 'thin',
+          }}
+          >
+            <Card.Img variant="top" src={product.photo} style={{ height: '225px' }} />
+            <Card.Body style={{ padding: '4px', }}>
+              <Card.Title style={{ fontSize: '13px', padding: '4px' }}>{product.category}</Card.Title>
+              <Card.Title style={{ fontSize: '15px', padding: '4px' }}>{product.name}</Card.Title>
+              <Card.Text style={{ fontSize: '10px', padding: '4px' }}>
+                $
+                {product.default_price}
+              </Card.Text>
             </Card.Body>
           </Card>
         ))}

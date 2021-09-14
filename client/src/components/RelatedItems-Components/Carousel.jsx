@@ -5,7 +5,7 @@ const Carousel = ({ children, show }) => {
   const [length, setLength] = useState(children.length);
 
   useEffect(() => {
-    setLength(children.length)
+    setLength(children.length);
   }, [children]);
 
   const next = () => {
@@ -16,7 +16,7 @@ const Carousel = ({ children, show }) => {
 
   const prev = () => {
     if (currentIndex > 0) {
-      setCurrentIndex((prevState) => prevState - 1)
+      setCurrentIndex((prevState) => prevState - 1);
     }
   };
 
@@ -24,10 +24,12 @@ const Carousel = ({ children, show }) => {
     <div className="carousel-container">
       <div className="carousel-wrapper">
         {
-        currentIndex > 0 &&
-        <button onClick={prev} className="left-arrow">
+        currentIndex > 0
+        && (
+        <button type="button" onClick={prev} className="left-arrow">
           &lt;
         </button>
+        )
         }
         <div className="carousel-content-wrapper">
           <div
@@ -38,10 +40,12 @@ const Carousel = ({ children, show }) => {
           </div>
         </div>
         {
-        currentIndex < (length - show) &&
-        <button onClick={next} className="right-arrow">
+        currentIndex < (length - show)
+        && (
+        <button type="button" onClick={next} className="right-arrow">
           &gt;
         </button>
+        )
         }
       </div>
     </div>

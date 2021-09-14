@@ -25,6 +25,7 @@ app.use('/api/*', (req, res) => {
     headers: {
       'User-Agent': 'request',
       'Authorization': config.TOKEN,
+      'Access-Control-Allow-Origin': 'http://localhost:3000',
     },
     data: body,
   };

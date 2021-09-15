@@ -87,7 +87,7 @@ function RelatedItems({ productId, setProductId }) {
   }, [outfitStyleData, outfitListData]);
 
   return (
-    <div>
+    <div className="container">
       <div style={{
         maxWidth: 900, marginLeft: '0', marginRight: 'auto', marginTop: 64,
       }}

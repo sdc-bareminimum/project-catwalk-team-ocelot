@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, Button } from 'react-bootstrap';
 import Carousel from './RelatedItems-Components/Carousel.jsx';
 import ProductCard from './RelatedItems-Components/ProductCard.jsx';
 import AddToOutfitCard from './RelatedItems-Components/AddToOutfitCard.jsx';
@@ -98,7 +97,7 @@ function RelatedItems({ productId, setProductId }) {
         RELATED PRODUCTS
         <Carousel show={3}>
           {mergedRelatedData.map((product) => (
-            <ProductCard product={product} />
+            <ProductCard key={product.id} product={product} />
           ))}
         </Carousel>
       </div>
@@ -112,7 +111,7 @@ function RelatedItems({ productId, setProductId }) {
         <Carousel show={3}>
           <AddToOutfitCard addToOutfit={addToOutfit} />
           {mergedOutfitData.map((product) => (
-            <ProductCard product={product} />
+            <ProductCard key={product.id} product={product} />
           ))}
         </Carousel>
       </div>

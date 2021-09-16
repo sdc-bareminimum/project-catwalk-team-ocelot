@@ -15,7 +15,8 @@ export const reviewReducers = (state, action) => {
         average: Object.values(action.payload.ratings)
           .reduce((r, a, i) => (Number(r) + Number(a)
           * Number(Object.keys(action.payload.ratings)[i])))
-          / 15,
+          / Object.values(action.payload.ratings)
+            .reduce((prev, curr) => Number(prev) + Number(curr)),
         ratings: action.payload.ratings,
         characteristics: action.payload.characteristics,
       };
@@ -23,8 +24,8 @@ export const reviewReducers = (state, action) => {
       return {
         ...state,
         recommend: ((Number(action.payload.true)
-        / (Number(action.payload.true)
-        + Number(action.payload.false))) * 100),
+        / ((Number(action.payload.true) || 0)
+        + (Number(action.payload.false) || 0))) * 100),
       };
     case ERROR:
       return {

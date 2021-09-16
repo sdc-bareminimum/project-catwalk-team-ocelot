@@ -99,3 +99,20 @@ export const fitDesc = (index) => {
       break;
   }
 };
+
+export const lenDesc = (index) => {
+  switch (index) {
+    case 1:
+      return 'Runs short';
+    case 2:
+      return 'Runs slightly short';
+    case 3:
+      return 'Perfect';
+    case 4:
+      return 'Runs slightly long';
+    case 5:
+      return 'Runs long';
+    default:
+      break;
+  }
+};

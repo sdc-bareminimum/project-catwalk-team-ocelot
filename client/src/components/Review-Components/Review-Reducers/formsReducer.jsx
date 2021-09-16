@@ -9,6 +9,9 @@ export const ADD_LENGTH = 'ADD_LENGTH';
 export const ADD_COMFORT = 'ADD_COMFORT';
 export const ADD_QUALITY = 'ADD_QUALITY';
 export const ADD_FIT = 'ADD_FIT';
+export const ADD_SIZE = 'ADD_SIZE';
+export const ADD_WIDTH = 'ADD_WIDTH';
+export const CLEAR_ENTRIES = 'CLEAR_ENTRIES';
 
 export const reviewFormReducer = (state, action) => {
   switch (action.type) {
@@ -67,6 +70,31 @@ export const reviewFormReducer = (state, action) => {
         ...state,
         fit: action.payload,
       };
+    case ADD_SIZE:
+      return {
+        ...state,
+        size: action.payload,
+      };
+    case ADD_WIDTH:
+      return {
+        ...state,
+        width: action.payload,
+      };
+    case CLEAR_ENTRIES:
+      return {
+        ...state,
+        summaryText: '',
+        bodyText: '',
+        selectRec: false,
+        addUsername: '',
+        addEmail: '',
+        fit: 1,
+        size: 1,
+        length: 1,
+        width: 1,
+        quality: 1,
+        comfort: 1,
+      }
     default:
       return state;
   }
@@ -81,7 +109,9 @@ export const initialState = {
   addEmail: '',
   addPhotos: [],
   fit: 1,
+  size: 1,
   length: 1,
-  comfort: 1,
+  width: 1,
   quality: 1,
+  comfort: 1,
 };

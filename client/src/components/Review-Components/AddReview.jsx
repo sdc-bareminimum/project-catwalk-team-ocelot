@@ -1,24 +1,119 @@
-import React, { useReducer } from 'react';
-// import axios from 'axios';
+import React, { useReducer, useState, useEffect } from 'react';
+import axios from 'axios';
 import {
-  ratingDesc, fitDesc, comfortDesc, qualityDesc,
+  ratingDesc, fitDesc, comfortDesc, qualityDesc, lenDesc, widthDesc, sizeDesc,
 } from './characteristics.js';
 import {
   reviewFormReducer, SELECT_RATING,
   ADD_SUMMARY, ADD_BODY, SELECT_REC, ADD_USER,
-  ADD_EMAIL, ADD_COMFORT, ADD_QUALITY, ADD_FIT, initialState,
+  ADD_EMAIL, ADD_COMFORT, ADD_QUALITY, ADD_FIT, ADD_SIZE, ADD_WIDTH,
+  ADD_LENGTH, initialState, CLEAR_ENTRIES
 } from './Review-Reducers/formsReducer.jsx';
 
 const AddReview = (props) => {
   const [state, dispatch] = useReducer(reviewFormReducer, initialState);
+  const [sizefitId, setSizeFitId] = useState(0);
+  const [widthlengthId, setWidthLengthId] = useState(0);
+  const [sizefitRating, setSizeFitRating] = useState(0);
+  const [widthlengthRating, setWidthLengthRating] = useState(0);
+  const [comfortId, setComfortId] = useState(0);
+  const [qualityId, setQualityId] = useState(0);
   const mapArray = new Array(5).fill(1);
+  const { characteristics } = props;
   const handleChange = (e) => {
     dispatch({ type: e.target.name, payload: e.target.value });
   };
 
+  const getSizeId = (data) => new Promise((resolve, reject) => {
+    if (data.Fit) {
+      resolve(data);
+    } else if (data.Size) {
+      resolve(data);
+    } else {
+      reject(data);
+    }
+  })
+    .then((result) => {
+      setSizeFitId(result.Fit.id || result.Size.id);
+      setSizeFitRating(result.Fit ? state.fit : state.size);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  const getLengthId = (data) => new Promise((resolve, reject) => {
+    if (data.Length) {
+      resolve(data);
+    } else if (data.Width) {
+      resolve(data);
+    } else {
+      reject(data);
+    }
+  })
+    .then((result) => {
+      setWidthLengthId(result.Length.id || result.Width.id);
+      setWidthLengthRating(result.Length ? state.length : state.width);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  const getComfortId = (data) => new Promise((resolve) => {
+    resolve(data.Comfort);
+  })
+    .then((result) => {
+      setComfortId(result.id);
+    });
+
+  const getQualityId = (data) => new Promise((resolve) => {
+    resolve(data.Quality);
+  })
+    .then((result) => {
+      setQualityId(result.id);
+    });
+
+  const data = {
+    product_id: props.productId,
+    rating: state.selectedRating,
+    summary: state.summaryText,
+    body: state.bodyText,
+    recommend: state.selectRec === 'true',
+    name: state.addUsername,
+    email: state.addEmail,
+    photos: state.addPhotos,
+    characteristics: {
+      [sizefitId]: sizefitRating,
+      [widthlengthId]: widthlengthRating,
+      [comfortId]: state.comfort,
+      [qualityId]: state.quality,
+    },
+  };
+
+  // const headers = {
+  //   'Content-Type': 'application/json',
+  // };
+  const postNewReview = (e) => {
+    e.preventDefault();
+    axios.post('/api/reviews', data)
+      .then(() => {
+        console.log('Review Posted');
+        dispatch({ type: CLEAR_ENTRIES });
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        console.log(err.response);
+      });
+  };
+  useEffect(() => {
+    getSizeId(characteristics);
+    getLengthId(characteristics);
+    getQualityId(characteristics);
+    getComfortId(characteristics);
+  }, [characteristics]);
+
   return (
     <div className="modal" id="reviewModal" tabIndex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
-      <div className="modal-dialog modal-lg">
+      <div className="modal-dialog modal-xl">
         <div className="modal-content">
 
           <div className="modal-header">
@@ -28,70 +123,90 @@ const AddReview = (props) => {
           <div>
             <p>About the Product Name Here</p>
           </div>
-          <div className="modal-body-review">
+          <div className="modal-body">
             <form>
               <p>Overall Rating</p>
-              {mapArray.map((radio, i) => (
-                <div className="form-check form-check-inline" key={i + 1}>
-                  <label className="form-check-label" htmlFor={`inlineRadio${i + 1}`}>
-                    {ratingDesc(i + 1)}
-                  </label>
-                  <input onChange={handleChange} className="form-check-input" type="radio" name={SELECT_RATING} id={`inlineRadio${i + 1}`} value={i + 1} />
-                </div>
-              ))}
+              <div className="mb-3">
+                {mapArray.map((radio, i) => (
+                  <div className="form-check form-check-inline" key={i + 1}>
+                    <label className="form-check-label" htmlFor={`inlineRadio${i + 1}`}>
+                      {ratingDesc(i + 1)}
+                      <input onChange={handleChange} className="form-check-input" type="radio" name={SELECT_RATING} id={`inlineRadio${i + 1}`} value={i + 1} />
+                    </label>
+                  </div>
+                ))}
+              </div>
               <div className="mb-3">
                 <p>Do you recommend this product?</p>
                 <div className="form-check form-check-inline">
                   <label className="form-check-label" htmlFor="inlineRadio1">
                     Yes
+                    <input onChange={handleChange} className="form-check-input" type="radio" name={SELECT_REC} id="inlineRadio1" value="true" />
                   </label>
-                  <input onChange={handleChange} className="form-check-input" type="radio" name={SELECT_REC} id="inlineRadio1" value="true" />
                 </div>
                 <div className="form-check form-check-inline">
                   <label className="form-check-label" htmlFor="inlineRadio2">
                     No
+                    <input onChange={handleChange} className="form-check-input" type="radio" name={SELECT_REC} id="inlineRadio2" value="false" />
                   </label>
-                  <input onChange={handleChange} className="form-check-input" type="radio" name={SELECT_REC} id="inlineRadio2" value="false" />
                 </div>
               </div>
               <div className="characteristics-radio">
                 <p>Characteristics</p>
-                <label className="form-check-label">
-                  Fit
-                  {mapArray.map((radio, i) => (
-                    <div className="form-check form-check-inline" key={i + 1}>
-                      <label className="form-check-label" htmlFor={`inlineRadio${i + 1}`}>
-                        {fitDesc(i + 1)}
-                      </label>
-                      <br />
-                      <input onChange={handleChange} className="form-check-input" type="radio" id={`inlineRadio${i + 1}`} name={ADD_FIT} value={i + 1} />
-                    </div>
-                  ))}
-                </label>
-                <label className="form-check-label">
-                  Comfort
-                  {mapArray.map((radio, i) => (
-                    <div className="form-check form-check-inline" key={i + 1}>
-                      <label className="form-check-label" htmlFor={`inlineRadio${i + 1}`}>
-                        {comfortDesc(i + 1)}
-                      </label>
-                      <br />
+                <h6 className="radio-characteristic-labels">
+                  {props.characteristics.Fit ? 'Fit' : 'Size'}
+                </h6>
+                {mapArray.map((radio, i) => (
+                  <div className="radio-label-vertical-wrapper" key={i + 1}>
+                    <label className="radio-label-vertical" htmlFor={`inlineRadio${i + 1}`}>
+                      {props.characteristics.Fit ? fitDesc(i + 1) : sizeDesc(i + 1)}
+                      <input
+                        onChange={handleChange}
+                        className="form-check-input"
+                        type="radio"
+                        id={`inlineRadio${i + 1}`}
+                        name={props.characteristics.Fit ? ADD_FIT : ADD_SIZE}
+                        value={i + 1}
+                      />
+                    </label>
+                  </div>
+                ))}
+                <h6 className="radio-characteristic-labels">
+                  {props.characteristics.Length ? 'Length' : 'Width'}
+                </h6>
+                {mapArray.map((radio, i) => (
+                  <div className="radio-label-vertical-wrapper" key={i + 1}>
+                    <label className="radio-label-vertical" htmlFor={`inlineRadio${i + 1}`}>
+                      {props.characteristics.Length ? lenDesc(i + 1) : widthDesc(i + 1)}
+                      <input
+                        onChange={handleChange}
+                        className="form-check-input"
+                        type="radio"
+                        id={`inlineRadio${i + 1}`}
+                        name={props.characteristics.Length ? ADD_LENGTH : ADD_WIDTH}
+                        value={i + 1}
+                      />
+                    </label>
+                  </div>
+                ))}
+                <h6 className="radio-characteristic-labels">Comfort</h6>
+                {mapArray.map((radio, i) => (
+                  <div className="radio-label-vertical-wrapper" key={i + 1}>
+                    <label className="radio-label-vertical" htmlFor={`inlineRadio${i + 1}`}>
+                      {comfortDesc(i + 1)}
                       <input onChange={handleChange} className="form-check-input" type="radio" id={`inlineRadio${i + 1}`} name={ADD_COMFORT} value={i + 1} />
-                    </div>
-                  ))}
-                </label>
-                <label className="form-check-label">
-                  Quality
-                  {mapArray.map((radio, i) => (
-                    <div className="form-check form-check-inline" key={i + 1}>
-                      <label className="form-check-label" htmlFor={`inlineRadio${i + 1}`}>
-                        {qualityDesc(i + 1)}
-                      </label>
-                      <br />
+                    </label>
+                  </div>
+                ))}
+                <h6 className="radio-characteristic-labels">Quality</h6>
+                {mapArray.map((radio, i) => (
+                  <div className="radio-label-vertical-wrapper" key={i + 1}>
+                    <label className="radio-label-vertical" htmlFor={`inlineRadio${i + 1}`}>
+                      {qualityDesc(i + 1)}
                       <input onChange={handleChange} className="form-check-input" type="radio" id={`inlineRadio${i + 1}`} name={ADD_QUALITY} value={i + 1} />
-                    </div>
-                  ))}
-                </label>
+                    </label>
+                  </div>
+                ))}
               </div>
               <div className="mb-3">
                 <label htmlFor="message-text" className="col-form-label">Review summary</label>
@@ -152,8 +267,8 @@ const AddReview = (props) => {
                 />
               </div>
               <div className="modal-footer">
-                <button type="button" onClick={() => { props.handleModalClick }} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" onClick={() => { console.log('test'); }} className="btn btn-primary" data-bs-dismiss="modal">Submit Review</button>
+                <button type="button" onClick={() => { props.handleModalClick; }} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" onClick={(e) => postNewReview(e)} className="btn btn-primary" data-bs-dismiss="modal">Submit Review</button>
               </div>
             </form>
           </div>

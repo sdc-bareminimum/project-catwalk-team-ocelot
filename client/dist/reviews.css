@@ -152,6 +152,7 @@ select.styled-select:focus {
 
 .modal-body-review{
   height: 250px;
+  width: 100%;
   overflow-y: auto;
 }
 
@@ -162,3 +163,49 @@ select.styled-select:focus {
 @media (min-height: 100%) {
   .modal-body-review { height: 600px; }
 }
+
+.radio-label-vertical-wrapper {
+  padding-bottom: 13px;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.radio-label-vertical-wrapper:before {
+  content: ' ';
+  display: block;
+  width: 100%;
+  height: 30px;
+  position: absolute;
+  bottom: 0;
+}
+
+.radio-label-vertical-wrapper label:not(.radio-label-vertical) {
+  display: block;
+  width: 100%;
+}
+
+.radio-label-vertical {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.radio-label-vertical input {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  margin-left: -6px;
+  display: block;
+  cursor: pointer;
+}
+
+.radio-characteristic-labels{
+  position:relative;
+  padding-top: 10px;
+  padding-left: 20px;
+  text-decoration: underline;
+}
+

@@ -35,17 +35,17 @@ export const reviewFormReducer = (state, action) => {
     case ADD_USER:
       return {
         ...state,
-        username: action.payload,
+        addUsername: action.payload,
       };
     case ADD_EMAIL:
       return {
         ...state,
-        email: action.payload,
+        addEmail: action.payload,
       };
     case ADD_PHOTOS:
       return {
         ...state,
-        photos: [...state.photos, action.payload],
+        addPhotos: [...state.photos, action.payload],
       };
     case ADD_LENGTH:
       return {
@@ -77,9 +77,9 @@ export const initialState = {
   summaryText: '',
   bodyText: '',
   selectRec: false,
-  username: '',
-  email: '',
-  photos: [],
+  addUsername: '',
+  addEmail: '',
+  addPhotos: [],
   fit: 1,
   length: 1,
   comfort: 1,

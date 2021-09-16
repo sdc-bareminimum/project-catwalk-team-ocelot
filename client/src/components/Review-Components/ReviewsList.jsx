@@ -14,7 +14,7 @@ const initialState = {
   selected: 'relevant',
 };
 
-const ReviewsList = ({ productId, totalRatings }) => {
+const ReviewsList = ({ productId, totalRatings, characteristics }) => {
   const [state, dispatch] = useReducer(reviewListReducer, initialState);
 
   const getReviews = (id, count) => {
@@ -32,8 +32,7 @@ const ReviewsList = ({ productId, totalRatings }) => {
     dispatch({ type: SELECT_CHANGE, payload: e.target.value });
   };
 
-  const handleModalClick = (e) => {
-    e.preventDefault();
+  const handleModalClick = () => {
     dispatch({ type: MODAL_CLICK });
   };
 
@@ -73,11 +72,11 @@ const ReviewsList = ({ productId, totalRatings }) => {
             <div className="btn-toolbar pull-right">
               <button onClick={() => { dispatch({ type: SET_COUNT }); }} type="button" className="btn btn-outline-dark w-30 p-3">MORE REVIEWS</button>
               <button
-                onClick={handleModalClick}
                 data-bs-toggle="modal"
                 data-bs-target="#reviewModal"
                 type="button"
                 className="btn btn-outline-dark w-30 p-3"
+                onClick={() => { dispatch({ type: MODAL_CLICK }); }}
               >
                 ADD A REVIEW +
               </button>
@@ -86,7 +85,7 @@ const ReviewsList = ({ productId, totalRatings }) => {
       </div>
       <AddReview
         productId={productId}
-        handleModalClick={handleModalClick}
+        characteristics={characteristics}
       />
     </>
   );

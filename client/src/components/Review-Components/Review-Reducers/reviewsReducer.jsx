@@ -26,7 +26,7 @@ export const reviewListReducer = (state, action) => {
     case MODAL_CLICK:
       return {
         ...state,
-        modalClick: !state.sortClick,
+        modalClick: !state.modalClick,
       };
     case SELECT_CHANGE:
       return {

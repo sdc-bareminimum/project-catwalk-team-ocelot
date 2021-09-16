@@ -156,9 +156,9 @@ select.styled-select:focus {
 }
 
 @media (min-height: 500px) {
-  .modal-body { height: 400px; }
+  .modal-body-review { height: 400px; }
 }
 
 @media (min-height: 100%) {
-  .modal-body { height: 600px; }
+  .modal-body-review { height: 600px; }
 }

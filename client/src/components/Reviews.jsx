@@ -53,7 +53,11 @@ function Reviews({ productId }) {
             <Characteristics productId={productId} />
           </div>
           <div className="col-md-8">
-            <ReviewsList totalRatings={state.totalRatings} productId={productId} />
+            <ReviewsList
+              characteristics={state.characteristics}
+              totalRatings={state.totalRatings}
+              productId={productId}
+            />
           </div>
         </div>
       </div>

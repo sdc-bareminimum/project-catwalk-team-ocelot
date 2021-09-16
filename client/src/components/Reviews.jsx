@@ -15,6 +15,7 @@ const initialState = {
   totalRatings: 0,
   base: 0,
   isError: false,
+  characteristics: {},
 };
 
 function Reviews({ productId }) {

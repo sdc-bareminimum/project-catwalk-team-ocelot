@@ -149,3 +149,16 @@ select.styled-select:focus {
   box-shadow:none;
   border-bottom: 1px solid black;
 }
+
+.modal-body-review{
+  height: 250px;
+  overflow-y: auto;
+}
+
+@media (min-height: 500px) {
+  .modal-body { height: 400px; }
+}
+
+@media (min-height: 100%) {
+  .modal-body { height: 600px; }
+}

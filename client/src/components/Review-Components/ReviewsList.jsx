@@ -1,15 +1,16 @@
 import React, { useReducer, useEffect } from 'react';
 import axios from 'axios';
 import ReviewListEntry from './ReviewListEntry.jsx';
+import AddReview from './AddReview.jsx';
 import {
-  reviewListReducer, FETCH_SUCCESS, IS_LOADING, SET_COUNT, SORT_CLICK, SELECT_CHANGE,
+  reviewListReducer, FETCH_SUCCESS, IS_LOADING, SET_COUNT, MODAL_CLICK, SELECT_CHANGE,
 } from './Review-Reducers/reviewsReducer.jsx';
 
 const initialState = {
   reviews: [],
   count: 2,
   isLoading: false,
-  sortClick: false,
+  modalClick: false,
   selected: 'relevant',
 };
 
@@ -29,7 +30,11 @@ const ReviewsList = ({ productId, totalRatings }) => {
 
   const handleChange = (e) => {
     dispatch({ type: SELECT_CHANGE, payload: e.target.value });
-    dispatch({ type: SORT_CLICK });
+  };
+
+  const handleModalClick = (e) => {
+    e.preventDefault();
+    dispatch({ type: MODAL_CLICK });
   };
 
   useEffect(() => {
@@ -67,10 +72,22 @@ const ReviewsList = ({ productId, totalRatings }) => {
           ? (
             <div className="btn-toolbar pull-right">
               <button onClick={() => { dispatch({ type: SET_COUNT }); }} type="button" className="btn btn-outline-dark w-30 p-3">MORE REVIEWS</button>
-              <button type="button" className="btn btn-outline-dark w-30 p-3" data-toggle="modal" data-target="#exampleModalCenter">ADD A REVIEW +</button>
+              <button
+                onClick={handleModalClick}
+                data-bs-toggle="modal"
+                data-bs-target="#reviewModal"
+                type="button"
+                className="btn btn-outline-dark w-30 p-3"
+              >
+                ADD A REVIEW +
+              </button>
             </div>
           ) : <div><p>End of Page</p></div>}
       </div>
+      <AddReview
+        productId={productId}
+        handleModalClick={handleModalClick}
+      />
     </>
   );
 };

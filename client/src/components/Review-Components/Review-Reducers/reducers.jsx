@@ -17,6 +17,7 @@ export const reviewReducers = (state, action) => {
           * Number(Object.keys(action.payload.ratings)[i])))
           / 15,
         ratings: action.payload.ratings,
+        characteristics: action.payload.characteristics,
       };
     case GET_RECOMMEND:
       return {

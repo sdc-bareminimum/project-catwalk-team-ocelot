@@ -18,7 +18,7 @@ export const reviewFormReducer = (state, action) => {
     case SELECT_RATING:
       return {
         ...state,
-        selectedRating: action.payload,
+        selectedRating: Number(action.payload),
       };
     case ADD_SUMMARY:
       return {
@@ -48,7 +48,7 @@ export const reviewFormReducer = (state, action) => {
     case ADD_PHOTOS:
       return {
         ...state,
-        addPhotos: [...state.photos, action.payload],
+        addPhotos: action.payload,
       };
     case ADD_LENGTH:
       return {
@@ -58,12 +58,12 @@ export const reviewFormReducer = (state, action) => {
     case ADD_COMFORT:
       return {
         ...state,
-        comfort: action.payload,
+        comfort: Number(action.payload),
       };
     case ADD_QUALITY:
       return {
         ...state,
-        quality: action.payload,
+        quality: Number(action.payload),
       };
     case ADD_FIT:
       return {
@@ -82,19 +82,20 @@ export const reviewFormReducer = (state, action) => {
       };
     case CLEAR_ENTRIES:
       return {
-        ...state,
+        addPhotos: [],
         summaryText: '',
         bodyText: '',
         selectRec: false,
         addUsername: '',
         addEmail: '',
-        fit: 1,
-        size: 1,
-        length: 1,
-        width: 1,
-        quality: 1,
-        comfort: 1,
-      }
+        fit: null,
+        size: null,
+        length: null,
+        width: null,
+        quality: null,
+        comfort: null,
+        selectedRating: null,
+      };
     default:
       return state;
   }

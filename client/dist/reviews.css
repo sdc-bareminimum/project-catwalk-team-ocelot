@@ -209,3 +209,14 @@ select.styled-select:focus {
   text-decoration: underline;
 }
 
+.about-product{
+  margin: 15px;
+}
+
+.error-message{
+  color: red;
+}
+
+.form-group{
+  margin-bottom: 20px;
+}

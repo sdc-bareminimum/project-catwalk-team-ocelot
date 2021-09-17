@@ -2,12 +2,12 @@ import React, { useReducer, useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   ratingDesc, fitDesc, comfortDesc, qualityDesc, lenDesc, widthDesc, sizeDesc,
-} from './characteristics.js';
+} from './helper.js';
 import {
   reviewFormReducer, SELECT_RATING,
   ADD_SUMMARY, ADD_BODY, SELECT_REC, ADD_USER,
   ADD_EMAIL, ADD_COMFORT, ADD_QUALITY, ADD_FIT, ADD_SIZE, ADD_WIDTH,
-  ADD_LENGTH, initialState, CLEAR_ENTRIES
+  ADD_LENGTH, initialState, CLEAR_ENTRIES, ADD_PHOTOS,
 } from './Review-Reducers/formsReducer.jsx';
 
 const AddReview = (props) => {
@@ -18,10 +18,29 @@ const AddReview = (props) => {
   const [widthlengthRating, setWidthLengthRating] = useState(0);
   const [comfortId, setComfortId] = useState(0);
   const [qualityId, setQualityId] = useState(0);
+  const [submitClick, setSubmitClick] = useState(false);
+  const [reviewSubmitStatus, setReviewSubmitStatus] = useState(false);
   const mapArray = new Array(5).fill(1);
   const { characteristics } = props;
   const handleChange = (e) => {
     dispatch({ type: e.target.name, payload: e.target.value });
+  };
+  const handlePhotoChange = (e) => {
+    dispatch({ type: ADD_PHOTOS, payload: e.target.files });
+  };
+
+  const submitMessage = () => {
+    if (submitClick) {
+      if (reviewSubmitStatus) {
+        return (
+          <>
+            <p>Review Submission Successful!</p>
+            <i className="bi bi-card-checklist" />
+          </>
+        );
+      }
+      return (<p className="error-message"><em>Please Fill out Required</em></p>);
+    }
   };
 
   const getSizeId = (data) => new Promise((resolve, reject) => {
@@ -62,14 +81,14 @@ const AddReview = (props) => {
     resolve(data.Comfort);
   })
     .then((result) => {
-      setComfortId(result.id);
+      setComfortId(Number(result.id));
     });
 
   const getQualityId = (data) => new Promise((resolve) => {
     resolve(data.Quality);
   })
     .then((result) => {
-      setQualityId(result.id);
+      setQualityId(Number(result.id));
     });
 
   const data = {
@@ -97,10 +116,14 @@ const AddReview = (props) => {
     axios.post('/api/reviews', data)
       .then(() => {
         console.log('Review Posted');
+        setReviewSubmitStatus(true);
+        setSubmitClick(true);
         dispatch({ type: CLEAR_ENTRIES });
       })
       .catch((err) => {
         console.log(err.response.data);
+        dispatch({ type: CLEAR_ENTRIES });
+        setSubmitClick(true);
         console.log(err.response);
       });
   };
@@ -121,7 +144,7 @@ const AddReview = (props) => {
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
           </div>
           <div>
-            <p>About the Product Name Here</p>
+            <p className="about-product">About the Product Name Here</p>
           </div>
           <div className="modal-body">
             <form>
@@ -217,6 +240,7 @@ const AddReview = (props) => {
                   id="message-text"
                   required
                   name={ADD_SUMMARY}
+                  placeholder="Example: Best purchase ever!"
                   value={state.summaryText}
                   onChange={handleChange}
                 />
@@ -227,18 +251,24 @@ const AddReview = (props) => {
                   type="text"
                   className="form-control"
                   maxLength="1000"
+                  minLength="50"
                   id="message-text"
-                  required
+                  placeholder="Why did you like the product or not?"
                   name={ADD_BODY}
                   value={state.bodyText}
                   onChange={handleChange}
                 />
-              </div>
-              <div className="form-group">
-                <label htmlFor="exampleFormControlFile1">Photo Upload</label>
-                <br />
-                <input onChange={handleChange} type="file" accept=".jpg,.png," className="form-control-file" id="exampleFormControlFile1" />
-                <br />
+                {state.bodyText.length < 50
+                  ? (
+                    <p className="text-muted">
+                      <small>
+                        Minimum required characters left: [
+                        {50 - state.bodyText.length}
+                        ]
+                      </small>
+                    </p>
+                  )
+                  : <p className="text-muted"><small>Minimum reached</small></p>}
               </div>
               <div className="mb-3">
                 <label htmlFor="message-text" className="col-form-label">What is your nickname</label>
@@ -248,10 +278,16 @@ const AddReview = (props) => {
                   maxLength="60"
                   id="message-text"
                   required
+                  placeholder="Example: jackson11!"
                   value={state.addUsername}
                   name={ADD_USER}
                   onChange={handleChange}
                 />
+                <p className="text-muted">
+                  <small>
+                    For privacy reasons, do not use your full name or email address
+                  </small>
+                </p>
               </div>
               <div className="mb-3">
                 <label htmlFor="message-text" className="col-form-label">Your email</label>
@@ -261,14 +297,27 @@ const AddReview = (props) => {
                   maxLength="60"
                   id="message-text"
                   required
+                  placeholder="Example: jackson11@email.com"
                   value={state.addEmail}
                   name={ADD_EMAIL}
                   onChange={handleChange}
                 />
+                <p className="text-muted">
+                  <small>
+                    For authentication reasons, you will not be emailed
+                  </small>
+                </p>
+              </div>
+              <div className="form-group">
+                <label htmlFor="exampleFormControlFile1">Photo Upload</label>
+                <br />
+                <input onChange={handlePhotoChange} type="file" accept=".jpg,.png," className="form-control-file" id="exampleFormControlFile1" />
+                <br />
               </div>
               <div className="modal-footer">
-                <button type="button" onClick={() => { props.handleModalClick; }} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" onClick={(e) => postNewReview(e)} className="btn btn-primary" data-bs-dismiss="modal">Submit Review</button>
+                {submitMessage()}
+                <button type="button" onClick={() => { props.handleModalClick; }} className="btn btn-outline-secondary w-30 p-3" data-bs-dismiss="modal">Close</button>
+                <button type="submit" onClick={(e) => postNewReview(e)} className="btn btn-outline-dark w-30 p-3">Submit Review</button>
               </div>
             </form>
           </div>

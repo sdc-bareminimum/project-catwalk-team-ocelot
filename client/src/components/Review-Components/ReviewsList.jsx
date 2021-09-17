@@ -18,7 +18,7 @@ const ReviewsList = ({ productId, totalRatings, characteristics }) => {
   const [state, dispatch] = useReducer(reviewListReducer, initialState);
 
   const getReviews = (id, count) => {
-    axios.get(`/api/reviews?product_id=${id}&count=${count}&sort=${state.selected}`)
+    axios.get(`/api/reviews?product_id=${id}&sort=${state.selected}&count=${count}`)
       .then(({ data }) => {
         dispatch({ type: FETCH_SUCCESS, payload: data.results });
       })
@@ -81,7 +81,21 @@ const ReviewsList = ({ productId, totalRatings, characteristics }) => {
                 ADD A REVIEW +
               </button>
             </div>
-          ) : <div><p>End of Page</p></div>}
+          )
+          : (
+            <div>
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#reviewModal"
+                type="button"
+                className="btn btn-outline-dark w-30 p-3"
+                onClick={() => { dispatch({ type: MODAL_CLICK }); }}
+              >
+                ADD A REVIEW +
+              </button>
+              <p>End of Page</p>
+            </div>
+          )}
       </div>
       <AddReview
         productId={productId}

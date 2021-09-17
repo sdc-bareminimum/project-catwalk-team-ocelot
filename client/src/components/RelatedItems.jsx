@@ -12,6 +12,7 @@ function RelatedItems({ productId, setProductId }) {
   const [outfitListData, setOutfitListData] = useState([]);
   const [outfitStyleData, setOutfitStyleData] = useState([]);
   const [mergedOutfitData, setMergedOutfitData] = useState([]);
+  const [currentFeatures, setCurrentFeatures] = useState([]);
 
   const getItemData = (relatedId) => (axios.get(`/api/products/${relatedId}`)
     .then(({ data }) => (data)))
@@ -61,6 +62,14 @@ function RelatedItems({ productId, setProductId }) {
     }
   };
 
+  const getCurrentProductFeatures = (id) => {
+    axios.get(`/api/products/${id}`)
+      .then((productData) => {
+        const { features } = productData.data;
+        setCurrentFeatures(features);
+      });
+  };
+
   const getRelatedItems = (id) => {
     axios.get(`/api/products/${id}/related`)
       .then(({ data }) => {
@@ -69,11 +78,20 @@ function RelatedItems({ productId, setProductId }) {
       .catch((err) => console.log(err));
   };
 
+  const changeCurrentItem = (id) => {
+    setProductId(id);
+  };
+
   useEffect(() => {
     getRelatedItems(productId);
     getAllData(outfitIds);
     zipData(outfitListData, outfitStyleData, false);
+    getCurrentProductFeatures(productId);
   }, []);
+
+  useEffect(() => {
+    getRelatedItems(productId);
+  }, [productId]);
 
   useEffect(() => {
     getAllData(outfitIds);
@@ -81,7 +99,7 @@ function RelatedItems({ productId, setProductId }) {
 
   useEffect(() => {
     zipData(relatedListData, relatedStyleData, true);
-  }, [relatedStyleData]);
+  }, [relatedStyleData, relatedListData]);
 
   useEffect(() => {
     zipData(outfitListData, outfitStyleData, false);
@@ -97,7 +115,12 @@ function RelatedItems({ productId, setProductId }) {
         RELATED PRODUCTS
         <Carousel show={3}>
           {mergedRelatedData.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard
+              onClick={changeCurrentItem}
+              key={product.id}
+              product={product}
+              currentFeatures={currentFeatures}
+            />
           ))}
         </Carousel>
       </div>
@@ -111,7 +134,12 @@ function RelatedItems({ productId, setProductId }) {
         <Carousel show={3}>
           <AddToOutfitCard addToOutfit={addToOutfit} />
           {mergedOutfitData.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard
+              onClick={changeCurrentItem}
+              key={product.id}
+              product={product}
+              currentFeatures={currentFeatures}
+            />
           ))}
         </Carousel>
       </div>

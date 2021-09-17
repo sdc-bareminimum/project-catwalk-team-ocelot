@@ -215,8 +215,14 @@ select.styled-select:focus {
 
 .error-message{
   color: red;
+  margin-bottom: 0;
 }
 
 .form-group{
   margin-bottom: 20px;
+}
+
+.validate-message-list{
+  list-style: none;
+  color: red;
 }

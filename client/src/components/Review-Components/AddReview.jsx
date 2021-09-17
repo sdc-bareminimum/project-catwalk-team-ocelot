@@ -9,6 +9,7 @@ import {
   ADD_EMAIL, ADD_COMFORT, ADD_QUALITY, ADD_FIT, ADD_SIZE, ADD_WIDTH,
   ADD_LENGTH, initialState, CLEAR_ENTRIES, ADD_PHOTOS,
 } from './Review-Reducers/formsReducer.jsx';
+import ValidationMessage from './ValidationMessage.jsx';
 
 const AddReview = (props) => {
   const [state, dispatch] = useReducer(reviewFormReducer, initialState);
@@ -19,7 +20,7 @@ const AddReview = (props) => {
   const [comfortId, setComfortId] = useState(0);
   const [qualityId, setQualityId] = useState(0);
   const [submitClick, setSubmitClick] = useState(false);
-  const [reviewSubmitStatus, setReviewSubmitStatus] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
   const mapArray = new Array(5).fill(1);
   const { characteristics } = props;
   const handleChange = (e) => {
@@ -30,16 +31,24 @@ const AddReview = (props) => {
   };
 
   const submitMessage = () => {
-    if (submitClick) {
-      if (reviewSubmitStatus) {
-        return (
-          <>
-            <p>Review Submission Successful!</p>
-            <i className="bi bi-card-checklist" />
-          </>
-        );
-      }
-      return (<p className="error-message"><em>Please Fill out Required</em></p>);
+    if (submitClick === true && errorMessage === false) {
+      return (
+        <>
+          <p>
+            Review Submission Successful!
+            <i className="bi bi-check-circle" style={{ fontSize: '24px' }} />
+          </p>
+
+        </>
+      );
+    }
+    if (submitClick === false && errorMessage === true) {
+      return (
+        <>
+          <p className="error-message"><em><small>Please Fill out Required:</small></em></p>
+          <ValidationMessage state={state} />
+        </>
+      );
     }
   };
 
@@ -101,8 +110,8 @@ const AddReview = (props) => {
     email: state.addEmail,
     photos: state.addPhotos,
     characteristics: {
-      [sizefitId]: sizefitRating,
-      [widthlengthId]: widthlengthRating,
+      [sizefitId]: state.size || state.fit,
+      [widthlengthId]: state.width || state.length,
       [comfortId]: state.comfort,
       [qualityId]: state.quality,
     },
@@ -116,14 +125,15 @@ const AddReview = (props) => {
     axios.post('/api/reviews', data)
       .then(() => {
         console.log('Review Posted');
-        setReviewSubmitStatus(true);
+        setErrorMessage(false);
         setSubmitClick(true);
         dispatch({ type: CLEAR_ENTRIES });
       })
       .catch((err) => {
         console.log(err.response.data);
         dispatch({ type: CLEAR_ENTRIES });
-        setSubmitClick(true);
+        setErrorMessage(true);
+        setSubmitClick(false);
         console.log(err.response);
       });
   };
@@ -138,7 +148,6 @@ const AddReview = (props) => {
     <div className="modal" id="reviewModal" tabIndex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
       <div className="modal-dialog modal-xl">
         <div className="modal-content">
-
           <div className="modal-header">
             <h4 className="modal-title" id="reviewModalLabel">Write A Review</h4>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
@@ -148,19 +157,19 @@ const AddReview = (props) => {
           </div>
           <div className="modal-body">
             <form>
-              <p>Overall Rating</p>
+              <p><strong>Overall Rating</strong></p>
               <div className="mb-3">
                 {mapArray.map((radio, i) => (
                   <div className="form-check form-check-inline" key={i + 1}>
                     <label className="form-check-label" htmlFor={`inlineRadio${i + 1}`}>
-                      {ratingDesc(i + 1)}
                       <input onChange={handleChange} className="form-check-input" type="radio" name={SELECT_RATING} id={`inlineRadio${i + 1}`} value={i + 1} />
                     </label>
                   </div>
                 ))}
+                <span>{ratingDesc(state.selectedRating)}</span>
               </div>
               <div className="mb-3">
-                <p>Do you recommend this product?</p>
+                <p><strong>Do you recommend this product?</strong></p>
                 <div className="form-check form-check-inline">
                   <label className="form-check-label" htmlFor="inlineRadio1">
                     Yes
@@ -175,7 +184,7 @@ const AddReview = (props) => {
                 </div>
               </div>
               <div className="characteristics-radio">
-                <p>Characteristics</p>
+                <p><strong>Characteristics</strong></p>
                 <h6 className="radio-characteristic-labels">
                   {props.characteristics.Fit ? 'Fit' : 'Size'}
                 </h6>
@@ -232,7 +241,7 @@ const AddReview = (props) => {
                 ))}
               </div>
               <div className="mb-3">
-                <label htmlFor="message-text" className="col-form-label">Review summary</label>
+                <label htmlFor="message-text" className="col-form-label"><strong>Review summary</strong></label>
                 <textarea
                   type="text"
                   className="form-control"
@@ -246,7 +255,7 @@ const AddReview = (props) => {
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="message-text" className="col-form-label">Review body</label>
+                <label htmlFor="message-text" className="col-form-label"><strong>Review body</strong></label>
                 <textarea
                   type="text"
                   className="form-control"
@@ -271,7 +280,7 @@ const AddReview = (props) => {
                   : <p className="text-muted"><small>Minimum reached</small></p>}
               </div>
               <div className="mb-3">
-                <label htmlFor="message-text" className="col-form-label">What is your nickname</label>
+                <label htmlFor="message-text" className="col-form-label"><strong>What is your nickname</strong></label>
                 <input
                   type="text"
                   className="form-control"
@@ -290,7 +299,7 @@ const AddReview = (props) => {
                 </p>
               </div>
               <div className="mb-3">
-                <label htmlFor="message-text" className="col-form-label">Your email</label>
+                <label htmlFor="message-text" className="col-form-label"><strong>Your email</strong></label>
                 <input
                   type="email"
                   className="form-control"
@@ -309,13 +318,15 @@ const AddReview = (props) => {
                 </p>
               </div>
               <div className="form-group">
-                <label htmlFor="exampleFormControlFile1">Photo Upload</label>
+                <label htmlFor="exampleFormControlFile1"><strong>Photo Upload</strong></label>
                 <br />
                 <input onChange={handlePhotoChange} type="file" accept=".jpg,.png," className="form-control-file" id="exampleFormControlFile1" />
                 <br />
               </div>
-              <div className="modal-footer">
+              <div>
                 {submitMessage()}
+              </div>
+              <div className="modal-footer">
                 <button type="button" onClick={() => { props.handleModalClick; }} className="btn btn-outline-secondary w-30 p-3" data-bs-dismiss="modal">Close</button>
                 <button type="submit" onClick={(e) => postNewReview(e)} className="btn btn-outline-dark w-30 p-3">Submit Review</button>
               </div>

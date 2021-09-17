@@ -53,7 +53,7 @@ export const reviewFormReducer = (state, action) => {
     case ADD_LENGTH:
       return {
         ...state,
-        length: action.payload,
+        length: Number(action.payload),
       };
     case ADD_COMFORT:
       return {
@@ -68,17 +68,17 @@ export const reviewFormReducer = (state, action) => {
     case ADD_FIT:
       return {
         ...state,
-        fit: action.payload,
+        fit: Number(action.payload),
       };
     case ADD_SIZE:
       return {
         ...state,
-        size: action.payload,
+        size: Number(action.payload),
       };
     case ADD_WIDTH:
       return {
         ...state,
-        width: action.payload,
+        width: Number(action.payload),
       };
     case CLEAR_ENTRIES:
       return {
@@ -88,13 +88,13 @@ export const reviewFormReducer = (state, action) => {
         selectRec: false,
         addUsername: '',
         addEmail: '',
-        fit: null,
-        size: null,
-        length: null,
-        width: null,
-        quality: null,
-        comfort: null,
-        selectedRating: null,
+        fit: 0,
+        size: 0,
+        length: 0,
+        width: 0,
+        quality: 0,
+        comfort: 0,
+        selectedRating: 0,
       };
     default:
       return state;
@@ -102,17 +102,17 @@ export const reviewFormReducer = (state, action) => {
 };
 
 export const initialState = {
-  selectedRating: 1,
+  selectedRating: 0,
   summaryText: '',
   bodyText: '',
-  selectRec: false,
+  selectRec: null,
   addUsername: '',
   addEmail: '',
   addPhotos: [],
-  fit: 1,
-  size: 1,
-  length: 1,
-  width: 1,
-  quality: 1,
-  comfort: 1,
+  fit: 0,
+  size: 0,
+  length: 0,
+  width: 0,
+  quality: 0,
+  comfort: 0,
 };

@@ -1,5 +1,6 @@
 import React, { useReducer, useState, useEffect } from 'react';
 import axios from 'axios';
+import StarRatings from 'react-star-ratings';
 import {
   ratingDesc, fitDesc, comfortDesc, qualityDesc, lenDesc, widthDesc, sizeDesc,
 } from './helper.js';
@@ -15,8 +16,6 @@ const AddReview = (props) => {
   const [state, dispatch] = useReducer(reviewFormReducer, initialState);
   const [sizefitId, setSizeFitId] = useState(0);
   const [widthlengthId, setWidthLengthId] = useState(0);
-  const [sizefitRating, setSizeFitRating] = useState(0);
-  const [widthlengthRating, setWidthLengthRating] = useState(0);
   const [comfortId, setComfortId] = useState(0);
   const [qualityId, setQualityId] = useState(0);
   const [submitClick, setSubmitClick] = useState(false);
@@ -38,7 +37,6 @@ const AddReview = (props) => {
             Review Submission Successful!
             <i className="bi bi-check-circle" style={{ fontSize: '24px' }} />
           </p>
-
         </>
       );
     }
@@ -63,7 +61,6 @@ const AddReview = (props) => {
   })
     .then((result) => {
       setSizeFitId(result.Fit.id || result.Size.id);
-      setSizeFitRating(result.Fit ? state.fit : state.size);
     })
     .catch((err) => {
       console.log(err);
@@ -80,7 +77,6 @@ const AddReview = (props) => {
   })
     .then((result) => {
       setWidthLengthId(result.Length.id || result.Width.id);
-      setWidthLengthRating(result.Length ? state.length : state.width);
     })
     .catch((err) => {
       console.log(err);
@@ -158,15 +154,19 @@ const AddReview = (props) => {
           <div className="modal-body">
             <form>
               <p><strong>Overall Rating</strong></p>
-              <div className="mb-3">
-                {mapArray.map((radio, i) => (
-                  <div className="form-check form-check-inline" key={i + 1}>
-                    <label className="form-check-label" htmlFor={`inlineRadio${i + 1}`}>
-                      <input onChange={handleChange} className="form-check-input" type="radio" name={SELECT_RATING} id={`inlineRadio${i + 1}`} value={i + 1} />
-                    </label>
-                  </div>
-                ))}
-                <span>{ratingDesc(state.selectedRating)}</span>
+              <div className="star-rating-form">
+                <StarRatings
+                  changeRating={(rating) => {
+                    dispatch({ type: SELECT_RATING, payload: rating });
+                  }}
+                  starSpacing="4px"
+                  rating={Number(state.selectedRating)}
+                  starRatedColor="rgb(255,215,0)"
+                  starHoverColor="rgb(255,215,0)"
+                  numberOfStars={5}
+                  starDimension="30px"
+                />
+                <span className="select-rating-span">{ratingDesc(state.selectedRating)}</span>
               </div>
               <div className="mb-3">
                 <p><strong>Do you recommend this product?</strong></p>

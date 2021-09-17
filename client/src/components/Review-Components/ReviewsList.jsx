@@ -21,19 +21,15 @@ const ReviewsList = ({ productId, totalRatings, characteristics }) => {
     axios.get(`/api/reviews?product_id=${id}&sort=${state.selected}&count=${count}`)
       .then(({ data }) => {
         dispatch({ type: FETCH_SUCCESS, payload: data.results });
+        dispatch({ type: IS_LOADING });
       })
       .catch((err) => {
         console.log(err);
-        dispatch({ type: IS_LOADING });
       });
   };
 
   const handleChange = (e) => {
     dispatch({ type: SELECT_CHANGE, payload: e.target.value });
-  };
-
-  const handleModalClick = () => {
-    dispatch({ type: MODAL_CLICK });
   };
 
   useEffect(() => {
@@ -93,7 +89,7 @@ const ReviewsList = ({ productId, totalRatings, characteristics }) => {
               >
                 ADD A REVIEW +
               </button>
-              <p>End of Page</p>
+              <h4 className="end-page text-muted">End of Page</h4>
             </div>
           )}
       </div>

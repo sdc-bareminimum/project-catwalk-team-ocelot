@@ -10,7 +10,7 @@ const Characteristics = ({ productId }) => {
     axios.get(`/api/reviews/meta?product_id=${id}`)
       .then(({ data }) => {
         setComfort(data.characteristics.Comfort.value);
-        setSize(data.characteristics.Fit.value);
+        setSize(data.characteristics.Fit.value || data.characteristics.Size.value);
       });
   };
 

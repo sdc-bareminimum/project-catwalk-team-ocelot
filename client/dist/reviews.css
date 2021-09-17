@@ -1,5 +1,5 @@
 .progress-bar{
-  background-color: black;
+  background-color: #065535;
 }
 
 .progress-label{
@@ -225,4 +225,18 @@ select.styled-select:focus {
 .validate-message-list{
   list-style: none;
   color: red;
+}
+
+.star-rating-form{
+  align-items:stretch;
+  margin-bottom: 16px;
+}
+
+.select-rating-span{
+  padding-left: 25px;
+  vertical-align: middle;
+}
+
+.end-page{
+  margin-top: 20px;
 }

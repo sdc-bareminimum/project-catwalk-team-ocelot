@@ -5,7 +5,8 @@ import Star from './Review-Components/Star.jsx';
 import Characteristics from './Review-Components/Characteristics.jsx';
 import ReviewsList from './Review-Components/ReviewsList.jsx';
 import {
-  reviewReducers, initialState, FETCH_SUCCESS, GET_RECOMMEND, ERROR, GET_PRODUCT_INFO,
+  reviewReducers, initialState, FETCH_SUCCESS, GET_RECOMMEND, ERROR,
+  GET_PRODUCT_INFO, GET_CHARACTERISTICS,
 } from './Review-Components/Review-Reducers/reducers.jsx';
 
 function Reviews({ productId }) {
@@ -16,6 +17,7 @@ function Reviews({ productId }) {
       .then(({ data }) => {
         if (Object.keys(data.ratings).length === 0) {
           dispatch({ type: ERROR });
+          dispatch({ type: GET_CHARACTERISTICS, payload: data });
         } else {
           dispatch({ type: GET_RECOMMEND, payload: data.recommended });
           dispatch({ type: FETCH_SUCCESS, payload: data });

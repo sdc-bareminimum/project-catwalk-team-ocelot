@@ -105,7 +105,7 @@ export const initialState = {
   selectedRating: 0,
   summaryText: '',
   bodyText: '',
-  selectRec: null,
+  selectRec: false,
   addUsername: '',
   addEmail: '',
   addPhotos: [],

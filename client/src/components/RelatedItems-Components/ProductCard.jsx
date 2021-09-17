@@ -9,6 +9,7 @@ const ProductCard = ({ product, currentFeatures, onClick }) => {
       key={product.id}
       style={{
         width: '14rem', marginRight: '20px', border: 'solid', borderWidth: 'thin', position: 'realtive',
+        cursor: 'pointer',
       }}
     >
       <CompareModal

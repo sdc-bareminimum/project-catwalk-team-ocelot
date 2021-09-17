@@ -14,14 +14,14 @@ import ValidationMessage from './ValidationMessage.jsx';
 
 const AddReview = (props) => {
   const [state, dispatch] = useReducer(reviewFormReducer, initialState);
-  const [sizefitId, setSizeFitId] = useState(0);
-  const [widthlengthId, setWidthLengthId] = useState(0);
-  const [comfortId, setComfortId] = useState(0);
-  const [qualityId, setQualityId] = useState(0);
+  // const [sizefitId, setSizeFitId] = useState(0);
+  // const [widthlengthId, setWidthLengthId] = useState(0);
+  // const [comfortId, setComfortId] = useState(0);
+  // const [qualityId, setQualityId] = useState(0);
   const [submitClick, setSubmitClick] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const mapArray = new Array(5).fill(1);
-  const { characteristics } = props;
+  const { characteristics, sizefit, widthlength } = props;
   const handleChange = (e) => {
     dispatch({ type: e.target.name, payload: e.target.value });
   };
@@ -50,75 +50,24 @@ const AddReview = (props) => {
     }
   };
 
-  const getSizeId = (data) => new Promise((resolve, reject) => {
-    if (data.Fit) {
-      resolve(data);
-    } else if (data.Size) {
-      resolve(data);
-    } else {
-      reject(data);
-    }
-  })
-    .then((result) => {
-      setSizeFitId(result.Fit.id || result.Size.id);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
-  const getLengthId = (data) => new Promise((resolve, reject) => {
-    if (data.Length) {
-      resolve(data);
-    } else if (data.Width) {
-      resolve(data);
-    } else {
-      reject(data);
-    }
-  })
-    .then((result) => {
-      setWidthLengthId(result.Length.id || result.Width.id);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
-  const getComfortId = (data) => new Promise((resolve) => {
-    resolve(data.Comfort);
-  })
-    .then((result) => {
-      setComfortId(Number(result.id));
-    });
-
-  const getQualityId = (data) => new Promise((resolve) => {
-    resolve(data.Quality);
-  })
-    .then((result) => {
-      setQualityId(Number(result.id));
-    });
-
-  const data = {
-    product_id: props.productId,
-    rating: state.selectedRating,
-    summary: state.summaryText,
-    body: state.bodyText,
-    recommend: state.selectRec === 'true',
-    name: state.addUsername,
-    email: state.addEmail,
-    photos: state.addPhotos,
-    characteristics: {
-      [sizefitId]: state.size || state.fit,
-      [widthlengthId]: state.width || state.length,
-      [comfortId]: state.comfort,
-      [qualityId]: state.quality,
-    },
-  };
-
-  // const headers = {
-  //   'Content-Type': 'application/json',
-  // };
   const postNewReview = (e) => {
     e.preventDefault();
-    axios.post('/api/reviews', data)
+    axios.post('/api/reviews', {
+      product_id: props.productId,
+      rating: state.selectedRating,
+      summary: state.summaryText,
+      body: state.bodyText,
+      recommend: state.selectRec === 'true',
+      name: state.addUsername,
+      email: state.addEmail,
+      photos: state.addPhotos,
+      characteristics: {
+        [sizefit.id]: state.size || state.fit,
+        [widthlength.id]: state.width || state.length,
+        [characteristics.Comfort.id]: state.comfort,
+        [characteristics.Quality.id]: state.quality,
+      },
+    })
       .then(() => {
         console.log('Review Posted');
         setErrorMessage(false);
@@ -133,12 +82,6 @@ const AddReview = (props) => {
         console.log(err.response);
       });
   };
-  useEffect(() => {
-    getSizeId(characteristics);
-    getLengthId(characteristics);
-    getQualityId(characteristics);
-    getComfortId(characteristics);
-  }, [characteristics]);
 
   return (
     <div className="modal" id="reviewModal" tabIndex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">

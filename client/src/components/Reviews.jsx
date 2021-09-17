@@ -5,18 +5,8 @@ import Star from './Review-Components/Star.jsx';
 import Characteristics from './Review-Components/Characteristics.jsx';
 import ReviewsList from './Review-Components/ReviewsList.jsx';
 import {
-  reviewReducers, FETCH_SUCCESS, GET_RECOMMEND, ERROR,
+  reviewReducers, initialState, FETCH_SUCCESS, GET_RECOMMEND, ERROR,
 } from './Review-Components/Review-Reducers/reducers.jsx';
-
-const initialState = {
-  ratings: {},
-  average: 5,
-  recommend: 0,
-  totalRatings: 0,
-  base: 0,
-  isError: false,
-  characteristics: {},
-};
 
 function Reviews({ productId }) {
   const [state, dispatch] = useReducer(reviewReducers, initialState);
@@ -57,6 +47,8 @@ function Reviews({ productId }) {
               characteristics={state.characteristics}
               totalRatings={state.totalRatings}
               productId={productId}
+              sizefit={state.characteristics.Fit || state.characteristics.Size}
+              widthlength={state.characteristics.Length || state.characteristics.Width}
             />
           </div>
         </div>

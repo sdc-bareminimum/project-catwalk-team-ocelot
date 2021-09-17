@@ -3,22 +3,14 @@ import axios from 'axios';
 import ReviewListEntry from './ReviewListEntry.jsx';
 import AddReview from './AddReview.jsx';
 import {
-  reviewListReducer, FETCH_SUCCESS, IS_LOADING, SET_COUNT, MODAL_CLICK, SELECT_CHANGE,
+  reviewListReducer, initialState, FETCH_SUCCESS, IS_LOADING, SET_COUNT, MODAL_CLICK, SELECT_CHANGE,
 } from './Review-Reducers/reviewsReducer.jsx';
 
-const initialState = {
-  reviews: [],
-  count: 2,
-  isLoading: false,
-  modalClick: false,
-  selected: 'relevant',
-};
-
-const ReviewsList = ({ productId, totalRatings, characteristics }) => {
+const ReviewsList = ({ productId, totalRatings, characteristics, sizefit, widthlength }) => {
   const [state, dispatch] = useReducer(reviewListReducer, initialState);
 
-  const getReviews = (id, count) => {
-    axios.get(`/api/reviews?product_id=${id}&sort=${state.selected}&count=${count}`)
+  const getReviews = (id, count, selected) => {
+    axios.get(`/api/reviews?product_id=${id}&sort=${selected}&count=${count}`)
       .then(({ data }) => {
         dispatch({ type: FETCH_SUCCESS, payload: data.results });
         dispatch({ type: IS_LOADING });
@@ -33,7 +25,7 @@ const ReviewsList = ({ productId, totalRatings, characteristics }) => {
   };
 
   useEffect(() => {
-    getReviews(productId, state.count);
+    getReviews(productId, state.count, state.selected);
   }, [productId, state.count, state.selected]);
 
   return (
@@ -96,6 +88,8 @@ const ReviewsList = ({ productId, totalRatings, characteristics }) => {
       <AddReview
         productId={productId}
         characteristics={characteristics}
+        sizefit={sizefit}
+        widthlength={widthlength}
       />
     </>
   );

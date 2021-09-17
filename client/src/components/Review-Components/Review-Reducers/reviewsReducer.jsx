@@ -37,3 +37,11 @@ export const reviewListReducer = (state, action) => {
       return state;
   }
 };
+
+export const initialState = {
+  reviews: [],
+  count: 2,
+  isLoading: false,
+  modalClick: false,
+  selected: 'relevant',
+};

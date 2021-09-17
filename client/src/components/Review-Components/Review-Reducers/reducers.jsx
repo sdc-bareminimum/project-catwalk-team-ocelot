@@ -36,3 +36,13 @@ export const reviewReducers = (state, action) => {
       return state;
   }
 };
+
+export const initialState = {
+  ratings: {},
+  average: 5,
+  recommend: 0,
+  totalRatings: 0,
+  base: 0,
+  isError: false,
+  characteristics: {},
+};

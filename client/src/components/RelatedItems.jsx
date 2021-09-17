@@ -19,11 +19,7 @@ function RelatedItems({ productId, setProductId }) {
     .catch((err) => (console.log(err)));
 
   const getStyleData = (relatedId) => (axios.get(`/api/products/${relatedId}/styles`)
-<<<<<<< HEAD
-    .then(({ data }) => (data.results[0].photos[0].url || [])))
-=======
     .then(({ data }) => (data.results[0].photos[0].url || null)))
->>>>>>> main
     .catch((err) => (console.log(err)));
 
   const getAllData = (idList, isRelatedData) => {

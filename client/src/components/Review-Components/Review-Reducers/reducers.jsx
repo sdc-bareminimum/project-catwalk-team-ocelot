@@ -26,7 +26,7 @@ export const reviewReducers = (state, action) => {
         ...state,
         recommend: ((Number(action.payload.true)
         / ((Number(action.payload.true) || 0)
-        + (Number(action.payload.false) || 0))) * 100),
+        + (Number(action.payload.false) || 0))) * 100) || 0,
       };
     case ERROR:
       return {

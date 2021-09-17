@@ -18,9 +18,11 @@ function Reviews({ productId }) {
         if (Object.keys(data.ratings).length === 0) {
           dispatch({ type: ERROR });
           dispatch({ type: GET_CHARACTERISTICS, payload: data });
-        } else {
           dispatch({ type: GET_RECOMMEND, payload: data.recommended });
+        } else {
           dispatch({ type: FETCH_SUCCESS, payload: data });
+          dispatch({ type: GET_CHARACTERISTICS, payload: data });
+          dispatch({ type: GET_RECOMMEND, payload: data.recommended });
         }
       })
       .catch((err) => {

@@ -85,7 +85,7 @@ export const reviewFormReducer = (state, action) => {
         addPhotos: [],
         summaryText: '',
         bodyText: '',
-        selectRec: false,
+        selectRec: null,
         addUsername: '',
         addEmail: '',
         fit: 0,

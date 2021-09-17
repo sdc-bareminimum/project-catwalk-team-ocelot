@@ -44,7 +44,7 @@ div.star-container{
 }
 
 .characteristics{
-  width: 75%;
+  width: 70%;
 }
 
 .characteristics-label{
@@ -70,7 +70,7 @@ input[type="range"] {
   -webkit-appearance: none;
   display: block;
   margin: 0;
-  width: 75%;
+  width: 70%;
   background: transparent;
 }
 
@@ -85,7 +85,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
+  width: 70%;
   height: 0.5em;
   cursor: pointer;
   background: #e9ecef;
@@ -150,19 +150,6 @@ select.styled-select:focus {
   border-bottom: 1px solid black;
 }
 
-.modal-body-review{
-  height: 250px;
-  width: 100%;
-  overflow-y: auto;
-}
-
-@media (min-height: 500px) {
-  .modal-body-review { height: 400px; }
-}
-
-@media (min-height: 100%) {
-  .modal-body-review { height: 600px; }
-}
 
 .radio-label-vertical-wrapper {
   padding-bottom: 13px;

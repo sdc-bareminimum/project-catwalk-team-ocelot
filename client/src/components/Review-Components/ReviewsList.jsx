@@ -6,7 +6,9 @@ import {
   reviewListReducer, initialState, FETCH_SUCCESS, IS_LOADING, SET_COUNT, MODAL_CLICK, SELECT_CHANGE,
 } from './Review-Reducers/reviewsReducer.jsx';
 
-const ReviewsList = ({ productId, totalRatings, characteristics, sizefit, widthlength }) => {
+const ReviewsList = ({
+  productId, totalRatings, characteristics, sizefit, widthlength, productName,
+}) => {
   const [state, dispatch] = useReducer(reviewListReducer, initialState);
 
   const getReviews = (id, count, selected) => {
@@ -87,6 +89,7 @@ const ReviewsList = ({ productId, totalRatings, characteristics, sizefit, widthl
       </div>
       <AddReview
         productId={productId}
+        productName={productName}
         characteristics={characteristics}
         sizefit={sizefit}
         widthlength={widthlength}

@@ -14,14 +14,12 @@ import ValidationMessage from './ValidationMessage.jsx';
 
 const AddReview = (props) => {
   const [state, dispatch] = useReducer(reviewFormReducer, initialState);
-  // const [sizefitId, setSizeFitId] = useState(0);
-  // const [widthlengthId, setWidthLengthId] = useState(0);
-  // const [comfortId, setComfortId] = useState(0);
-  // const [qualityId, setQualityId] = useState(0);
   const [submitClick, setSubmitClick] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const mapArray = new Array(5).fill(1);
-  const { characteristics, sizefit, widthlength } = props;
+  const {
+    characteristics, sizefit, widthlength, productName,
+  } = props;
   const handleChange = (e) => {
     dispatch({ type: e.target.name, payload: e.target.value });
   };
@@ -34,7 +32,8 @@ const AddReview = (props) => {
       return (
         <>
           <p>
-            Review Submission Successful!
+            Review Submitted!
+            {' '}
             <i className="bi bi-check-circle" style={{ fontSize: '24px' }} />
           </p>
         </>
@@ -85,14 +84,16 @@ const AddReview = (props) => {
 
   return (
     <div className="modal" id="reviewModal" tabIndex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
-      <div className="modal-dialog modal-xl">
+      <div className="modal-dialog modal-lg">
         <div className="modal-content">
           <div className="modal-header">
-            <h4 className="modal-title" id="reviewModalLabel">Write A Review</h4>
+            <h4 className="modal-title" id="reviewModalLabel">
+              Write Your Review
+              {' '}
+              <br />
+              <small className="text-muted">{`About the ${productName}`}</small>
+            </h4>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-          </div>
-          <div>
-            <p className="about-product">About the Product Name Here</p>
           </div>
           <div className="modal-body">
             <form>
@@ -116,13 +117,29 @@ const AddReview = (props) => {
                 <div className="form-check form-check-inline">
                   <label className="form-check-label" htmlFor="inlineRadio1">
                     Yes
-                    <input onChange={handleChange} className="form-check-input" type="radio" name={SELECT_REC} id="inlineRadio1" value="true" />
+                    <input
+                      onChange={handleChange}
+                      className="form-check-input"
+                      type="radio"
+                      checked={state.selectRec === 'true'}
+                      name={SELECT_REC}
+                      id="inlineRadio1"
+                      value="true"
+                    />
                   </label>
                 </div>
                 <div className="form-check form-check-inline">
                   <label className="form-check-label" htmlFor="inlineRadio2">
                     No
-                    <input onChange={handleChange} className="form-check-input" type="radio" name={SELECT_REC} id="inlineRadio2" value="false" />
+                    <input
+                      onChange={handleChange}
+                      className="form-check-input"
+                      type="radio"
+                      checked={state.selectRec === 'false'}
+                      name={SELECT_REC}
+                      id="inlineRadio2"
+                      value="false"
+                    />
                   </label>
                 </div>
               </div>
@@ -137,6 +154,7 @@ const AddReview = (props) => {
                       {props.characteristics.Fit ? fitDesc(i + 1) : sizeDesc(i + 1)}
                       <input
                         onChange={handleChange}
+                        checked={(i + 1) === (state.fit || state.size)}
                         className="form-check-input"
                         type="radio"
                         id={`inlineRadio${i + 1}`}
@@ -156,6 +174,7 @@ const AddReview = (props) => {
                       <input
                         onChange={handleChange}
                         className="form-check-input"
+                        checked={(i + 1) === (state.length || state.width)}
                         type="radio"
                         id={`inlineRadio${i + 1}`}
                         name={props.characteristics.Length ? ADD_LENGTH : ADD_WIDTH}
@@ -169,7 +188,7 @@ const AddReview = (props) => {
                   <div className="radio-label-vertical-wrapper" key={i + 1}>
                     <label className="radio-label-vertical" htmlFor={`inlineRadio${i + 1}`}>
                       {comfortDesc(i + 1)}
-                      <input onChange={handleChange} className="form-check-input" type="radio" id={`inlineRadio${i + 1}`} name={ADD_COMFORT} value={i + 1} />
+                      <input onChange={handleChange} className="form-check-input" checked={(i + 1) === state.comfort} type="radio" id={`inlineRadio${i + 1}`} name={ADD_COMFORT} value={i + 1} />
                     </label>
                   </div>
                 ))}
@@ -178,13 +197,15 @@ const AddReview = (props) => {
                   <div className="radio-label-vertical-wrapper" key={i + 1}>
                     <label className="radio-label-vertical" htmlFor={`inlineRadio${i + 1}`}>
                       {qualityDesc(i + 1)}
-                      <input onChange={handleChange} className="form-check-input" type="radio" id={`inlineRadio${i + 1}`} name={ADD_QUALITY} value={i + 1} />
+                      <input onChange={handleChange} className="form-check-input" type="radio" checked={(i + 1) === state.quality} id={`inlineRadio${i + 1}`} name={ADD_QUALITY} value={i + 1} />
                     </label>
                   </div>
                 ))}
               </div>
               <div className="mb-3">
-                <label htmlFor="message-text" className="col-form-label"><strong>Review summary</strong></label>
+                <label htmlFor="message-text" className="col-form-label">
+                  <strong>Review summary</strong>
+                </label>
                 <textarea
                   type="text"
                   className="form-control"
@@ -198,7 +219,9 @@ const AddReview = (props) => {
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="message-text" className="col-form-label"><strong>Review body</strong></label>
+                <label htmlFor="message-text" className="col-form-label">
+                  <strong>Review body</strong>
+                </label>
                 <textarea
                   type="text"
                   className="form-control"
@@ -210,6 +233,7 @@ const AddReview = (props) => {
                   value={state.bodyText}
                   onChange={handleChange}
                 />
+
                 {state.bodyText.length < 50
                   ? (
                     <p className="text-muted">
@@ -223,7 +247,9 @@ const AddReview = (props) => {
                   : <p className="text-muted"><small>Minimum reached</small></p>}
               </div>
               <div className="mb-3">
-                <label htmlFor="message-text" className="col-form-label"><strong>What is your nickname</strong></label>
+                <label htmlFor="message-text" className="col-form-label">
+                  <strong>What is your nickname</strong>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -242,7 +268,9 @@ const AddReview = (props) => {
                 </p>
               </div>
               <div className="mb-3">
-                <label htmlFor="message-text" className="col-form-label"><strong>Your email</strong></label>
+                <label htmlFor="message-text" className="col-form-label">
+                  <strong>Your email</strong>
+                </label>
                 <input
                   type="email"
                   className="form-control"
@@ -261,16 +289,18 @@ const AddReview = (props) => {
                 </p>
               </div>
               <div className="form-group">
-                <label htmlFor="exampleFormControlFile1"><strong>Photo Upload</strong></label>
-                <br />
-                <input onChange={handlePhotoChange} type="file" accept=".jpg,.png," className="form-control-file" id="exampleFormControlFile1" />
-                <br />
+                <label htmlFor="exampleFormControlFile1">
+                  <strong>Photo Upload</strong>
+                  <br />
+                  <input onChange={handlePhotoChange} type="file" accept=".jpg,.png," className="form-control-file" id="exampleFormControlFile1" />
+                  <br />
+                </label>
               </div>
               <div>
                 {submitMessage()}
               </div>
               <div className="modal-footer">
-                <button type="button" onClick={() => { props.handleModalClick; }} className="btn btn-outline-secondary w-30 p-3" data-bs-dismiss="modal">Close</button>
+                <button type="button" onClick={() => { dispatch({ type: CLEAR_ENTRIES }); }} className="btn btn-outline-secondary w-30 p-3" data-bs-dismiss="modal">Close</button>
                 <button type="submit" onClick={(e) => postNewReview(e)} className="btn btn-outline-dark w-30 p-3">Submit Review</button>
               </div>
             </form>

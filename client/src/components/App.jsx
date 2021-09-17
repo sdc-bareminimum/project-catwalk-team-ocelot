@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import bootstrap from 'bootstrap';
 
 import Navbar from './Navbar.jsx';
 import Overview from './Overview.jsx';
@@ -8,7 +7,7 @@ import QuestionsAndAnswers from './QuestionsAndAnswers.jsx';
 import Reviews from './Reviews.jsx';
 
 function App() {
-  const [productId, setProductId] = useState(42366);
+  const [productId, setProductId] = useState(42368);
   return (
     <>
       <Navbar />

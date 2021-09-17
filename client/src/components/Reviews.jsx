@@ -14,8 +14,12 @@ function Reviews({ productId }) {
   const getMetaData = (id) => {
     axios.get(`/api/reviews/meta?product_id=${id}`)
       .then(({ data }) => {
-        dispatch({ type: GET_RECOMMEND, payload: data.recommended });
-        dispatch({ type: FETCH_SUCCESS, payload: data });
+        if (Object.keys(data.ratings).length === 0) {
+          dispatch({ type: ERROR });
+        } else {
+          dispatch({ type: GET_RECOMMEND, payload: data.recommended });
+          dispatch({ type: FETCH_SUCCESS, payload: data });
+        }
       })
       .catch((err) => {
         console.log(err);

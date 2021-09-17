@@ -11,6 +11,7 @@ import {
   ADD_LENGTH, initialState, CLEAR_ENTRIES, ADD_PHOTOS,
 } from './Review-Reducers/formsReducer.jsx';
 import ValidationMessage from './ValidationMessage.jsx';
+import ImagePreview from './ImagePreview.jsx';
 
 const AddReview = (props) => {
   const [state, dispatch] = useReducer(reviewFormReducer, initialState);
@@ -24,7 +25,7 @@ const AddReview = (props) => {
     dispatch({ type: e.target.name, payload: e.target.value });
   };
   const handlePhotoChange = (e) => {
-    dispatch({ type: ADD_PHOTOS, payload: e.target.files });
+    dispatch({ type: ADD_PHOTOS, payload: e.target.files[0] });
   };
 
   const submitMessage = () => {
@@ -146,26 +147,26 @@ const AddReview = (props) => {
               <div className="characteristics-radio">
                 <p><strong>Characteristics</strong></p>
                 <h6 className="radio-characteristic-labels">
-                  {props.characteristics.Fit ? 'Fit' : 'Size'}
+                  {characteristics.Fit ? 'Fit' : 'Size'}
                 </h6>
                 {mapArray.map((radio, i) => (
                   <div className="radio-label-vertical-wrapper" key={i + 1}>
                     <label className="radio-label-vertical" htmlFor={`inlineRadio${i + 1}`}>
-                      {props.characteristics.Fit ? fitDesc(i + 1) : sizeDesc(i + 1)}
+                      {characteristics.Fit ? fitDesc(i + 1) : sizeDesc(i + 1)}
                       <input
                         onChange={handleChange}
                         checked={(i + 1) === (state.fit || state.size)}
                         className="form-check-input"
                         type="radio"
                         id={`inlineRadio${i + 1}`}
-                        name={props.characteristics.Fit ? ADD_FIT : ADD_SIZE}
+                        name={characteristics.Fit ? ADD_FIT : ADD_SIZE}
                         value={i + 1}
                       />
                     </label>
                   </div>
                 ))}
                 <h6 className="radio-characteristic-labels">
-                  {props.characteristics.Length ? 'Length' : 'Width'}
+                  {characteristics.Length ? 'Length' : 'Width'}
                 </h6>
                 {mapArray.map((radio, i) => (
                   <div className="radio-label-vertical-wrapper" key={i + 1}>
@@ -177,7 +178,7 @@ const AddReview = (props) => {
                         checked={(i + 1) === (state.length || state.width)}
                         type="radio"
                         id={`inlineRadio${i + 1}`}
-                        name={props.characteristics.Length ? ADD_LENGTH : ADD_WIDTH}
+                        name={characteristics.Length ? ADD_LENGTH : ADD_WIDTH}
                         value={i + 1}
                       />
                     </label>
@@ -292,9 +293,10 @@ const AddReview = (props) => {
                 <label htmlFor="exampleFormControlFile1">
                   <strong>Photo Upload</strong>
                   <br />
-                  <input onChange={handlePhotoChange} type="file" accept=".jpg,.png," className="form-control-file" id="exampleFormControlFile1" />
+                  <input onChange={handlePhotoChange} type="file" value={state.addPhotos} accept=".jpg,.png," className="form-control-file" id="exampleFormControlFile1" />
                   <br />
                 </label>
+                <ImagePreview />
               </div>
               <div>
                 {submitMessage()}

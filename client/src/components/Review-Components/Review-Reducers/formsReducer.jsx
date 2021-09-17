@@ -48,7 +48,7 @@ export const reviewFormReducer = (state, action) => {
     case ADD_PHOTOS:
       return {
         ...state,
-        addPhotos: action.payload,
+        addPhotos: [...state.addPhotos, action.payload],
       };
     case ADD_LENGTH:
       return {

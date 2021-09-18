@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Carousel from './RelatedItems-Components/Carousel.jsx';
 import ProductCard from './RelatedItems-Components/ProductCard.jsx';
@@ -8,11 +8,14 @@ function RelatedItems({ productId, setProductId }) {
   const [relatedListData, setRelatedListData] = useState([]);
   const [relatedStyleData, setRelatedStyleData] = useState([]);
   const [mergedRelatedData, setMergedRelatedData] = useState([]);
-  const [outfitIds, setOutfitIds] = useState([42567]);
+  const [outfitIds, setOutfitIds] = useState([42368]);
   const [outfitListData, setOutfitListData] = useState([]);
   const [outfitStyleData, setOutfitStyleData] = useState([]);
   const [mergedOutfitData, setMergedOutfitData] = useState([]);
   const [currentFeatures, setCurrentFeatures] = useState([]);
+
+  const previousRelatedValues = useRef({ relatedListData, relatedStyleData });
+  const previousOutfitValues = useRef({ outfitListData, outfitStyleData });
 
   const getItemData = (relatedId) => (axios.get(`/api/products/${relatedId}`)
     .then(({ data }) => (data)))
@@ -22,11 +25,25 @@ function RelatedItems({ productId, setProductId }) {
     .then(({ data }) => (data.results[0].photos[0].url || null)))
     .catch((err) => (console.log(err)));
 
+  const zipData = (infoData, styleData, isRelatedData) => {
+    const data = infoData.map((item, i) => {
+      const newItem = item;
+      newItem.photo = styleData[i];
+      return newItem;
+    });
+    if (isRelatedData === true) {
+      setMergedRelatedData(data);
+    } else {
+      setMergedOutfitData(data);
+    }
+  };
+
   const getAllData = (idList, isRelatedData) => {
     const idSet = new Set(idList);
     const idArray = Array.from(idSet);
     const dataPromises = idArray.map((item) => (getItemData(item)));
     const stylePromises = idArray.map((item) => (getStyleData(item)));
+
     (Promise.all(dataPromises))
       .then((results) => {
         if (isRelatedData === true) {
@@ -43,18 +60,6 @@ function RelatedItems({ productId, setProductId }) {
           setOutfitStyleData(results);
         }
       });
-  };
-
-  const zipData = (infoData, styleData, isRelatedData) => {
-    const data = infoData.map((item, i) => {
-      item.photo = styleData[i];
-      return item;
-    });
-    if (isRelatedData === true) {
-      setMergedRelatedData(data);
-    } else {
-      setMergedOutfitData(data);
-    }
   };
 
   const addToOutfit = () => {
@@ -87,7 +92,6 @@ function RelatedItems({ productId, setProductId }) {
   useEffect(() => {
     getRelatedItems(productId);
     getAllData(outfitIds);
-    zipData(outfitListData, outfitStyleData, false);
     getCurrentProductFeatures(productId);
   }, []);
 
@@ -100,12 +104,20 @@ function RelatedItems({ productId, setProductId }) {
   }, [outfitIds]);
 
   useEffect(() => {
-    zipData(relatedListData, relatedStyleData, true);
-  }, [relatedStyleData, relatedListData]);
+    if (JSON.stringify(previousRelatedValues.relatedListData) !== JSON.stringify(relatedListData)
+    && JSON.stringify(previousRelatedValues.relatedStyleData) !== JSON.stringify(relatedStyleData)
+    ) {
+      zipData(relatedListData, relatedStyleData, true);
+    }
+  }, [relatedListData, relatedStyleData]);
 
   useEffect(() => {
-    zipData(outfitListData, outfitStyleData, false);
-  }, [outfitStyleData, outfitListData]);
+    if (JSON.stringify(previousOutfitValues.outfitListData) !== JSON.stringify(outfitListData)
+    && JSON.stringify(previousOutfitValues.outfitStyleData) !== JSON.stringify(outfitStyleData)
+    ) {
+      zipData(outfitListData, outfitStyleData, false);
+    }
+  }, [outfitListData]);
 
   return (
     <div className="container mb-5">

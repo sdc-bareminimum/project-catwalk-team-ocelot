@@ -13,7 +13,7 @@ const imageStyles = {
 const ImagePreview = ({ images, handlePhotoDelete }) => (
 
   <div className="image-preview">
-    {images.length > 0 ? images.map((image, i) => (
+    {images.length > 0 ? images.map((image) => (
       <div key={uniqid()}>
         <img
           style={

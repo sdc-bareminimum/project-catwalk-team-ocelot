@@ -30,7 +30,8 @@ function Reviews({ productId }) {
         } else {
           setComfort(data.characteristics.Comfort.value);
         }
-        if (data.characteristics.Fit.value === null && data.characteristics.Size.value === null) {
+        if ((!data.characteristics.Fit && !data.characteristics.Size.value) ||
+        (!data.characteristics.Size && !data.characteristics.Fit.value)) {
           setSize(0);
         } else {
           setSize(data.characteristics.Fit.value || data.characteristics.Size.value);

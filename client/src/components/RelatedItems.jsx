@@ -43,7 +43,6 @@ function RelatedItems({ productId, setProductId }) {
     const idArray = Array.from(idSet);
     const dataPromises = idArray.map((item) => (getItemData(item)));
     const stylePromises = idArray.map((item) => (getStyleData(item)));
-
     (Promise.all(dataPromises))
       .then((results) => {
         if (isRelatedData === true) {

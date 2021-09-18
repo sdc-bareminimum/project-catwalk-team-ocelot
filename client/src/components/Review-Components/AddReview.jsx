@@ -35,28 +35,6 @@ const AddReview = (props) => {
     dispatch({ type: DELETE_PHOTOS, payload: name });
   };
 
-  const submitMessage = () => {
-    if (submitClick === true && errorMessage === false) {
-      return (
-        <>
-          <p>
-            Review Submitted!
-            {' '}
-            <i className="bi bi-check-circle" style={{ fontSize: '24px' }} />
-          </p>
-        </>
-      );
-    }
-    if (submitClick === false && errorMessage === true) {
-      return (
-        <>
-          <p className="error-message"><em><small>Please Fill out Required:</small></em></p>
-          <ValidationMessage state={state} />
-        </>
-      );
-    }
-  };
-
   const postNewReview = (e) => {
     e.preventDefault();
     axios.post('/api/reviews', {
@@ -302,10 +280,10 @@ const AddReview = (props) => {
               <div className="modal-footer">
                 <button type="button" onClick={() => { dispatch({ type: CLEAR_ENTRIES }); }} className="btn btn-outline-secondary w-30 p-3" data-bs-dismiss="modal">Close</button>
                 <OverlayTrigger
-                  placement="right"
+                  placement="auto"
                   trigger="focus"
                   overlay={(
-                    <Popover id="popover-basic">
+                    <Popover>
                       <Popover.Title as="h3">
                         {submitClick && !errorMessage ? 'Thank you!' : 'Required:'}
                       </Popover.Title>

@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useEffect } from 'react';
+import React, { useReducer, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import StarRatings from 'react-star-ratings';
 import { GiCheckMark } from 'react-icons/gi';
@@ -15,14 +15,16 @@ import {
 } from './Review-Reducers/formsReducer.jsx';
 import ValidationMessage from './ValidationMessage.jsx';
 import ImagePreview from './ImagePreview.jsx';
+import { ProductContext } from '../ProductContext.jsx';
 
 const AddReview = (props) => {
   const [state, dispatch] = useReducer(reviewFormReducer, initialState);
   const [submitClick, setSubmitClick] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
+  const product = useContext(ProductContext);
   const mapArray = new Array(5).fill(1);
   const {
-    characteristics, sizefit, widthlength, productName,
+    characteristics, sizefit, widthlength,
   } = props;
   const handleChange = (e) => {
     dispatch({ type: e.target.name, payload: e.target.value });
@@ -77,7 +79,7 @@ const AddReview = (props) => {
               Write Your Review
               {' '}
               <br />
-              <small className="text-muted">{`About the ${productName}`}</small>
+              <small className="text-muted">{`About the ${product.productInfo.name}`}</small>
             </h4>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
           </div>

@@ -5,8 +5,7 @@ import Star from './Review-Components/Star.jsx';
 import Characteristics from './Review-Components/Characteristics.jsx';
 import ReviewsList from './Review-Components/ReviewsList.jsx';
 import {
-  reviewReducers, initialState, FETCH_SUCCESS, GET_RECOMMEND, ERROR,
-  GET_PRODUCT_INFO, GET_CHARACTERISTICS,
+  reviewReducers, initialState, FETCH_SUCCESS, GET_RECOMMEND, ERROR, GET_CHARACTERISTICS,
 } from './Review-Components/Review-Reducers/reducers.jsx';
 
 function Reviews({ productId }) {
@@ -30,20 +29,9 @@ function Reviews({ productId }) {
         dispatch({ type: ERROR });
       });
   };
-  const getProductInfo = (id) => {
-    axios.get(`/api/products/${id}`)
-      .then(({ data }) => {
-        dispatch({ type: GET_PRODUCT_INFO, payload: data });
-      })
-      .catch((err) => {
-        console.log(err);
-        dispatch({ type: ERROR });
-      });
-  };
 
   useEffect(() => {
     getMetaData(productId);
-    getProductInfo(productId);
   }, [productId]);
   return (
     <div className="container mb-5">
@@ -67,7 +55,6 @@ function Reviews({ productId }) {
               characteristics={state.characteristics}
               totalRatings={state.totalRatings}
               productId={productId}
-              productName={state.productInfo.name}
               sizefit={state.characteristics.Fit || state.characteristics.Size}
               widthlength={state.characteristics.Length || state.characteristics.Width}
             />

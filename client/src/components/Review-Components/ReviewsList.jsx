@@ -7,7 +7,7 @@ import {
 } from './Review-Reducers/reviewsReducer.jsx';
 
 const ReviewsList = ({
-  productId, totalRatings, characteristics, sizefit, widthlength, productName,
+  productId, totalRatings, characteristics, sizefit, widthlength,
 }) => {
   const [state, dispatch] = useReducer(reviewListReducer, initialState);
 
@@ -89,7 +89,6 @@ const ReviewsList = ({
       </div>
       <AddReview
         productId={productId}
-        productName={productName}
         characteristics={characteristics}
         sizefit={sizefit}
         widthlength={widthlength}

@@ -18,7 +18,7 @@ const ReviewListEntry = (props) => {
     axios.put(`/api/reviews/${props.review.review_id}/helpful`)
       .then(() => {
         console.log('Helpful Updated');
-        props.getReviews(props.productId, props.count);
+        props.getReviews(props.productId, props.count, props.selected);
       });
   };
 
@@ -26,7 +26,7 @@ const ReviewListEntry = (props) => {
     axios.put(`/api/reviews/${props.review.review_id}/report`)
       .then(() => {
         console.log('Review reported');
-        props.getReviews(props.productId, props.count);
+        props.getReviews(props.productId, props.count, props.selected);
       });
   };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import axios from 'axios';
 import RatingBar from './Review-Components/RatingBar.jsx';
 import Star from './Review-Components/Star.jsx';
@@ -10,6 +10,8 @@ import {
 
 function Reviews({ productId }) {
   const [state, dispatch] = useReducer(reviewReducers, initialState);
+  const [size, setSize] = useState(0);
+  const [comfort, setComfort] = useState(0);
 
   const getMetaData = (id) => {
     axios.get(`/api/reviews/meta?product_id=${id}`)
@@ -22,6 +24,16 @@ function Reviews({ productId }) {
           dispatch({ type: FETCH_SUCCESS, payload: data });
           dispatch({ type: GET_CHARACTERISTICS, payload: data });
           dispatch({ type: GET_RECOMMEND, payload: data.recommended });
+        }
+        if (data.characteristics.Comfort.value === null) {
+          setComfort(0);
+        } else {
+          setComfort(data.characteristics.Comfort.value);
+        }
+        if (data.characteristics.Fit.value === null && data.characteristics.Size.value === null) {
+          setSize(0);
+        } else {
+          setSize(data.characteristics.Fit.value || data.characteristics.Size.value);
         }
       })
       .catch((err) => {
@@ -48,7 +60,7 @@ function Reviews({ productId }) {
               % of reviews recommend this product
             </p>
             <RatingBar total={state.totalRatings} ratings={state.ratings} />
-            <Characteristics productId={productId} />
+            <Characteristics size={size} comfort={comfort} productId={productId} />
           </div>
           <div className="col-md-8">
             <ReviewsList

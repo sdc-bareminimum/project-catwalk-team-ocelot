@@ -22,10 +22,6 @@ const ReviewsList = ({
       });
   };
 
-  const handleChange = (e) => {
-    dispatch({ type: SELECT_CHANGE, payload: e.target.value });
-  };
-
   useEffect(() => {
     getReviews(productId, state.count, state.selected);
   }, [productId, state.count, state.selected]);
@@ -36,7 +32,7 @@ const ReviewsList = ({
         <p className="review-sort-font">
           {`${totalRatings} reviews, sorted by`}
         </p>
-        <form onChange={handleChange}>
+        <form onChange={(e) => { dispatch({ type: SELECT_CHANGE, payload: e.target.value }); }}>
           <div className="form-group">
             <select className="styled-select">
               <option value="relevant">relevance</option>
@@ -89,9 +85,12 @@ const ReviewsList = ({
       </div>
       <AddReview
         productId={productId}
+        getReviews={getReviews}
         characteristics={characteristics}
         sizefit={sizefit}
         widthlength={widthlength}
+        selected={state.selected}
+        count={state.count}
       />
     </>
   );

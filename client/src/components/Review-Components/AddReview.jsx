@@ -24,7 +24,7 @@ const AddReview = (props) => {
   const product = useContext(ProductContext);
   const mapArray = new Array(5).fill(1);
   const {
-    characteristics, sizefit, widthlength,
+    characteristics, sizefit, widthlength, getReviews, productId, selected, count,
   } = props;
   const handleChange = (e) => {
     dispatch({ type: e.target.name, payload: e.target.value });
@@ -60,6 +60,7 @@ const AddReview = (props) => {
         setErrorMessage(false);
         setSubmitClick(true);
         dispatch({ type: CLEAR_ENTRIES });
+        getReviews(productId, count, selected);
       })
       .catch((err) => {
         console.log(err.response.data);

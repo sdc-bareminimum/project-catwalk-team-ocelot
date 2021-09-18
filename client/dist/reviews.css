@@ -227,3 +227,13 @@ select.styled-select:focus {
 .end-page{
   margin-top: 20px;
 }
+
+.photo-upload-delete{
+  position: relative;
+  top: -35px;
+  left: -26px;
+}
+
+.image-preview{
+  display:flex;
+}

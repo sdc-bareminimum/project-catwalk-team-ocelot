@@ -24,7 +24,7 @@ const Characteristics = ({ productId }) => {
 
   useEffect(() => {
     getMetaData(productId);
-  }, []);
+  }, [productId]);
 
   return (
     <div>

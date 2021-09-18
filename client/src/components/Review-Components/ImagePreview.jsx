@@ -1,12 +1,30 @@
 import React from 'react';
+import { IoMdCloseCircle } from 'react-icons/io';
+import uniqid from 'uniqid';
 
-const ImagePreview = ({ images }) => (
+const imageStyles = {
+  width: '100px',
+  height: '100px',
+  objectFit: 'cover',
+  marginTop: '10px',
+  marginRight: '10px',
+};
 
-  <div className="card" style={{ width: '18rem' }}>
-    <img className="card-img-top" src="https://images.pexels.com/photos/8217300/pexels-photo-8217300.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="Card image cap" />
-    <div className="card-body">
-      <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    </div>
+const ImagePreview = ({ images, handlePhotoDelete }) => (
+
+  <div className="image-preview">
+    {images.length > 0 ? images.map((image, i) => (
+      <div key={uniqid()}>
+        <img
+          style={
+        imageStyles
+      }
+          src={image}
+          alt={image.name}
+        />
+        <IoMdCloseCircle size="1.5em" style={{ backgroundColor: 'white', borderRadius: '50%' }} onClick={() => { handlePhotoDelete(image); }} className="photo-upload-delete" />
+      </div>
+    )) : <div />}
   </div>
 
 );

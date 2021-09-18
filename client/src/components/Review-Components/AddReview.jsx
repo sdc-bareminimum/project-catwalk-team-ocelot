@@ -1,6 +1,9 @@
 import React, { useReducer, useState, useEffect } from 'react';
 import axios from 'axios';
 import StarRatings from 'react-star-ratings';
+import { GiCheckMark } from 'react-icons/gi';
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import {
   ratingDesc, fitDesc, comfortDesc, qualityDesc, lenDesc, widthDesc, sizeDesc,
 } from './helper.js';
@@ -8,7 +11,7 @@ import {
   reviewFormReducer, SELECT_RATING,
   ADD_SUMMARY, ADD_BODY, SELECT_REC, ADD_USER,
   ADD_EMAIL, ADD_COMFORT, ADD_QUALITY, ADD_FIT, ADD_SIZE, ADD_WIDTH,
-  ADD_LENGTH, initialState, CLEAR_ENTRIES, ADD_PHOTOS,
+  ADD_LENGTH, initialState, CLEAR_ENTRIES, ADD_PHOTOS, DELETE_PHOTOS,
 } from './Review-Reducers/formsReducer.jsx';
 import ValidationMessage from './ValidationMessage.jsx';
 import ImagePreview from './ImagePreview.jsx';
@@ -25,7 +28,11 @@ const AddReview = (props) => {
     dispatch({ type: e.target.name, payload: e.target.value });
   };
   const handlePhotoChange = (e) => {
-    dispatch({ type: ADD_PHOTOS, payload: e.target.files[0] });
+    dispatch({ type: ADD_PHOTOS, payload: URL.createObjectURL(e.target.files[0]) });
+  };
+
+  const handlePhotoDelete = (name) => {
+    dispatch({ type: DELETE_PHOTOS, payload: name });
   };
 
   const submitMessage = () => {
@@ -60,7 +67,7 @@ const AddReview = (props) => {
       recommend: state.selectRec === 'true',
       name: state.addUsername,
       email: state.addEmail,
-      photos: state.addPhotos,
+      photos: [],
       characteristics: {
         [sizefit.id]: state.size || state.fit,
         [widthlength.id]: state.width || state.length,
@@ -202,7 +209,7 @@ const AddReview = (props) => {
                 ))}
               </div>
               <div className="mb-3">
-                <label htmlFor="message-text" className="col-form-label">
+                <label className="col-form-label">
                   <strong>Review summary</strong>
                 </label>
                 <textarea
@@ -217,7 +224,7 @@ const AddReview = (props) => {
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="message-text" className="col-form-label">
+                <label className="col-form-label">
                   <strong>Review body</strong>
                 </label>
                 <textarea
@@ -244,7 +251,7 @@ const AddReview = (props) => {
                   : <p className="text-muted"><small>Minimum reached</small></p>}
               </div>
               <div className="mb-3">
-                <label htmlFor="message-text" className="col-form-label">
+                <label className="col-form-label">
                   <strong>What is your nickname</strong>
                 </label>
                 <input
@@ -264,7 +271,7 @@ const AddReview = (props) => {
                 </p>
               </div>
               <div className="mb-3">
-                <label htmlFor="message-text" className="col-form-label">
+                <label className="col-form-label">
                   <strong>Your email</strong>
                 </label>
                 <input
@@ -287,17 +294,36 @@ const AddReview = (props) => {
                 <label htmlFor="exampleFormControlFile1">
                   <strong>Photo Upload</strong>
                   <br />
-                  <input onChange={handlePhotoChange} type="file" value={state.addPhotos} accept=".jpg,.png," className="form-control-file" />
+                  <input onChange={handlePhotoChange} type="file" accept=".jpg,.png," className="form-control-file" />
                   <br />
                 </label>
-                <ImagePreview />
-              </div>
-              <div>
-                {submitMessage()}
+                <ImagePreview handlePhotoDelete={handlePhotoDelete} images={state.addPhotos} />
               </div>
               <div className="modal-footer">
                 <button type="button" onClick={() => { dispatch({ type: CLEAR_ENTRIES }); }} className="btn btn-outline-secondary w-30 p-3" data-bs-dismiss="modal">Close</button>
-                <button type="submit" onClick={(e) => postNewReview(e)} className="btn btn-outline-dark w-30 p-3">Submit Review</button>
+                <OverlayTrigger
+                  placement="right"
+                  trigger="focus"
+                  overlay={(
+                    <Popover id="popover-basic">
+                      <Popover.Title as="h3">
+                        {submitClick && !errorMessage ? 'Thank you!' : 'Required:'}
+                      </Popover.Title>
+                      <Popover.Content>
+                        {submitClick && !errorMessage
+                          ? (
+                            <>
+                              <span>Review Submitted! </span>
+                              <GiCheckMark />
+                            </>
+                          )
+                          : <ValidationMessage state={state} />}
+                      </Popover.Content>
+                    </Popover>
+                  )}
+                >
+                  <button type="submit" onClick={(e) => postNewReview(e)} className="btn btn-outline-dark w-30 p-3">Submit Review</button>
+                </OverlayTrigger>
               </div>
             </form>
           </div>

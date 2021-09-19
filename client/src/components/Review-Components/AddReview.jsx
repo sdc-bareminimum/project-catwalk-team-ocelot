@@ -1,5 +1,6 @@
-import React, { useReducer, useState, useEffect, useContext } from 'react';
+import React, { useReducer, useState, useContext } from 'react';
 import axios from 'axios';
+import uniqid from 'uniqid';
 import StarRatings from 'react-star-ratings';
 import { GiCheckMark } from 'react-icons/gi';
 import Popover from 'react-bootstrap/Popover';
@@ -22,10 +23,13 @@ const AddReview = (props) => {
   const [submitClick, setSubmitClick] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const product = useContext(ProductContext);
-  const mapArray = new Array(5).fill(1);
+
   const {
     characteristics, sizefit, widthlength, getReviews, productId, selected, count,
   } = props;
+
+  const mapArray = new Array(5).fill(1);
+
   const handleChange = (e) => {
     dispatch({ type: e.target.name, payload: e.target.value });
   };
@@ -40,7 +44,7 @@ const AddReview = (props) => {
   const postNewReview = (e) => {
     e.preventDefault();
     axios.post('/api/reviews', {
-      product_id: props.productId,
+      product_id: productId,
       rating: state.selectedRating,
       summary: state.summaryText,
       body: state.bodyText,
@@ -56,19 +60,50 @@ const AddReview = (props) => {
       },
     })
       .then(() => {
-        console.log('Review Posted');
         setErrorMessage(false);
         setSubmitClick(true);
         dispatch({ type: CLEAR_ENTRIES });
         getReviews(productId, count, selected);
+        console.log('Review Posted');
       })
       .catch((err) => {
-        console.log(err.response.data);
         dispatch({ type: CLEAR_ENTRIES });
         setErrorMessage(true);
         setSubmitClick(false);
-        console.log(err.response);
+        console.log(err.response.data);
       });
+  };
+
+  const characteristicsRadio = (characteristic, descOne,
+    descTwo, stateOne, stateTwo, dispatchOne, dispatchTwo) => {
+    const radioDescription = mapArray.map((radio, i) => (
+      <div className="radio-label-vertical-wrapper" key={uniqid()}>
+        <label className="radio-label-vertical" htmlFor={`inlineRadio${i + 1}`}>
+          {characteristic ? descOne(i + 1) : descTwo(i + 1)}
+          <input
+            onChange={handleChange}
+            checked={(i + 1) === (stateOne || stateTwo)}
+            className="form-check-input"
+            type="radio"
+            name={characteristic ? dispatchOne : dispatchTwo}
+            value={i + 1}
+          />
+        </label>
+      </div>
+    ));
+    return radioDescription;
+  };
+
+  const qualityComfortRadio = (descOne, key, dispatchName) => {
+    const qualityComfort = mapArray.map((radio, i) => (
+      <div className="radio-label-vertical-wrapper" key={uniqid()}>
+        <label className="radio-label-vertical" htmlFor={`inlineRadio${i + 1}`}>
+          {descOne(i + 1)}
+          <input onChange={handleChange} className="form-check-input" type="radio" checked={(i + 1) === key} name={dispatchName} value={i + 1} />
+        </label>
+      </div>
+    ));
+    return qualityComfort;
   };
 
   return (
@@ -137,57 +172,17 @@ const AddReview = (props) => {
                 <h6 className="radio-characteristic-labels">
                   {characteristics.Fit ? 'Fit' : 'Size'}
                 </h6>
-                {mapArray.map((radio, i) => (
-                  <div className="radio-label-vertical-wrapper" key={i + 1}>
-                    <label className="radio-label-vertical" htmlFor={`inlineRadio${i + 1}`}>
-                      {characteristics.Fit ? fitDesc(i + 1) : sizeDesc(i + 1)}
-                      <input
-                        onChange={handleChange}
-                        checked={(i + 1) === (state.fit || state.size)}
-                        className="form-check-input"
-                        type="radio"
-                        name={characteristics.Fit ? ADD_FIT : ADD_SIZE}
-                        value={i + 1}
-                      />
-                    </label>
-                  </div>
-                ))}
+                {characteristicsRadio(characteristics.Fit, fitDesc,
+                  sizeDesc, state.fit, state.size, ADD_FIT, ADD_SIZE)}
                 <h6 className="radio-characteristic-labels">
                   {characteristics.Length ? 'Length' : 'Width'}
                 </h6>
-                {mapArray.map((radio, i) => (
-                  <div className="radio-label-vertical-wrapper" key={i + 1}>
-                    <label className="radio-label-vertical" htmlFor={`inlineRadio${i + 1}`}>
-                      {props.characteristics.Length ? lenDesc(i + 1) : widthDesc(i + 1)}
-                      <input
-                        onChange={handleChange}
-                        className="form-check-input"
-                        checked={(i + 1) === (state.length || state.width)}
-                        type="radio"
-                        name={characteristics.Length ? ADD_LENGTH : ADD_WIDTH}
-                        value={i + 1}
-                      />
-                    </label>
-                  </div>
-                ))}
+                {characteristicsRadio(characteristics.Length, lenDesc,
+                  widthDesc, state.length, state.width, ADD_LENGTH, ADD_WIDTH)}
                 <h6 className="radio-characteristic-labels">Comfort</h6>
-                {mapArray.map((radio, i) => (
-                  <div className="radio-label-vertical-wrapper" key={i + 1}>
-                    <label className="radio-label-vertical" htmlFor={`inlineRadio${i + 1}`}>
-                      {comfortDesc(i + 1)}
-                      <input onChange={handleChange} className="form-check-input" checked={(i + 1) === state.comfort} type="radio" name={ADD_COMFORT} value={i + 1} />
-                    </label>
-                  </div>
-                ))}
+                {qualityComfortRadio(comfortDesc, state.comfort, ADD_COMFORT)}
                 <h6 className="radio-characteristic-labels">Quality</h6>
-                {mapArray.map((radio, i) => (
-                  <div className="radio-label-vertical-wrapper" key={i + 1}>
-                    <label className="radio-label-vertical" htmlFor={`inlineRadio${i + 1}`}>
-                      {qualityDesc(i + 1)}
-                      <input onChange={handleChange} className="form-check-input" type="radio" checked={(i + 1) === state.quality} name={ADD_QUALITY} value={i + 1} />
-                    </label>
-                  </div>
-                ))}
+                {qualityComfortRadio(qualityDesc, state.quality, ADD_QUALITY)}
               </div>
               <div className="mb-3">
                 <label className="col-form-label">

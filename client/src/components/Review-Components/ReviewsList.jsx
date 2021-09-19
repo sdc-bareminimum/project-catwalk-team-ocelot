@@ -6,10 +6,11 @@ import {
   reviewListReducer, initialState, FETCH_SUCCESS, IS_LOADING, SET_COUNT, MODAL_CLICK, SELECT_CHANGE,
 } from './Review-Reducers/reviewsReducer.jsx';
 
-const ReviewsList = ({
-  productId, totalRatings, characteristics, sizefit, widthlength,
-}) => {
+const ReviewsList = (props) => {
   const [state, dispatch] = useReducer(reviewListReducer, initialState);
+  const {
+    productId, totalRatings, characteristics, sizefit, widthlength,
+  } = props;
 
   const getReviews = (id, count, selected) => {
     axios.get(`/api/reviews?product_id=${id}&sort=${selected}&count=${count}`)

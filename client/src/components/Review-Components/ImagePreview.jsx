@@ -16,13 +16,16 @@ const ImagePreview = ({ images, handlePhotoDelete }) => (
     {images.length > 0 ? images.map((image) => (
       <div key={uniqid()}>
         <img
-          style={
-        imageStyles
-      }
+          style={imageStyles}
           src={image}
           alt={image.name}
         />
-        <IoMdCloseCircle size="1.5em" style={{ backgroundColor: 'white', borderRadius: '50%' }} onClick={() => { handlePhotoDelete(image); }} className="photo-upload-delete" />
+        <IoMdCloseCircle
+          className="photo-upload-delete"
+          size="1.5em"
+          style={{ backgroundColor: 'white', borderRadius: '50%' }}
+          onClick={() => { handlePhotoDelete(image); }}
+        />
       </div>
     )) : <div />}
   </div>

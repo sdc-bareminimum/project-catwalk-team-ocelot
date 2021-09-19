@@ -1,6 +1,5 @@
 import RangeSlider from 'react-bootstrap-range-slider';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 
 const Characteristics = ({ size, comfort }) => (
   <div>

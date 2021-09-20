@@ -88,6 +88,12 @@ function RelatedItems({ productId, setProductId }) {
     setProductId(id);
   };
 
+  const removeOutfitItem = (id) => {
+    const index = outfitIds.indexOf(id);
+    const outfit = outfitIds.slice(0, index).concat(outfitIds.slice(index + 1, outfitIds.length));
+    setOutfitIds(outfit);
+  };
+
   useEffect(() => {
     getCurrentProductFeatures(productId);
   }, []);
@@ -131,6 +137,7 @@ function RelatedItems({ productId, setProductId }) {
               key={product.id}
               product={product}
               currentFeatures={currentFeatures}
+              type="related"
             />
           ))}
         </Carousel>
@@ -150,6 +157,8 @@ function RelatedItems({ productId, setProductId }) {
               key={product.id}
               product={product}
               currentFeatures={currentFeatures}
+              type="outfit"
+              removeOutfitItem={removeOutfitItem}
             />
           ))}
         </Carousel>

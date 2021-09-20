@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
+import StarRatings from 'react-star-ratings';
 import CompareModal from './CompareModal.jsx';
 
 const ProductCard = ({

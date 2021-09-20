@@ -13,10 +13,10 @@ import {
   ADD_SUMMARY, ADD_BODY, SELECT_REC, ADD_USER,
   ADD_EMAIL, ADD_COMFORT, ADD_QUALITY, ADD_FIT, ADD_SIZE, ADD_WIDTH,
   ADD_LENGTH, initialState, CLEAR_ENTRIES, ADD_PHOTOS, DELETE_PHOTOS,
-} from './Review-Reducers/formsReducer.jsx';
+} from '../Review-Reducers/formsReducer.jsx';
 import ValidationMessage from './ValidationMessage.jsx';
 import ImagePreview from './ImagePreview.jsx';
-import { ProductContext } from '../ProductContext.jsx';
+import { ProductContext } from '../../ProductContext.jsx';
 
 const AddReview = (props) => {
   const [state, dispatch] = useReducer(reviewFormReducer, initialState);

@@ -1,7 +1,7 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import axios from 'axios';
 import ReviewListEntry from './ReviewListEntry.jsx';
-import AddReview from './AddReview.jsx';
+import AddReview from './ReviewForm/AddReview.jsx';
 import {
   reviewListReducer, initialState, FETCH_SUCCESS, IS_LOADING, SET_COUNT, MODAL_CLICK, SELECT_CHANGE,
 } from './Review-Reducers/reviewsReducer.jsx';

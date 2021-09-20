@@ -14,7 +14,7 @@ function App() {
     <>
       <Navbar />
       <Overview productId={productId} />
-      <RelatedItems productId={productId} setProductId={setProductId} />
+      {/* <RelatedItems productId={productId} setProductId={setProductId} /> */}
       <QuestionsAndAnswers productId={productId} />
       <Reviews productId={productId} />
     </>

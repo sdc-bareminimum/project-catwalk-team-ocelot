@@ -241,3 +241,7 @@ select.styled-select:focus {
 .image-preview{
   display:flex;
 }
+
+.review-search{
+  margin-bottom: 15px;
+}

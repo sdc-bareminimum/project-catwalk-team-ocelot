@@ -1,13 +1,18 @@
 import React, { useReducer, useEffect, useState } from 'react';
 import axios from 'axios';
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
+import Button from 'react-bootstrap/Button';
 import ReviewListEntry from './ReviewListEntry.jsx';
 import AddReview from './ReviewForm/AddReview.jsx';
 import {
-  reviewListReducer, initialState, FETCH_SUCCESS, IS_LOADING, SET_COUNT, MODAL_CLICK, SELECT_CHANGE,
+  reviewListReducer, initialState, FETCH_SUCCESS, IS_LOADING, SET_COUNT,
+  MODAL_CLICK, SELECT_CHANGE, SEARCH_RESULT,
 } from './Review-Reducers/reviewsReducer.jsx';
 
 const ReviewsList = (props) => {
   const [state, dispatch] = useReducer(reviewListReducer, initialState);
+  const [searchText, setsearchText] = useState('');
   const {
     productId, totalRatings, characteristics, sizefit, widthlength,
   } = props;
@@ -22,6 +27,22 @@ const ReviewsList = (props) => {
         console.log(err);
       });
   };
+
+  const searchBar = () => (
+    <div className="review-search">
+      <Form className="d-flex">
+        <FormControl
+          type="search"
+          placeholder="Search"
+          className="mr-2"
+          aria-label="Search"
+          value={searchText}
+          onChange={(e) => setsearchText(e.target.value)}
+        />
+        <Button variant="outline-dark">Search</Button>
+      </Form>
+    </div>
+  );
 
   useEffect(() => {
     getReviews(productId, state.count, state.selected);
@@ -43,6 +64,7 @@ const ReviewsList = (props) => {
           </div>
         </form>
       </div>
+      {searchBar()}
       <div>
         {state.reviews.map((review) => (
           <ReviewListEntry

@@ -89,8 +89,6 @@ function RelatedItems({ productId, setProductId }) {
   };
 
   useEffect(() => {
-    getRelatedItems(productId);
-    getAllData(outfitIds);
     getCurrentProductFeatures(productId);
   }, []);
 
@@ -116,7 +114,7 @@ function RelatedItems({ productId, setProductId }) {
     ) {
       zipData(outfitListData, outfitStyleData, false);
     }
-  }, [outfitListData]);
+  }, [outfitListData, outfitStyleData]);
 
   return (
     <div className="container mb-5">

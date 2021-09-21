@@ -100,3 +100,17 @@ it('renders Answer without crashing', () => {
     </ProductProvider>, div,
   );
 });
+
+it('renders QuestionsList without crashing', () => {
+  const div = document.createElement('div');
+  // const productId = 42366;
+
+  ReactDOM.render(
+    <ProductProvider>
+      <QuestionsList
+        // productId={productId}
+        answer={AnswerData}
+      />
+    </ProductProvider>, div,
+  );
+});

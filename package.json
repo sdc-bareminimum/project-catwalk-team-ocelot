@@ -7,7 +7,7 @@
     "build": "webpack --watch",
     "start": "nodemon server/index.js",
     "live": "livereload ./client/dist -w 1000 -d",
-    "test": "jest --config ./jest.config.js --detectOpenHandles"
+    "test": "jest --config ./jest.config.js"
   },
   "repository": {
     "type": "git",
@@ -43,6 +43,7 @@
     "@fortawesome/react-fontawesome": "^0.1.15",
     "axios": "^0.21.4",
     "bootstrap": "^5.1.1",
+    "core-js": "^3.18.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
@@ -54,6 +55,7 @@
     "react-modal": "^3.14.3",
     "react-share": "^4.4.0",
     "react-star-ratings": "^2.3.0",
+    "regenerator-runtime": "^0.13.9",
     "underscore": "^1.13.1",
     "uniqid": "^5.4.0"
   }

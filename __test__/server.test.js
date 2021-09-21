@@ -14,34 +14,37 @@ describe('int::app', () => {
     server.close(done);
   });
 
-  it('Gets the product info', async () => {
-    await request.get('/test')
+  it('Gets product information from a specified endpoint', async () => {
+    await request.get('/api/products/42368')
       .expect(200)
       .then((res) => {
         expect(res.statusCode).toBe(200);
         expect(Array.isArray(res.body)).toBeFalsy();
-        expect(res.body.message).toBe('pass!');
+        expect(res.body.id).toBe(42368);
       });
   });
 
-  it('Gets the Product info and style', async () => {
-    await request.get('/products/42366')
-    .expect(200)
-    .then((res) => {
-      expect(res.statusCode).toBe(200);
-      expect(Array.isArray(res.body)).toBeFalsy();
-      expect(res.body.message).toBe('pass!');
-    });
+  it('returns a 400 error is endpoint doesn\'t exist', async () => {
+    await request.get('/api/products/404')
+      .expect(400);
   });
 
   it('Gets the related', async () => {
   });
 
-  it('Gets the reviews and metadata', async () => {
+  it('Gets the reviews', async () => {
     await request.get('/api/reviews?product_id=42366')
       .expect(200)
       .then((res) => {
         expect(Array.isArray(res.body.results)).toBeTruthy();
+      });
+  });
+
+  it('Get the metadata', async () => {
+    await request.get('/api/reviews/meta?product_id=42376')
+      .expect(200)
+      .then((res) => {
+        expect(JSON.stringify(Object.keys(res.body))).toBe(JSON.stringify(['product_id', 'ratings', 'recommended', 'characteristics']));
       });
   });
 

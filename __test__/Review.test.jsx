@@ -42,10 +42,10 @@ it('renders Reviews without crashing', () => {
   ReactDOM.render(<ProductProvider><Reviews productId={productId} /></ProductProvider>, div);
 });
 
-it('renders App without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<ProductProvider><App /></ProductProvider>, div);
-});
+// it('renders App without crashing', () => {
+//   const div = document.createElement('div');
+//   ReactDOM.render(<ProductProvider><App /></ProductProvider>, div);
+// });
 
 it('renders ReviewListEntry without crashing', () => {
   const div = document.createElement('div');

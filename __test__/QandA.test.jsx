@@ -1,5 +1,11 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
+import { act } from 'react-dom/test-utils';
 // import App from '../client/src/components/App.jsx';
 import { ProductProvider } from '../client/src/components/ProductContext.jsx';
 import QuestionsAndAnswers from '../client/src/components/QuestionsAndAnswers.jsx';
@@ -99,6 +105,8 @@ const Questions = [
   },
 ];
 
+jest.mock('axios');
+
 it('renders QandA without crashing', () => {
   const div = document.createElement('div');
   const productId = 42366;
@@ -114,17 +122,15 @@ it('renders SearchQuestion without crashing', () => {
 it('renders Question without crashing', () => {
   const div = document.createElement('div');
   const productId = 42366;
-  act(() => {
-    ReactDOM.render(
-      <ProductProvider>
-        <Question
-          productId={productId}
-          key={425914}
-          question={questionData}
-        />
-      </ProductProvider>, div,
-    );
-  });
+  ReactDOM.render(
+    <ProductProvider>
+      <Question
+        productId={productId}
+        key={425914}
+        question={questionData}
+      />
+    </ProductProvider>, div,
+  );
 });
 
 it('renders Answer without crashing', () => {

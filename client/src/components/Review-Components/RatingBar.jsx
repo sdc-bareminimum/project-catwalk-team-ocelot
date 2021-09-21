@@ -6,7 +6,6 @@ const RatingBar = ({
   total, ratings, handleChange, starFilter,
 }) => {
   const arrayHolder = [5, 4, 3, 2, 1];
-  const [colorClick, setcolorClick] = useState(false);
   const progressBar = arrayHolder.map((star) => {
     const toNumberStar = Number(ratings[star]) || 0;
     const rating = toNumberStar ? (toNumberStar / total) * 100 : 0;

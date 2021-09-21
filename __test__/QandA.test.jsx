@@ -60,6 +60,45 @@ const AnswerData = {
   photos: [],
 };
 
+const Questions = [
+  {
+    question_id: 425951,
+    question_body: 'Where is this product made?',
+    question_date: '2021-09-16T00:00:00.000Z',
+    asker_name: 'alex',
+    question_helpfulness: 4,
+    reported: false,
+    answers: {
+      3989585: {
+        id: 3989585,
+        body: 'Made in Canada',
+        date: '2021-09-16T00:00:00.000Z',
+        answerer_name: 'Seller',
+        helpfulness: 3,
+        photos: [],
+      },
+    },
+  },
+  {
+    question_id: 426043,
+    question_body: 'Where does this product ship from?',
+    question_date: '2021-09-17T00:00:00.000Z',
+    asker_name: 'linda',
+    question_helpfulness: 3,
+    reported: false,
+    answers: {
+      3989645: {
+        id: 3989645,
+        body: 'Mine is from India',
+        date: '2021-09-17T00:00:00.000Z',
+        answerer_name: 'Alex',
+        helpfulness: 3,
+        photos: [],
+      },
+    },
+  },
+];
+
 it('renders QandA without crashing', () => {
   const div = document.createElement('div');
   const productId = 42366;
@@ -75,16 +114,17 @@ it('renders SearchQuestion without crashing', () => {
 it('renders Question without crashing', () => {
   const div = document.createElement('div');
   const productId = 42366;
-
-  ReactDOM.render(
-    <ProductProvider>
-      <Question
-        productId={productId}
-        key={425914}
-        question={questionData}
-      />
-    </ProductProvider>, div,
-  );
+  act(() => {
+    ReactDOM.render(
+      <ProductProvider>
+        <Question
+          productId={productId}
+          key={425914}
+          question={questionData}
+        />
+      </ProductProvider>, div,
+    );
+  });
 });
 
 it('renders Answer without crashing', () => {
@@ -103,13 +143,15 @@ it('renders Answer without crashing', () => {
 
 it('renders QuestionsList without crashing', () => {
   const div = document.createElement('div');
-  // const productId = 42366;
+  const productId = 42366;
 
   ReactDOM.render(
     <ProductProvider>
       <QuestionsList
-        // productId={productId}
-        answer={AnswerData}
+        productId={productId}
+        questions={Questions}
+        moreQuestions={false}
+        search={false}
       />
     </ProductProvider>, div,
   );

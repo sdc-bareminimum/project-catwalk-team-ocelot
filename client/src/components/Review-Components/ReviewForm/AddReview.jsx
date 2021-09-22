@@ -22,7 +22,7 @@ const AddReview = (props) => {
   const [state, dispatch] = useReducer(reviewFormReducer, initialState);
   const [submitClick, setSubmitClick] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
-  const { productInfo, setRecordInteraction } = useContext(ProductContext);
+  const { productInfo } = useContext(ProductContext);
 
   const {
     characteristics, sizefit, widthlength, getReviews, productId, selected, count,

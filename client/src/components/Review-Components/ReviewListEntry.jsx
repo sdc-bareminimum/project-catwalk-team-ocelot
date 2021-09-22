@@ -7,7 +7,7 @@ import { ProductContext } from '../ProductContext.jsx';
 const ReviewListEntry = (props) => {
   const [formatDate, setDate] = useState('January 1, 2019');
   const {
-    productId, count, getReviews, review, selected,
+    productId, getReviews, review, selected,
   } = props;
   const { setRecordInteraction } = useContext(ProductContext);
 

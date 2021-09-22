@@ -54,7 +54,7 @@ const QuestionForm = ({ productId }) => {
           <div className="modal-body">
             <form onSubmit={handerSubmitQuestion}>
               <div className="mb-3">
-                <label className="col-form-label">What is your nickname?</label>
+                <label className="col-form-label">*What is your nickname?</label>
                 <input
                   type="text"
                   className="form-control"
@@ -67,7 +67,7 @@ const QuestionForm = ({ productId }) => {
 
               <div className="mb-3">
 
-                <label className="col-form-label">Your email:</label>
+                <label className="col-form-label">*Your email:</label>
                 <input
                   type="email"
                   className="form-control"
@@ -79,7 +79,7 @@ const QuestionForm = ({ productId }) => {
                 <span className="email-notice">For authentication reasons, you will not be emailed</span>
               </div>
               <div className="mb-3">
-                <label  className="col-form-label">Your question:</label>
+                <label  className="col-form-label">*Your question:</label>
                 <textarea
                   type="text"
                   className="form-control"

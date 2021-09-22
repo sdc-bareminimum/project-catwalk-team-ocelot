@@ -15,7 +15,7 @@ const Question = ({ question, searchTerm }) => {
   const [reported, setReported] = useState(false);
   const [showAnswerForm, setShowAnswerForm] = useState(false);
 
-  const { setRecordInteraction } = useContext(ProductContext);
+  const { setRecordInteraction, productInfo } = useContext(ProductContext);
 
   const fetchAnswers = () => {
     axios.get(`/api/qa/questions/${question.question_id}/answers`)

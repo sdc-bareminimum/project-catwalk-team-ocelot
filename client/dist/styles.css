@@ -274,7 +274,12 @@
 }
 
 .Asubtitle {
+  padding-top: 5px;
   padding-left: 15px;
+}
+
+.asterisk {
+  text-decoration-color: red;
 }
  /*
  *  RELATED ITEMS

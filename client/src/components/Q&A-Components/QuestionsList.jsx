@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import Question from './Question.jsx';
 
-// eslint-disable-next-line react/prop-types
+const MoreQuestions = styled.div`
+  height: 350px;
+  width: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
+  margin: auto;
+`;
+
 const QuestionsList = ({
   questions, moreQuestions, search, searchTerm,
 }) => {
@@ -24,7 +32,7 @@ const QuestionsList = ({
   if (moreQuestions) {
     return (
       <div>
-        <ul className="more-questions-list">
+        <ul>
           {filteredQuestions.map((question) => (
             <div key={question.question_id}>
               <Question

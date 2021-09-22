@@ -27,6 +27,7 @@ const AnswerForm = ({ questionId, questionBody }) => {
         setEmail('');
       })
       .catch((err) => {
+        console.log(err);
         // console.log(err.response.data);
         // console.log(err.response);
       });

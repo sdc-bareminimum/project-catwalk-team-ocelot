@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { ProductContext } from './ProductContext.jsx';
@@ -16,17 +17,21 @@ function QuestionsAndAnswers({ productId }) {
 
   const { setRecordInteraction } = useContext(ProductContext);
 
-  const fetchQuestions = () => {
-    axios.get(`/api/qa/questions?product_id=${productId}`)
+  useEffect(() => {
+    const { CancelToken } = axios;
+    let cancel;
+    axios.get(`/api/qa/questions?product_id=${productId}`, {
+      cancelToken: new CancelToken((c) => { cancel = c; }),
+    })
       .then((res) => {
         // console.log(res.data.results);
         setQuestions(res.data.results);
         setCurrentQuestions(res.data.results);
+      })
+      .catch((e) => {
+        if (axios.isCancel(e)) return;
       });
-  };
-
-  useEffect(() => {
-    fetchQuestions();
+    return () => cancel();
   }, [productId]);
 
   const handleMoreQuestions = (e) => {
@@ -47,10 +52,8 @@ function QuestionsAndAnswers({ productId }) {
     setSearchTerm(e.target.value);
     if (searchTerm.length + 1 > 2) {
       setSearch(true);
-      // showMoreQuestions(true);
     } else {
       setSearch(false);
-      // showMoreQuestions(false);
     }
   };
 

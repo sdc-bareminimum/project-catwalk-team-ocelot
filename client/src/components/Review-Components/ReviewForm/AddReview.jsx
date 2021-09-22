@@ -5,6 +5,7 @@ import StarRatings from 'react-star-ratings';
 import { GiCheckMark } from 'react-icons/gi';
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import { ProductContext } from '../../ProductContext.jsx';
 import {
   ratingDesc, fitDesc, comfortDesc, qualityDesc, lenDesc, widthDesc, sizeDesc,
 } from './helper.js';
@@ -16,13 +17,12 @@ import {
 } from '../Review-Reducers/formsReducer.jsx';
 import ValidationMessage from './ValidationMessage.jsx';
 import ImagePreview from './ImagePreview.jsx';
-import { ProductContext } from '../../ProductContext.jsx';
 
 const AddReview = (props) => {
   const [state, dispatch] = useReducer(reviewFormReducer, initialState);
   const [submitClick, setSubmitClick] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
-  const product = useContext(ProductContext);
+  const { productInfo, setRecordInteraction } = useContext(ProductContext);
 
   const {
     characteristics, sizefit, widthlength, getReviews, productId, selected, count,
@@ -32,9 +32,19 @@ const AddReview = (props) => {
 
   const handleChange = (e) => {
     dispatch({ type: e.target.name, payload: e.target.value });
+    setRecordInteraction({
+      element: `${e.target}`,
+      widget: 'Review and Rating',
+      time: new Date(),
+    });
   };
   const handlePhotoChange = (e) => {
     dispatch({ type: ADD_PHOTOS, payload: URL.createObjectURL(e.target.files[0]) });
+    setRecordInteraction({
+      element: `${e.target}`,
+      widget: 'Review and Rating',
+      time: new Date(),
+    });
   };
 
   const handlePhotoDelete = (name) => {
@@ -115,7 +125,7 @@ const AddReview = (props) => {
               Write Your Review
               {' '}
               <br />
-              <small className="text-muted">{`About the ${product.productInfo.name}`}</small>
+              <small className="text-muted">{`About the ${productInfo.name}`}</small>
             </h4>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
           </div>

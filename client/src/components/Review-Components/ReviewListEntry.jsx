@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import StarRatings from 'react-star-ratings';
 import axios from 'axios';
+import { ProductContext } from '../ProductContext.jsx';
 
 const ReviewListEntry = (props) => {
   const [formatDate, setDate] = useState('January 1, 2019');
   const {
     productId, count, getReviews, review, selected,
   } = props;
+  const { setRecordInteraction } = useContext(ProductContext);
 
   const dateFormat = (date) => new Promise((resolve) => {
     resolve(date);
@@ -19,20 +21,28 @@ const ReviewListEntry = (props) => {
       setDate(correctDateFormat);
     });
 
-  const helpfulRequest = () => {
+  const helpfulRequest = (e) => {
     axios.put(`/api/reviews/${review.review_id}/helpful`)
       .then(() => {
         getReviews(productId, count, selected);
-        console.log('Helpful Updated');
       });
+    setRecordInteraction({
+      element: `${e.target}`,
+      widget: 'Review and Rating',
+      time: new Date(),
+    });
   };
 
-  const reportRequest = () => {
+  const reportRequest = (e) => {
     axios.put(`/api/reviews/${review.review_id}/report`)
       .then(() => {
         getReviews(productId, count, selected);
-        console.log('Review reported');
       });
+    setRecordInteraction({
+      element: `${e.target}`,
+      widget: 'Review and Rating',
+      time: new Date(),
+    });
   };
 
   useEffect(() => {

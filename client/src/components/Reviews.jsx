@@ -27,24 +27,44 @@ function Reviews({ productId }) {
   const [state, dispatch] = useReducer(reviewReducers, initialState);
   const [reviewState, reviewDispatch] = useReducer(reviewListReducer, initState);
   const [size, setSize] = useState(0);
-  const product = useContext(ProductContext);
+  const { getAllReviews, setRecordInteraction } = useContext(ProductContext);
   const [comfort, setComfort] = useState(0);
   const [starFilter, setStarFilter] = useState(initialStarFilter);
 
   const handleChange = (e) => {
     setStarFilter((prevState) => ({ ...prevState, [e.target.value]: !prevState[e.target.value] }));
+    setRecordInteraction({
+      element: `${e.target}`,
+      widget: 'Review and Rating',
+      time: new Date(),
+    });
   };
 
   const handleSortChange = (e) => {
     reviewDispatch({ type: SELECT_CHANGE, payload: e.target.value });
+    setRecordInteraction({
+      element: `${e.target}`,
+      widget: 'Review and Rating',
+      time: new Date(),
+    });
   };
 
   const handleModalClick = (e) => {
     reviewDispatch({ type: MODAL_CLICK });
+    setRecordInteraction({
+      element: `${e.target}`,
+      widget: 'Review and Rating',
+      time: new Date(),
+    });
   };
 
   const handleMoreReviews = (e) => {
     reviewDispatch({ type: SET_COUNT });
+    setRecordInteraction({
+      element: `${e.target}`,
+      widget: 'Review and Rating',
+      time: new Date(),
+    });
   };
 
   const getMetaData = (id) => {
@@ -78,7 +98,7 @@ function Reviews({ productId }) {
   };
 
   const getReviews = (id, count, selected) => {
-    product.getAllReviews(id, count, selected, (err, data) => {
+    getAllReviews(id, count, selected, (err, data) => {
       if (err) {
         console.log(err);
       } else {

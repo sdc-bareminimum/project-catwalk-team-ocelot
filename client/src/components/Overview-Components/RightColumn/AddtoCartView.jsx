@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import _ from 'underscore';
 import { BsStar } from 'react-icons/bs';
+import { ProductContext } from '../../ProductContext.jsx';
 
 function AddtoCartView({ selectedStyle }) {
   const { skus } = selectedStyle;
@@ -8,6 +9,8 @@ function AddtoCartView({ selectedStyle }) {
   let renderDefaultSizeOption;
   let renderQty;
   let renderDefaultQtyOption;
+
+  const { setRecordInteraction } = useContext(ProductContext);
 
   // STATE DECLARATION
   const [validSkus, setValidSkus] = useState([]);
@@ -73,12 +76,17 @@ function AddtoCartView({ selectedStyle }) {
     x.size = 1;
   }
 
-  function handleAddCart() {
+  function handleAddCart(e) {
     if (selectedSize === 'DEFAULT') {
       setCartToggle(!cartToggle);
       const x = document.getElementById('sizeSelect');
       x.size = x.options.length;
     }
+    setRecordInteraction({
+      element: `${e.target}`,
+      widget: 'Overview',
+      time: new Date(),
+    });
   }
 
   return (
@@ -108,7 +116,7 @@ function AddtoCartView({ selectedStyle }) {
       {/* Add to Cart and Favorite */}
       <div className="row">
         <div className={`col-9 ${validSkus.length === 0 ? 'd-none' : ''}`}>
-          <button onClick={handleAddCart} type="button" className="btn btn-outline-dark w-100 p-3">Add to Cart</button>
+          <button id="addToCart" onClick={handleAddCart} type="button" className="btn btn-outline-dark w-100 p-3">Add to Cart</button>
         </div>
         <div className="col-3">
           <button type="button" className="btn btn-outline-dark w-100 p-3" aria-hidden="true"><BsStar /></button>

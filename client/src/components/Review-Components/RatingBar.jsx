@@ -12,7 +12,20 @@ const RatingBar = ({
     return (
       <div key={uniqid()}>
         <p className="progress-label">
-          <input className="check-box-rating" type="checkbox" checked={starFilter[star]} value={star.toString()} onChange={handleChange} />
+          <input
+            className="check-box-rating"
+            style={{
+              position: 'relative',
+              left: '28px',
+              top: '5px',
+              cursor: 'pointer',
+              opacity: '0%',
+            }}
+            type="checkbox"
+            checked={starFilter[star]}
+            value={star.toString()}
+            onChange={handleChange}
+          />
           <u style={starFilter[star] ? { color: 'green' } : { color: 'black' }}>
             {star}
             {' '}

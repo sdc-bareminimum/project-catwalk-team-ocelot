@@ -15,7 +15,7 @@ const ImagePreview = ({ images, handlePhotoDelete }) => {
   const { setRecordInteraction } = useContext(ProductContext);
 
   return (
-    <div className="image-preview">
+    <div className="image-preview" style={{ display: 'flex' }}>
       {images.length > 0 ? images.map((image) => (
         <div key={uniqid()}>
           <img
@@ -26,7 +26,13 @@ const ImagePreview = ({ images, handlePhotoDelete }) => {
           <IoMdCloseCircle
             className="photo-upload-delete"
             size="1.5em"
-            style={{ backgroundColor: 'white', borderRadius: '50%' }}
+            style={{
+              backgroundColor: 'white',
+              borderRadius: '50%',
+              position: 'relative',
+              top: '-35px',
+              left: '-26px',
+            }}
             onClick={(e) => {
               handlePhotoDelete(image); setRecordInteraction({
                 element: `${e.target}`,

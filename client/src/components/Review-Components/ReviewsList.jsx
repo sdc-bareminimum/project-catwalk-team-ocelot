@@ -15,7 +15,12 @@ const ReviewsList = (props) => {
   } = props;
 
   const searchBar = () => (
-    <div className="review-search">
+    <div
+      className="review-search"
+      style={{
+        marginBottom: '15px',
+      }}
+    >
       <InputGroup className="mb-3">
         <InputGroup.Text id="inputGroup-sizing-default">Search</InputGroup.Text>
         <FormControl

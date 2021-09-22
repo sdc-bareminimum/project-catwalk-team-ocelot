@@ -2,7 +2,12 @@ import React from 'react';
 
 function Announcement() {
   return (
-    <div id="announcement">
+    <div
+      id="announcement"
+      style={{
+        margin: '35px',
+      }}
+    >
       <p className="text-center">
         SITE WIDE ANNOUNCEMENT MESSAGE! SALE / DISCOUNT
         {' '}

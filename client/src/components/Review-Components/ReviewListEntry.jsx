@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import StarRatings from 'react-star-ratings';
 import axios from 'axios';
-import { GiCheckMark } from 'react-icons/gi';
 import { ProductContext } from '../ProductContext.jsx';
 
 const ReviewListEntry = (props) => {
@@ -90,7 +89,7 @@ const ReviewListEntry = (props) => {
           ? (
             <div>
               <p>
-                <GiCheckMark />
+                <img src="check2.svg" alt="check" />
                 <small className="recommend"> I recommend this product</small>
               </p>
             </div>

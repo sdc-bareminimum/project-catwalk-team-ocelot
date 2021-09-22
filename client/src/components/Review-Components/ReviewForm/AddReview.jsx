@@ -2,7 +2,6 @@ import React, { useReducer, useState, useContext } from 'react';
 import axios from 'axios';
 import uniqid from 'uniqid';
 import StarRatings from 'react-star-ratings';
-import { GiCheckMark } from 'react-icons/gi';
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import { ProductContext } from '../../ProductContext.jsx';
@@ -299,7 +298,7 @@ const AddReview = (props) => {
                           ? (
                             <>
                               <span>Review Submitted! </span>
-                              <GiCheckMark />
+                              <img src="check2.svg" alt="check" />
                             </>
                           )
                           : <ValidationMessage state={state} />}

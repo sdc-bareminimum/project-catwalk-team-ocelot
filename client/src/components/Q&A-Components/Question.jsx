@@ -4,7 +4,7 @@ import AnswersList from './AnswersList.jsx';
 import AnswerForm from './AnswerForm.jsx';
 import { ProductContext } from '../ProductContext.jsx';
 
-const Question = ({ question }) => {
+const Question = ({ question, searchTerm }) => {
   const [answers, setAnswers] = useState([]);
   const [currentAnswers, setCurrentAnswers] = useState(answers);
   const [helpful, setHelpful] = useState(question.question_helpfulness);
@@ -81,6 +81,23 @@ const Question = ({ question }) => {
       widget: 'QuestionsAndAnswers',
       time: new Date(),
     });
+  };
+
+  const getHighlightedText = (text, highlight) => {
+    // Split on highlight term and include term into parts, ignore case
+    const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+    return (
+      <span>
+        {' '}
+        { parts.map((part, i) => (
+          <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? { fontWeight: 'bold' } : {}}>
+            { part }
+          </span>
+        ))}
+        {' '}
+
+      </span>
+    );
   };
 
   return (

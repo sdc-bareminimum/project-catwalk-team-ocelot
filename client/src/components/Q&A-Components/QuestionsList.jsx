@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import Question from './Question.jsx';
 
 // eslint-disable-next-line react/prop-types
-const QuestionsList = ({ questions, moreQuestions, search, searchTerm }) => {
+const QuestionsList = ({
+  questions, moreQuestions, search, searchTerm,
+}) => {
   questions.sort((a, b) => b.helpfulness - a.helpfulness);
 
   const filteredQuestions = [];
@@ -17,8 +19,6 @@ const QuestionsList = ({ questions, moreQuestions, search, searchTerm }) => {
     sortedQuestions = filteredQuestions.filter((question) => (
       question.question_body.toLowerCase().includes(searchTerm.toLowerCase()) ? question : null
     ));
-    // console.log(searchTerm);
-    // console.log(sortedQuestions);
   }
 
   if (moreQuestions) {
@@ -50,6 +50,7 @@ const QuestionsList = ({ questions, moreQuestions, search, searchTerm }) => {
               <Question
                 key={question.question_id}
                 question={question}
+                searchTerm={searchTerm}
               />
             ))}
         </ul>

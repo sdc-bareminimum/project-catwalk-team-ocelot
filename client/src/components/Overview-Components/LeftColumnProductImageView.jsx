@@ -132,10 +132,6 @@ function LeftColumnProductImageView({ selectedStyle, fullscreenToggle, setFullsc
   return (
     <div className={`${fullscreenToggle ? 'col-lg-12 h-100 g-0' : 'col-lg-8'}`}>
       <div id="mainImage" className="carousel slide carousel-fade bg-light" data-interval="false">
-<<<<<<< HEAD
-=======
-        {/* <div id="mainImageInner" className="carousel-inner"> */}
->>>>>>> 116904c (Refactored using Styled-Components)
         <MainImageInner id="mainImageInner" className="carousel-inner" showFullscreen={fullscreenToggle}>
           {renderMainImages}
         </MainImageInner>

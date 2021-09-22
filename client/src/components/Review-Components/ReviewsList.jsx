@@ -57,7 +57,7 @@ const ReviewsList = (props) => {
             selected={selected}
           />
         ))}
-        {(totalRatings >= 2 && totalRatings >= count)
+        {(reviews.length >= 2 && reviews.length >= count)
           ? (
             <div className="btn-toolbar pull-right">
               <button onClick={handleMoreReviews} type="button" className="btn btn-outline-dark w-30 p-3">MORE REVIEWS</button>

@@ -16,9 +16,6 @@ const AnswersList = ({ answers }) => {
     });
   };
 
-  // const style = {
-  //   overflowY: moreAnswers ? 'scroll' : 'hidden',
-  // };
 
   if (moreAnswers) {
     return (

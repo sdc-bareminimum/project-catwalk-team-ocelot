@@ -45,7 +45,7 @@ function QuestionsAndAnswers({ productId }) {
       time: new Date(),
     });
     setSearchTerm(e.target.value);
-    if (searchTerm.length > 1) {
+    if (searchTerm.length + 1 > 2) {
       setSearch(true);
       // showMoreQuestions(true);
     } else {
@@ -65,7 +65,7 @@ function QuestionsAndAnswers({ productId }) {
 
   return (
     <div className="container mb-5">
-      <h5>QUESTIONS & ANSWERS</h5>
+      <h5>Questions & Answers</h5>
       <SearchQuestion
         handleSearch={handleSearch}
       />

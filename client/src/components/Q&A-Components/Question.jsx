@@ -1,3 +1,6 @@
+/* eslint-disable max-len */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import AnswersList from './AnswersList.jsx';
@@ -83,27 +86,29 @@ const Question = ({ question, searchTerm }) => {
     });
   };
 
-  const getHighlightedText = (text, highlight) => {
-    // Split on highlight term and include term into parts, ignore case
-    const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
-    return (
-      <span>
-        {' '}
-        { parts.map((part, i) => (
-          <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? { fontWeight: 'bold' } : {}}>
-            { part }
-          </span>
-        ))}
-        {' '}
+  // const getHighlightedText = (text, highlight) => {
+  //   // Split on highlight term and include term into parts, ignore case
+  //   const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+  //   return (
+  //     <span>
+  //       {' '}
+  //       { parts.map((part, i) => (
+  //         <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? { fontWeight: 'bold' } : {}}>
+  //           { part }
+  //         </span>
+  //       ))}
+  //       {' '}
 
-      </span>
-    );
-  };
+  //     </span>
+  //   );
+  // };
 
   return (
     <>
       <div className="q-entry">
-        <span className="q-body">{`Q: ${question.question_body}`}</span>
+        <span className="q-body">
+          {`Q: ${question.question_body}`}
+        </span>
         <div>
           <span
             className="helpful-review"

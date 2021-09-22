@@ -47,11 +47,13 @@ const QuestionsList = ({
               <span>Hmm, no matches. To get an answer, try different keywords or post your question to the community.</span>
             )
             : sortedQuestions.map((question) => (
+
               <Question
                 key={question.question_id}
                 question={question}
                 searchTerm={searchTerm}
               />
+
             ))}
         </ul>
       </div>

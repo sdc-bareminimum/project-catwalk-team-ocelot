@@ -25,7 +25,7 @@ const ReviewListEntry = (props) => {
   const helpfulRequest = (e) => {
     axios.put(`/api/reviews/${review.review_id}/helpful`)
       .then(() => {
-        getReviews(productId, count, selected);
+        getReviews(productId, selected);
       });
     setRecordInteraction({
       element: `${e.target}`,
@@ -37,7 +37,7 @@ const ReviewListEntry = (props) => {
   const reportRequest = (e) => {
     axios.put(`/api/reviews/${review.review_id}/report`)
       .then(() => {
-        getReviews(productId, count, selected);
+        getReviews(productId, selected);
       });
     setRecordInteraction({
       element: `${e.target}`,

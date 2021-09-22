@@ -1,10 +1,18 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import { FaSearch } from 'react-icons/fa';
+import styled from 'styled-components';
+
+const StyledNavbar = styled.nav`
+  height: 80px;
+`;
 
 function Navbar() {
   return (
+<<<<<<< HEAD
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-5 py-3">
+=======
+    <StyledNavbar className="navbar navbar-expand-lg navbar-light bg-secondary px-5 py-3">
+>>>>>>> main
       <div className="container-fluid">
         <a className="navbar-brand text-white" href="/"><img src="./catpaw.png" alt="logo" width={50} height={50} /></a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,7 +25,7 @@ function Navbar() {
           </form>
         </div>
       </div>
-    </nav>
+    </StyledNavbar>
   );
 }
 

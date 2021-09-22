@@ -47,7 +47,7 @@ const ReviewsList = (props) => {
       </div>
       {searchBar()}
       <div>
-        {reviews.map((review) => (
+        {reviews.slice(0, count).map((review) => (
           <ReviewListEntry
             productId={productId}
             count={count}

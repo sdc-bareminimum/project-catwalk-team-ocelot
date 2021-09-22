@@ -73,7 +73,7 @@ const AddReview = (props) => {
         setErrorMessage(false);
         setSubmitClick(true);
         dispatch({ type: CLEAR_ENTRIES });
-        getReviews(productId, count, selected);
+        getReviews(productId, selected);
         console.log('Review Posted');
       })
       .catch((err) => {

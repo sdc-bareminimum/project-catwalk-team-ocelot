@@ -97,8 +97,8 @@ function Reviews({ productId }) {
       });
   };
 
-  const getReviews = (id, count, selected) => {
-    getAllReviews(id, count, selected, (err, data) => {
+  const getReviews = (id, selected) => {
+    getAllReviews(id, selected, (err, data) => {
       if (err) {
         console.log(err);
       } else {
@@ -133,8 +133,8 @@ function Reviews({ productId }) {
   }, [productId]);
 
   useEffect(() => {
-    getReviews(productId, reviewState.count, reviewState.selected);
-  }, [productId, starFilter, reviewState.count, reviewState.selected]);
+    getReviews(productId, reviewState.selected);
+  }, [productId, starFilter, reviewState.selected]);
 
   return (
     <div className="container mb-5">

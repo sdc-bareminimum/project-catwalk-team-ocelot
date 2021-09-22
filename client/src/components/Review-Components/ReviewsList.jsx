@@ -1,7 +1,7 @@
-import React, { useReducer, useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
+import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import ReviewListEntry from './ReviewListEntry.jsx';
 import AddReview from './ReviewForm/AddReview.jsx';
@@ -10,22 +10,23 @@ const ReviewsList = (props) => {
   const [searchText, setsearchText] = useState('');
   const {
     productId, totalRatings, characteristics, sizefit, widthlength, handleSortChange,
-    handleModalClick, handleMoreReviews, reviews, count, selected, getReviews,
+    handleModalClick, handleMoreReviews, reviews, count,
+    selected, getReviews,
   } = props;
 
   const searchBar = () => (
     <div className="review-search">
-      <Form className="d-flex">
+      <InputGroup className="mb-3">
+        <InputGroup.Text id="inputGroup-sizing-default">Search</InputGroup.Text>
         <FormControl
-          type="search"
-          placeholder="Search"
-          className="mr-2"
-          aria-label="Search"
+          aria-label="Default"
+          aria-describedby="inputGroup-sizing-default"
+          id="searchbar-form"
+          placeholder="Search for reviews..."
           value={searchText}
           onChange={(e) => setsearchText(e.target.value)}
         />
-        <Button variant="outline-dark">Search</Button>
-      </Form>
+      </InputGroup>
     </div>
   );
 
@@ -47,7 +48,16 @@ const ReviewsList = (props) => {
       </div>
       {searchBar()}
       <div>
-        {reviews.slice(0, count).map((review) => (
+        {searchText.length >= 3 ? reviews.filter((review) => {
+          const bodyCheck = review.body.toLowerCase().includes(searchText.toLowerCase());
+          const summaryCheck = review.summary.toLowerCase().includes(searchText.toLowerCase());
+          if (bodyCheck) {
+            return review;
+          }
+          if (summaryCheck) {
+            return review;
+          }
+        }).slice(0, count).map((review) => (
           <ReviewListEntry
             productId={productId}
             count={count}
@@ -55,6 +65,17 @@ const ReviewsList = (props) => {
             key={review.review_id}
             review={review}
             selected={selected}
+            searchText={searchText}
+          />
+        )) : reviews.slice(0, count).map((review) => (
+          <ReviewListEntry
+            productId={productId}
+            count={count}
+            getReviews={getReviews}
+            key={review.review_id}
+            review={review}
+            selected={selected}
+            searchText={searchText}
           />
         ))}
         {(reviews.length >= 2 && reviews.length >= count)

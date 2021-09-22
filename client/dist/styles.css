@@ -614,6 +614,12 @@ select.styled-select:focus {
   opacity: 0%;
 }
 
+#searchbar-form.form-control:focus{
+  border-color: green;
+  -webkit-box-shadow: none;
+  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.2);
+}
+
 /* .check-box-rating input[type="checkbox"] {
   display: none;
   visibility: hidden;

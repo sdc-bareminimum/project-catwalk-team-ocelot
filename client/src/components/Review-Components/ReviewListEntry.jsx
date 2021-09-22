@@ -7,7 +7,7 @@ import { ProductContext } from '../ProductContext.jsx';
 const ReviewListEntry = (props) => {
   const [formatDate, setDate] = useState('January 1, 2019');
   const {
-    productId, getReviews, review, selected,
+    productId, getReviews, review, selected, searchText,
   } = props;
   const { setRecordInteraction } = useContext(ProductContext);
 
@@ -46,6 +46,23 @@ const ReviewListEntry = (props) => {
     });
   };
 
+  const getHighlightedText = (text, highlight) => {
+    // Split on highlight term and include term into parts, ignore case
+    const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+    return (
+      <span>
+        {' '}
+        { parts.map((part, i) => (
+          <span key={i} style={part.toLowerCase() === highlight.toLowerCase() ? { backgroundColor: '#FFFF00', fontWeight: 'bold' } : {}}>
+            { part }
+          </span>
+        ))}
+        {' '}
+
+      </span>
+    );
+  };
+
   useEffect(() => {
     dateFormat(review.date);
   }, []);
@@ -63,10 +80,10 @@ const ReviewListEntry = (props) => {
               <p><strong>{`${review.summary.substring(0, 60)}...`}</strong></p>
               <p><small>{review.summary.substring(60)}</small></p>
             </div>
-          ) : <p><strong>{review.summary}</strong></p>}
+          ) : <p><strong>{getHighlightedText(review.summary, searchText)}</strong></p>}
       </div>
       <div>
-        <p><small>{review.body}</small></p>
+        <p><small>{getHighlightedText(review.body, searchText)}</small></p>
       </div>
       <div>
         {review.recommend

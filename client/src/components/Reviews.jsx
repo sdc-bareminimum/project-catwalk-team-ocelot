@@ -124,6 +124,7 @@ function Reviews({ productId }) {
           }
         });
         reviewDispatch({ type: FETCH_REVIEW_SUCCESS, payload: reviewFilter || data.results });
+        reviewDispatch({ type: SEARCH_RESULT, payload: data.results });
       }
     });
   };

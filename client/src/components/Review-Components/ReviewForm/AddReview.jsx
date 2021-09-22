@@ -32,19 +32,9 @@ const AddReview = (props) => {
 
   const handleChange = (e) => {
     dispatch({ type: e.target.name, payload: e.target.value });
-    setRecordInteraction({
-      element: `${e.target}`,
-      widget: 'Review and Rating',
-      time: new Date(),
-    });
   };
   const handlePhotoChange = (e) => {
     dispatch({ type: ADD_PHOTOS, payload: URL.createObjectURL(e.target.files[0]) });
-    setRecordInteraction({
-      element: `${e.target}`,
-      widget: 'Review and Rating',
-      time: new Date(),
-    });
   };
 
   const handlePhotoDelete = (name) => {

@@ -32,7 +32,7 @@ const QuestionsList = ({
   if (moreQuestions) {
     return (
       <div>
-        <ul>
+        <MoreQuestions>
           {filteredQuestions.map((question) => (
             <div key={question.question_id}>
               <Question
@@ -41,7 +41,7 @@ const QuestionsList = ({
               />
             </div>
           ))}
-        </ul>
+        </MoreQuestions>
       </div>
     );
   }

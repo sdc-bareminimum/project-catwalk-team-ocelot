@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-
+import { ProductContext } from './ProductContext.jsx';
 import SearchQuestion from './Q&A-Components/SearchQuestion.jsx';
 import QuestionsList from './Q&A-Components/QuestionsList.jsx';
 import QuestionForm from './Q&A-Components/QuestionsForm.jsx';
@@ -13,6 +13,8 @@ function QuestionsAndAnswers({ productId }) {
   const [search, setSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [moreQuestions, showMoreQuestions] = useState(false);
+
+  const { setRecordInteraction } = useContext(ProductContext);
 
   const fetchQuestions = () => {
     axios.get(`/api/qa/questions?product_id=${productId}`)
@@ -27,11 +29,21 @@ function QuestionsAndAnswers({ productId }) {
     fetchQuestions();
   }, [productId]);
 
-  const handleMoreQuestions = () => {
+  const handleMoreQuestions = (e) => {
+    setRecordInteraction({
+      element: `${e.target}`,
+      widget: 'QuestionsAndAnswers',
+      time: new Date(),
+    });
     showMoreQuestions((more) => !more);
   };
 
   const handleSearch = (e) => {
+    setRecordInteraction({
+      element: `${e.target}`,
+      widget: 'QuestionsAndAnswers',
+      time: new Date(),
+    });
     setSearchTerm(e.target.value);
     if (searchTerm.length > 1) {
       setSearch(true);
@@ -40,6 +52,15 @@ function QuestionsAndAnswers({ productId }) {
       setSearch(false);
       // showMoreQuestions(false);
     }
+  };
+
+  const handleAddQuestion = (e) => {
+    setQuestionForm(true);
+    setRecordInteraction({
+      element: `${e.target}`,
+      widget: 'QuestionsAndAnswers',
+      time: new Date(),
+    });
   };
 
   return (
@@ -72,7 +93,7 @@ function QuestionsAndAnswers({ productId }) {
         className="btn btn-outline-dark add-a-question-button"
         data-bs-toggle="modal"
         data-bs-target="#questionModal"
-        onClick={() => { setQuestionForm(true); }}
+        onClick={handleAddQuestion}
       >
         ADD A QUESTION +
       </button>

@@ -620,6 +620,10 @@ select.styled-select:focus {
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.2);
 }
 
+#announcement{
+  margin: 35px;
+}
+
 /* .check-box-rating input[type="checkbox"] {
   display: none;
   visibility: hidden;

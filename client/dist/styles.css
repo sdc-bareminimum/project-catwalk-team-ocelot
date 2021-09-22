@@ -72,18 +72,12 @@
   text-decoration: underline overline;
 }
 
-.helpful:hover {
-  cursor: pointer;
-  color: #79B4B7;
-  font-weight: bold;
-}
 
 .helpful-review:hover{
   font-size: .7em;
   cursor: pointer;
   text-decoration: underline;
 }
-
 
 
 .report{
@@ -103,12 +97,6 @@
   font-size: 15px;
 }
 
-.helpful-grid {
-  font-weight: 400;
-  line-height: 1.5;
-  color: #198754
-}
-
 .seller {
   font-weight: bold;
 }
@@ -122,7 +110,7 @@
   font-weight: bold;
 }
 
-.answer-helpful {
+.answer-helpful:hover {
   cursor: pointer;
   text-decoration: underline;
 }

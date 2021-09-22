@@ -18,6 +18,15 @@ import {
 import ValidationMessage from './ValidationMessage.jsx';
 import ImagePreview from './ImagePreview.jsx';
 
+// Styles
+
+const radioCharacteristicsLabel = {
+  position: 'relative',
+  paddingTop: '10px',
+  paddingLeft: '20px',
+  textDecoration: 'underline',
+};
+
 const AddReview = (props) => {
   const [state, dispatch] = useReducer(reviewFormReducer, initialState);
   const [submitClick, setSubmitClick] = useState(false);
@@ -122,7 +131,7 @@ const AddReview = (props) => {
           <div className="modal-body">
             <form>
               <p><strong>Overall Rating</strong></p>
-              <div className="star-rating-form">
+              <div className="star-rating-form" style={{ alignItems: 'stretch', marginBottom: '16px' }}>
                 <StarRatings
                   changeRating={(rating) => {
                     dispatch({ type: SELECT_RATING, payload: rating });
@@ -134,7 +143,7 @@ const AddReview = (props) => {
                   numberOfStars={5}
                   starDimension="30px"
                 />
-                <span className="select-rating-span">{ratingDesc(state.selectedRating)}</span>
+                <span className="select-rating-span" style={{ paddingLeft: '25px', verticalAlign: 'middle' }}>{ratingDesc(state.selectedRating)}</span>
               </div>
               <div className="mb-3">
                 <p><strong>Do you recommend this product?</strong></p>
@@ -169,19 +178,19 @@ const AddReview = (props) => {
               </div>
               <div className="characteristics-radio">
                 <p><strong>Characteristics</strong></p>
-                <h6 className="radio-characteristic-labels">
+                <h6 className="radio-characteristic-labels" style={radioCharacteristicsLabel}>
                   {characteristics.Fit ? 'Fit' : 'Size'}
                 </h6>
                 {characteristicsRadio(characteristics.Fit, fitDesc,
                   sizeDesc, state.fit, state.size, ADD_FIT, ADD_SIZE)}
-                <h6 className="radio-characteristic-labels">
+                <h6 className="radio-characteristic-labels" style={radioCharacteristicsLabel}>
                   {characteristics.Length ? 'Length' : 'Width'}
                 </h6>
                 {characteristicsRadio(characteristics.Length, lenDesc,
                   widthDesc, state.length, state.width, ADD_LENGTH, ADD_WIDTH)}
-                <h6 className="radio-characteristic-labels">Comfort</h6>
+                <h6 className="radio-characteristic-labels" style={radioCharacteristicsLabel}>Comfort</h6>
                 {qualityComfortRadio(comfortDesc, state.comfort, ADD_COMFORT)}
-                <h6 className="radio-characteristic-labels">Quality</h6>
+                <h6 className="radio-characteristic-labels" style={radioCharacteristicsLabel}>Quality</h6>
                 {qualityComfortRadio(qualityDesc, state.quality, ADD_QUALITY)}
               </div>
               <div className="mb-3">
@@ -266,7 +275,7 @@ const AddReview = (props) => {
                   </small>
                 </p>
               </div>
-              <div className="form-group">
+              <div className="form-group" style={{ marginBottom: '20px' }}>
                 <label htmlFor="exampleFormControlFile1">
                   <strong>Photo Upload</strong>
                   <br />

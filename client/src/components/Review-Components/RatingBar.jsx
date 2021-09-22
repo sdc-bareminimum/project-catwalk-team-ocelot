@@ -10,8 +10,8 @@ const RatingBar = ({
     const toNumberStar = Number(ratings[star]) || 0;
     const rating = toNumberStar ? (toNumberStar / total) * 100 : 0;
     return (
-      <div key={uniqid()}>
-        <p className="progress-label">
+      <div style={{ paddingLeft: 0 }} key={uniqid()}>
+        <p className="progress-label" style={{ float: 'left', marginRight: '1em' }}>
           <input
             className="check-box-rating"
             style={{
@@ -37,7 +37,7 @@ const RatingBar = ({
     );
   });
   return (
-    <div id="progress-bar" className="row">
+    <div id="progress-bar" style={{ fontSize: 'small' }} className="row">
       {progressBar}
     </div>
   );

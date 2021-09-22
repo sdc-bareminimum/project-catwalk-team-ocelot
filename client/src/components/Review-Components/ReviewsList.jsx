@@ -38,11 +38,11 @@ const ReviewsList = (props) => {
   return (
     <>
       <div className="review-sort">
-        <p className="review-sort-font">
+        <p className="review-sort-font" style={{ fontWeight: 'bold', paddingRight: '10px' }}>
           {`${totalRatings} reviews, sorted by`}
         </p>
         <form onChange={handleSortChange}>
-          <div className="form-group">
+          <div className="form-group" style={{ marginBottom: '20px' }}>
             <select className="styled-select">
               <option value="relevant">relevance</option>
               <option value="helpful">helpful</option>
@@ -109,7 +109,7 @@ const ReviewsList = (props) => {
               >
                 ADD A REVIEW +
               </button>
-              <h4 className="end-page text-muted">End of Page</h4>
+              <h4 className="end-page text-muted" style={{ marginTop: '20px' }}>End of Page</h4>
             </div>
           )}
       </div>

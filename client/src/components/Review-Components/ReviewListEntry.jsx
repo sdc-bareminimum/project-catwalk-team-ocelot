@@ -71,7 +71,7 @@ const ReviewListEntry = (props) => {
     <div className="review-container">
       <div className="d-flex justify-content-between">
         <StarRatings starSpacing="2px" rating={review.rating} starRatedColor="rgb(0,0,0)" numberOfStars={5} starDimension="15px" />
-        <p className="username"><small>{`${review.reviewer_name}, ${formatDate}`}</small></p>
+        <p className="username" style={{ fontSize: '.7em' }}><small>{`${review.reviewer_name}, ${formatDate}`}</small></p>
       </div>
       <div>
         {review.summary.length > 60
@@ -106,17 +106,17 @@ const ReviewListEntry = (props) => {
           ) : <div /> }
       </div>
       <div>
-        <p className="helpful-review">
+        <p className="helpful-review" style={{ fontSize: '.7em' }}>
           <small>
             Helpful?
             {' '}
-            <u onClick={helpfulRequest} className="helpful-review-yes">Yes</u>
+            <u onClick={helpfulRequest} className="helpful-review-yes" style={{ cursor: 'pointer' }}>Yes</u>
             {' '}
             (
             {review.helpfulness}
             ) |
             {' '}
-            <u onClick={reportRequest} className="helpful-review-yes">Report</u>
+            <u onClick={reportRequest} className="helpful-review-yes" style={{ cursor: 'pointer' }}>Report</u>
           </small>
         </p>
       </div>

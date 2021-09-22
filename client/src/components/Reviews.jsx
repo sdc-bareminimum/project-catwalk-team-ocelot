@@ -143,11 +143,20 @@ function Reviews({ productId }) {
       <div className="container">
         <div className="row">
           <div className="col-md-4">
-            <p className="average-score">
+            <p
+              className="average-score"
+              style={{
+                float: 'left',
+                marginRight: '4px',
+                marginBottom: 0,
+                fontSize: '50px',
+                fontWeight: 'bold',
+              }}
+            >
               {(Math.round(state.average * 10) / 10)}
             </p>
             <Star average={(Math.round(state.average * 4) / 4).toFixed(2)} />
-            <p className="recommended">
+            <p className="recommended" style={{ marginTop: '40px', width: '100%', fontSize: 'small' }}>
               {Math.round(state.recommend)}
               % of reviews recommend this product
             </p>

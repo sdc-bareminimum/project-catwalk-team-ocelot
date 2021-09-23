@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { ProductContext } from '../ProductContext.jsx';
@@ -74,14 +76,15 @@ const Answer = ({ answer }) => {
         <span
           className="answer-helpful"
           onClick={handleHelpClick}
-          >Helpful? Yes:
+        >
+          Helpful? Yes:
           {voted ? `(${helpful})` : `(${helpful})`}
         </span>
         <small>{'  |  '}</small>
         <span
           className="answer-helpful"
           onClick={handleReport}
-          >
+        >
           {reported ? 'Answer was Reported' : 'Report'}
         </span>
       </div>

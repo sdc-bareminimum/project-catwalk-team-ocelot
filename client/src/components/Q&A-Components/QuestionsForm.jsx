@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { ProductContext } from '../ProductContext.jsx';
@@ -82,7 +83,7 @@ const QuestionForm = ({ productId, fetchQuestions }) => {
                 <span className="email-notice">For authentication reasons, you will not be emailed</span>
               </div>
               <div className="mb-3">
-                <label  className="col-form-label">*Your question:</label>
+                <label className="col-form-label">*Your question:</label>
                 <textarea
                   type="text"
                   className="form-control"

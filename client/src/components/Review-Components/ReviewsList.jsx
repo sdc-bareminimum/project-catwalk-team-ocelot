@@ -119,7 +119,12 @@ const ReviewsList = (props) => {
               >
                 ADD A REVIEW +
               </button>
-              <h4 className="end-page text-muted" style={{ marginTop: '20px' }}>End of Page</h4>
+              <p
+                className="end-page text-muted"
+                style={{ marginTop: '20px', fontWeight: 'lighter', fontStyle: 'italicized' }}
+              >
+                End of Page
+              </p>
             </div>
           )}
       </div>

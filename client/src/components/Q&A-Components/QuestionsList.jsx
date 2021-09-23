@@ -15,16 +15,9 @@ const QuestionsList = ({
 }) => {
   questions.sort((a, b) => b.helpfulness - a.helpfulness);
 
-  const filteredQuestions = [];
-  for (let i = 0; i < questions.length; i++) {
-    if (Object.keys(questions[i].answers).length !== 0) {
-      filteredQuestions.push(questions[i]);
-    }
-  }
-
-  let sortedQuestions = filteredQuestions;
+  let sortedQuestions = [];
   if (search) {
-    sortedQuestions = filteredQuestions.filter((question) => (
+    sortedQuestions = questions.filter((question) => (
       question.question_body.toLowerCase().includes(searchTerm.toLowerCase()) ? question : null
     ));
   }
@@ -33,7 +26,7 @@ const QuestionsList = ({
     return (
       <div>
         <MoreQuestions>
-          {filteredQuestions.map((question) => (
+          {questions.map((question) => (
             <div key={question.question_id}>
               <Question
                 key={question.question_id}
@@ -70,7 +63,7 @@ const QuestionsList = ({
   return (
     <div>
       <ul className="questions-list">
-        {filteredQuestions.filter((question, index) => (
+        {questions.filter((question, index) => (
           index < 2
         )).map((question) => (
           <div key={question.question_id}>

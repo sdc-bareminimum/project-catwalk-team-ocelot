@@ -111,7 +111,7 @@ const Question = ({ question, searchTerm }) => {
           <span
             type="button"
             data-bs-toggle="modal"
-            data-bs-target="#answerModal"
+            data-bs-target={`#answerModal${question.question_id}`}
             onClick={handleAddAnswer}
             className="helpful-review"
           >

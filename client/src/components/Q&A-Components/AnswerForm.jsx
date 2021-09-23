@@ -40,7 +40,7 @@ const AnswerForm = ({ questionId, questionBody }) => {
   };
 
   return (
-    <div className="modal" id="answerModal" tabIndex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
+    <div className="modal" id={`answerModal${questionId}`} tabIndex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
       <div className="modal-dialog">
         <div className="modal-content">
 
@@ -48,7 +48,7 @@ const AnswerForm = ({ questionId, questionBody }) => {
             <h5 className="modal-title" id="answerModalLabel">Submit Your Answer</h5>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
           </div>
-          {/* <span  className="Asubtitle">{`${productInfo.name}: ${questionBody}`}</span> */}
+          <span  className="Asubtitle">{`${productInfo.name}: ${questionBody}`}</span>
           <div className="modal-body">
             <form onSubmit={handerSubmitAnswer}>
               <div className="mb-3">

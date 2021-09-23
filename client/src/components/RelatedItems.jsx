@@ -15,11 +15,38 @@ function RelatedItems({ productId, setProductId }) {
   const [outfitStyleData, setOutfitStyleData] = useState([]);
   const [mergedOutfitData, setMergedOutfitData] = useState([]);
   const [currentFeatures, setCurrentFeatures] = useState([]);
+  // const [show, setShow] = useState(3);
 
   const previousRelatedValues = useRef({ relatedListData, relatedStyleData });
   const previousOutfitValues = useRef({ outfitListData, outfitStyleData });
 
   const { setRecordInteraction, outfitIds, setOutfitIds } = useContext(ProductContext);
+
+  // const [dimensions, setDimensions] = React.useState({
+  //   width: window.innerWidth,
+  //   height: window.innerHeight,
+  // });
+
+  // const handleResize = () => {
+  //   setDimensions({
+  //     width: window.innerWidth,
+  //     height: window.innerHeight,
+  //   });
+  // };
+  // useEffect(() => {
+  //   window.addEventListener('resize', handleResize, false);
+  // }, []);
+
+  // const setShowValue = () => {
+  //   if (dimensions.width < 700) {
+  //     setShow(2);
+  //   } else {
+  //     setShow(3);
+  //   }
+  // };
+  // useEffect(() => {
+  //   setShowValue();
+  // }, [dimensions]);
 
   const getItemData = (relatedId) => (axios.get(`/api/products/${relatedId}`)
     .then(({ data }) => (data)))
@@ -151,7 +178,7 @@ function RelatedItems({ productId, setProductId }) {
   return (
     <div className="container mb-5">
       <div style={{
-        maxWidth: 900, marginLeft: '0', marginRight: 'auto', marginTop: 64,
+        maxWidth: '1000px', marginLeft: '0', marginRight: 'auto', marginTop: 64,
       }}
       >
         {' '}
@@ -170,7 +197,7 @@ function RelatedItems({ productId, setProductId }) {
       </div>
       <div
         style={{
-          maxWidth: 900, marginLeft: '0', marginRight: 'auto', marginTop: 64,
+          maxWidth: '1000px', marginLeft: '0', marginRight: 'auto', marginTop: 64,
         }}
       >
         {' '}

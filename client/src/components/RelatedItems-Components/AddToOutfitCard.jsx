@@ -4,7 +4,7 @@ import { Card, Button } from 'react-bootstrap';
 const AddToOutfitCard = ({ addToOutfit }) => (
   <Card
     style={{
-      width: '14rem', marginRight: '20px', border: 'solid', borderWidth: 'thin',
+      width: '16rem', marginRight: '20px', border: 'solid', borderWidth: 'thin',
     }}
   >
     <Card.Body

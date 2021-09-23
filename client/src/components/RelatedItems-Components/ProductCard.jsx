@@ -55,7 +55,7 @@ const ProductCard = ({
     <Card
       key={product.id}
       style={{
-        width: '14rem',
+        width: '16rem',
         marginRight: '20px',
         border: 'solid',
         borderWidth: 'thin',

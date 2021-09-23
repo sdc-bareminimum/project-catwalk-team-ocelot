@@ -1,11 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { ProductContext } from '../ProductContext.jsx';
 
-const AnswerForm = ({ questionId, questionBody }) => {
+const AnswerForm = ({ questionId, questionBody, fetchAnswers }) => {
   const [body, setBody] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [submit, setSumbit] = useState(false);
   const { productInfo } = useContext(ProductContext);
 
   const data = ({
@@ -37,6 +38,10 @@ const AnswerForm = ({ questionId, questionBody }) => {
     e.preventDefault();
     // console.log(data);
     postNewAnswer();
+    setSumbit(true);
+    useEffect(() => {
+      fetchAnswers();
+    }, [questionId]);
   };
 
   return (
@@ -86,7 +91,7 @@ const AnswerForm = ({ questionId, questionBody }) => {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" className="btn btn-outline-dark" data-bs-dismiss="modal">Submit Answer</button>
+                <button type="submit" className="btn btn-outline-dark" data-bs-dismiss="modal" onClick={() => { setSumbit(true); }}>Submit Answer</button>
               </div>
             </form>
           </div>

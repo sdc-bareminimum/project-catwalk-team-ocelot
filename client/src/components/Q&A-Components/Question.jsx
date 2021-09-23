@@ -7,7 +7,7 @@ import AnswersList from './AnswersList.jsx';
 import AnswerForm from './AnswerForm.jsx';
 import { ProductContext } from '../ProductContext.jsx';
 
-const Question = ({ question, searchTerm }) => {
+const Question = ({ question }) => {
   const [answers, setAnswers] = useState([]);
   const [currentAnswers, setCurrentAnswers] = useState(answers);
   const [helpful, setHelpful] = useState(question.question_helpfulness);
@@ -125,6 +125,7 @@ const Question = ({ question, searchTerm }) => {
         questionBody={question.question_body}
         showAnswerForm={showAnswerForm}
         handleAnswerForm={() => { setShowAnswerForm(false); }}
+        fetchAnswers={fetchAnswers}
       />
     </>
   );

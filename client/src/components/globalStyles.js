@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
-  body, .modal-content, .close {
+  body, .modal-content, .close, .card, .right-arrow, .left-arrow {
     background: ${({ theme }) => theme.body};
     color: ${({ theme }) => theme.text};
     transition: all 0.50s linear;

@@ -2,12 +2,23 @@ import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { ProductContext } from '../ProductContext.jsx';
 
-const AnswerForm = ({ questionId, questionBody, fetchAnswers }) => {
+const AnswerForm = ({ questionId, questionBody, setAnswers }) => {
   const [body, setBody] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [submit, setSumbit] = useState(false);
   const { productInfo } = useContext(ProductContext);
+
+  const fetchAnswers = () => {
+    axios.get(`/api/qa/questions/${questionId}/answers?count=100`)
+      .then((res) => {
+        console.log('fetch:', res.data.results);
+        setAnswers(res.data.results);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const data = ({
     body,
@@ -27,6 +38,9 @@ const AnswerForm = ({ questionId, questionBody, fetchAnswers }) => {
         setName('');
         setEmail('');
       })
+      .then(() => {
+        fetchAnswers();
+      })
       .catch((err) => {
         console.log(err);
         // console.log(err.response.data);
@@ -36,13 +50,14 @@ const AnswerForm = ({ questionId, questionBody, fetchAnswers }) => {
 
   const handerSubmitAnswer = (e) => {
     e.preventDefault();
-    // console.log(data);
+    console.log('submit', data);
     postNewAnswer();
     setSumbit(true);
-    useEffect(() => {
-      fetchAnswers();
-    }, [questionId]);
   };
+
+  // useEffect(() => {
+  //   fetchAnswers();
+  // }, []);
 
   return (
     <div className="modal" id={`answerModal${questionId}`} tabIndex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
@@ -91,7 +106,7 @@ const AnswerForm = ({ questionId, questionBody, fetchAnswers }) => {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" className="btn btn-outline-dark" data-bs-dismiss="modal" onClick={() => { setSumbit(true); }}>Submit Answer</button>
+                <button type="submit" className="btn btn-outline-dark" data-bs-dismiss="modal">Submit Answer</button>
               </div>
             </form>
           </div>

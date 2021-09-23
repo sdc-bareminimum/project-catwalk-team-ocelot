@@ -119,8 +119,9 @@ const Question = ({ question }) => {
           </span>
         </div>
       </div>
-      <AnswersList answers={currentAnswers} />
+      <AnswersList answers={answers} />
       <AnswerForm
+        setAnswers={setAnswers}
         questionId={question.question_id}
         questionBody={question.question_body}
         showAnswerForm={showAnswerForm}

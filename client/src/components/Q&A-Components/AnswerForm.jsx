@@ -2,22 +2,12 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { ProductContext } from '../ProductContext.jsx';
 
-const AnswerForm = ({ questionId, questionBody, setAnswers }) => {
+const AnswerForm = ({ questionId, questionBody, fetchAnswers }) => {
   const [body, setBody] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const { productInfo } = useContext(ProductContext);
 
-  const fetchAnswers = () => {
-    axios.get(`/api/qa/questions/${questionId}/answers?count=100`)
-      .then((res) => {
-        // console.log('fetch:', res.data.results);
-        setAnswers(res.data.results);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const data = ({
     body,
@@ -52,7 +42,6 @@ const AnswerForm = ({ questionId, questionBody, setAnswers }) => {
     // console.log('submit', data);
     postNewAnswer();
   };
-
 
   return (
     <div className="modal" id={`answerModal${questionId}`} tabIndex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">

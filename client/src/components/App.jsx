@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './globalStyles.js';
 import { lightTheme, darkTheme } from './Theme.js';
@@ -12,8 +12,7 @@ import QuestionsAndAnswers from './QuestionsAndAnswers.jsx';
 import Reviews from './Reviews.jsx';
 
 function App() {
-  const { productId, setProductId } = useContext(ProductContext);
-  const [theme, setTheme] = useState(true);
+  const { productId, setProductId, theme, setTheme } = useContext(ProductContext);
 
   return (
     <ThemeProvider theme={theme ? lightTheme : darkTheme}>
@@ -23,7 +22,7 @@ function App() {
       <Overview productId={productId} />
       <RelatedItems productId={productId} setProductId={setProductId} />
       <QuestionsAndAnswers productId={productId} />
-      <Reviews productId={productId} />
+      <Reviews productId={productId} theme={theme} />
     </ThemeProvider>
   );
 }

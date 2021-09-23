@@ -9,7 +9,6 @@ import { ProductContext } from '../ProductContext.jsx';
 
 const Question = ({ question }) => {
   const [answers, setAnswers] = useState([]);
-  const [currentAnswers, setCurrentAnswers] = useState(answers);
   const [helpful, setHelpful] = useState(question.question_helpfulness);
   const [voted, setVoted] = useState(false);
   const [reported, setReported] = useState(false);
@@ -23,7 +22,6 @@ const Question = ({ question }) => {
         if (res.data.results.length) {
           // console.log(res.data.results);
           setAnswers(res.data.results);
-          setCurrentAnswers(res.data.results);
         }
       });
   };

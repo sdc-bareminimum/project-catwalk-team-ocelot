@@ -3,7 +3,6 @@ import Answer from './Answer.jsx';
 import { ProductContext } from '../ProductContext.jsx';
 
 const AnswersList = ({ answers }) => {
-  console.log('answers', answers);
   const [moreAnswers, showMoreAnswers] = useState(false);
   const { setRecordInteraction } = useContext(ProductContext);
   answers.sort((a, b) => b.helpfulness - a.helpfulness);
@@ -16,7 +15,6 @@ const AnswersList = ({ answers }) => {
       time: new Date(),
     });
   };
-
 
   if (moreAnswers) {
     return (

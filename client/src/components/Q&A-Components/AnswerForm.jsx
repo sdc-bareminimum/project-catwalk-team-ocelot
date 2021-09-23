@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { ProductContext } from '../ProductContext.jsx';
 
@@ -6,13 +6,12 @@ const AnswerForm = ({ questionId, questionBody, setAnswers }) => {
   const [body, setBody] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [submit, setSumbit] = useState(false);
   const { productInfo } = useContext(ProductContext);
 
   const fetchAnswers = () => {
     axios.get(`/api/qa/questions/${questionId}/answers?count=100`)
       .then((res) => {
-        console.log('fetch:', res.data.results);
+        // console.log('fetch:', res.data.results);
         setAnswers(res.data.results);
       })
       .catch((err) => {
@@ -50,14 +49,10 @@ const AnswerForm = ({ questionId, questionBody, setAnswers }) => {
 
   const handerSubmitAnswer = (e) => {
     e.preventDefault();
-    console.log('submit', data);
+    // console.log('submit', data);
     postNewAnswer();
-    setSumbit(true);
   };
 
-  // useEffect(() => {
-  //   fetchAnswers();
-  // }, []);
 
   return (
     <div className="modal" id={`answerModal${questionId}`} tabIndex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">

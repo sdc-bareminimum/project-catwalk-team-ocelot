@@ -6,7 +6,7 @@ import QuestionsList from './Q&A-Components/QuestionsList.jsx';
 import QuestionForm from './Q&A-Components/QuestionsForm.jsx';
 
 // eslint-disable-next-line react/prop-types
-function QuestionsAndAnswers({ productId, theme }) {
+function QuestionsAndAnswers({ productId }) {
   const [questions, setQuestions] = useState([]);
   const [showQuestionsForm, setQuestionForm] = useState(false);
   const [search, setSearch] = useState(false);
@@ -25,7 +25,6 @@ function QuestionsAndAnswers({ productId, theme }) {
       },
     })
       .then((res) => {
-        // console.log(res.data.results);
         setQuestions(res.data.results);
       });
   };

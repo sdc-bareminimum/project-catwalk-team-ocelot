@@ -1,6 +1,10 @@
-import React from 'react';
+import React, {
+  useState, useContext, useRef, useCallback,
+} from 'react';
 import styled from 'styled-components';
+import { ProductContext } from '../ProductContext.jsx';
 import Question from './Question.jsx';
+import useAllQuestions from './useAllQuestions';
 
 const MoreQuestions = styled.div`
   height: 350px;
@@ -10,69 +14,98 @@ const MoreQuestions = styled.div`
   margin: auto;
 `;
 
-const QuestionsList = ({
-  questions, moreQuestions, search, searchTerm,
-}) => {
-  questions.sort((a, b) => b.helpfulness - a.helpfulness);
+const QuestionsList = ({ moreQuestions, search, searchTerm }) => {
+  const [page, setPage] = useState(1);
+  const { productId } = useContext(ProductContext);
+  const {
+    loading, error, questionsInfinite, hasMore,
+  } = useAllQuestions(productId, page, search, searchTerm);
 
-  let sortedQuestions = [];
+  // questions.sort((a, b) => b.helpfulness - a.helpfulness);
+  const observer = useRef(null);
+  const lastQuestionRef = useCallback((node) => {
+    if (loading) return;
+    if (observer.current) {
+      observer.current.disconnect();
+    }
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasMore) {
+        setPage((prev) => prev + 1);
+      }
+    });
+    if (node) observer.current.observe(node);
+  }, [loading, hasMore]);
+
+  let sortedQuestions = questionsInfinite;
   if (search) {
-    sortedQuestions = questions.filter((question) => (
+    sortedQuestions = questionsInfinite.filter((question) => (
       question.question_body.toLowerCase().includes(searchTerm.toLowerCase()) ? question : null
     ));
   }
 
   if (moreQuestions) {
     return (
-      <div>
+      <>
         <MoreQuestions>
-          {questions.map((question) => (
-            <div key={question.question_id}>
-              <Question
-                key={question.question_id}
-                question={question}
-              />
-            </div>
-          ))}
-        </MoreQuestions>
-      </div>
-    );
-  }
-  if (search) {
-    return (
-      <div>
-        <ul className="questions-list">
-          {sortedQuestions.length === 0
+          {questionsInfinite.length === 0
             ? (
-              // eslint-disable-next-line max-len
-              <span>Hmm, no matches. To get an answer, try different keywords or post your question to the community.</span>
+              <span ref={lastQuestionRef}>
+                No More Questions
+              </span>
             )
-            : sortedQuestions.map((question) => (
-
-              <Question
-                key={question.question_id}
-                question={question}
-                searchTerm={searchTerm}
-              />
-
-            ))}
-        </ul>
-      </div>
+            : sortedQuestions.map((question, i) => {
+              if (questionsInfinite.length === i + 1) {
+                return (
+                  <div ref={lastQuestionRef} key={question.question_id}>
+                    <Question key={question.question_id} question={question} />
+                  </div>
+                );
+              }
+              return <Question key={question.question_id} question={question} />;
+            })}
+          <span>{loading ? 'loading' : null}</span>
+          <span>{error ? 'error' : null}</span>
+        </MoreQuestions>
+      </>
     );
   }
+  // if (search) {
+  //   return (
+  //     <div>
+  //       <ul className="questions-list">
+  //         {questionsInfinite.length === 0
+  //           ? (
+  //             // eslint-disable-next-line max-len
+  //             <span> Hmm, no matches. To get an answer, try different keywords or post your question to the community.</span>
+  //           )
+  //           : sortedQuestions.map((question, i) => {
+  //             if (questionsInfinite.length === i + 1) {
+  //               return (
+  //                 <div ref={lastQuestionRef} key={question.question_id}>
+  //                   <Question key={question.question_id} question={question} />
+  //                 </div>
+  //               );
+  //             }
+  //             return <Question key={question.question_id} question={question} />;
+  //           })}
+  //         <span>{loading ? 'loading' : null}</span>
+  //         <span>{error ? 'error' : null}</span>
+  //       </ul>
+  //     </div>
+  //   );
+  // }
   return (
     <div>
       <ul className="questions-list">
-        {questions.filter((question, index) => (
-          index < 2
-        )).map((question) => (
-          <div key={question.question_id}>
-            <Question
-              key={question.question_id}
-              question={question}
-            />
-          </div>
-        ))}
+        {
+          sortedQuestions.filter((question, index) => (
+            index < 4
+          )).map((question) => (
+            <div key={question.question_id}>
+              <Question key={question.question_id} question={question} />
+            </div>
+          ))
+        }
       </ul>
     </div>
   );

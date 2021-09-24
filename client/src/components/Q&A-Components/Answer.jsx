@@ -12,11 +12,6 @@ const Answer = ({ answer }) => {
   const { setRecordInteraction } = useContext(ProductContext);
 
   const handleHelpClick = (e) => {
-    setRecordInteraction({
-      element: `${e.target}`,
-      widget: 'QuestionsAndAnswers',
-      time: new Date(),
-    });
     if (!voted) {
       setVoted((vote) => !vote);
       setHelpful((helped) => helped + 1);
@@ -33,14 +28,14 @@ const Answer = ({ answer }) => {
           Promise.reject(err);
         });
     }
-  };
-
-  const handleReport = (e) => {
     setRecordInteraction({
       element: `${e.target}`,
       widget: 'QuestionsAndAnswers',
       time: new Date(),
     });
+  };
+
+  const handleReport = (e) => {
     setReported(true);
     axios.put(
       `/api/qa/answers/${answer.answer_id}/report`,
@@ -54,6 +49,11 @@ const Answer = ({ answer }) => {
       .catch((err) => {
         Promise.reject(err);
       });
+    setRecordInteraction({
+      element: `${e.target}`,
+      widget: 'QuestionsAndAnswers',
+      time: new Date(),
+    });
   };
 
   return (

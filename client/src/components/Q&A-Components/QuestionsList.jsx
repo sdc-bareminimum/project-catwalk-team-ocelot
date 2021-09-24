@@ -46,26 +46,26 @@ const QuestionsList = ({ moreQuestions, search, searchTerm }) => {
     if (search) {
       return (
         <>
-        <MoreQuestions>
-          {sortedQuestions.length === 0
-            ? (
-              <span>
-                No More Questions
-              </span>
-            )
-            : sortedQuestions.map((question, i) => {
-              if (questionsInfinite.length === i + 1) {
-                return (
-                  <div ref={lastQuestionRef} key={question.question_id}>
-                    <Question key={question.question_id} question={question} />
-                  </div>
-                );
-              }
-              return <Question key={question.question_id} question={question} />;
-            })}
-          <span>{loading ? 'loading' : null}</span>
-          <span>{error ? 'error' : null}</span>
-        </MoreQuestions>
+          <MoreQuestions>
+            {sortedQuestions.length === 0
+              ? (
+                <span>
+                  No More Questions
+                </span>
+              )
+              : sortedQuestions.map((question, i) => {
+                if (questionsInfinite.length === i + 1) {
+                  return (
+                    <div ref={lastQuestionRef} key={question.question_id}>
+                      <Question key={question.question_id} question={question} />
+                    </div>
+                  );
+                }
+                return <Question key={question.question_id} question={question} />;
+              })}
+            <span>{loading ? 'loading' : null}</span>
+            <span>{error ? 'error' : null}</span>
+          </MoreQuestions>
         </>
       );
     }

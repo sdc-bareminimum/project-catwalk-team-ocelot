@@ -55,11 +55,6 @@ const Question = ({ question }) => {
   };
 
   const handleReport = (e) => {
-    setRecordInteraction({
-      element: `${e.target}`,
-      widget: 'QuestionsAndAnswers',
-      time: new Date(),
-    });
     setReported(true);
     axios.put(
       `api/qa/questions/${question.question_id}/report`,
@@ -73,6 +68,11 @@ const Question = ({ question }) => {
       .catch((err) => {
         Promise.reject(err);
       });
+    setRecordInteraction({
+      element: `${e.target}`,
+      widget: 'QuestionsAndAnswers',
+      time: new Date(),
+    });
   };
 
   const handleAddAnswer = (e) => {

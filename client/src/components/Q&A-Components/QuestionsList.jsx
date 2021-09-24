@@ -21,7 +21,6 @@ const QuestionsList = ({ moreQuestions, search, searchTerm }) => {
     loading, error, questionsInfinite, hasMore,
   } = useAllQuestions(productId, page, search, searchTerm);
 
-  // questions.sort((a, b) => b.helpfulness - a.helpfulness);
   const observer = useRef(null);
   const lastQuestionRef = useCallback((node) => {
     if (loading) return;
@@ -44,6 +43,32 @@ const QuestionsList = ({ moreQuestions, search, searchTerm }) => {
   }
 
   if (moreQuestions) {
+    if (search) {
+      return (
+        <>
+        <MoreQuestions>
+          {sortedQuestions.length === 0
+            ? (
+              <span>
+                No More Questions
+              </span>
+            )
+            : sortedQuestions.map((question, i) => {
+              if (questionsInfinite.length === i + 1) {
+                return (
+                  <div ref={lastQuestionRef} key={question.question_id}>
+                    <Question key={question.question_id} question={question} />
+                  </div>
+                );
+              }
+              return <Question key={question.question_id} question={question} />;
+            })}
+          <span>{loading ? 'loading' : null}</span>
+          <span>{error ? 'error' : null}</span>
+        </MoreQuestions>
+        </>
+      );
+    }
     return (
       <>
         <MoreQuestions>
@@ -69,31 +94,24 @@ const QuestionsList = ({ moreQuestions, search, searchTerm }) => {
       </>
     );
   }
-  // if (search) {
-  //   return (
-  //     <div>
-  //       <ul className="questions-list">
-  //         {questionsInfinite.length === 0
-  //           ? (
-  //             // eslint-disable-next-line max-len
-  //             <span> Hmm, no matches. To get an answer, try different keywords or post your question to the community.</span>
-  //           )
-  //           : sortedQuestions.map((question, i) => {
-  //             if (questionsInfinite.length === i + 1) {
-  //               return (
-  //                 <div ref={lastQuestionRef} key={question.question_id}>
-  //                   <Question key={question.question_id} question={question} />
-  //                 </div>
-  //               );
-  //             }
-  //             return <Question key={question.question_id} question={question} />;
-  //           })}
-  //         <span>{loading ? 'loading' : null}</span>
-  //         <span>{error ? 'error' : null}</span>
-  //       </ul>
-  //     </div>
-  //   );
-  // }
+  if (search) {
+    return (
+      <div>
+        <ul className="questions-list">
+          {sortedQuestions.length === 0
+            ? (
+              // eslint-disable-next-line max-len
+              <span> Hmm, no matches. To get an answer, try different keywords or post your question to the community.</span>
+            )
+            : sortedQuestions.map((question) => (
+              <div key={question.question_id}>
+                <Question key={question.question_id} question={question} />
+              </div>
+            ))}
+        </ul>
+      </div>
+    );
+  }
   return (
     <div>
       <ul className="questions-list">

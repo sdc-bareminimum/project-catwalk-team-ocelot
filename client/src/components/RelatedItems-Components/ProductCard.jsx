@@ -10,7 +10,10 @@ const ProductCard = ({
   const displayUrl = product.photo === null ? 'No-Image-Placeholder.svg' : product.photo;
   const [currentAverage, setCurrentAverage] = useState(0);
   const getAverageRating = (id, callback) => {
-    axios.get(`/api/reviews/meta?product_id=${id}`)
+    axios({
+      url: `http://localhost:3030/api/reviews/meta?product_id=${id}`,
+      method: 'GET',
+    })
       .then(({ data }) => {
         const average = Object.values(data.ratings)
           .reduce((r, a, i) => (Number(r) + Number(a)

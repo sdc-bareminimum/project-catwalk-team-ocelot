@@ -68,7 +68,10 @@ function Reviews({ productId, theme }) {
   };
 
   const getMetaData = (id) => {
-    axios.get(`/api/reviews/meta?product_id=${id}`)
+    axios({
+      url: `http://localhost:3030/api/reviews/meta?product_id=${id}`,
+      method: 'GET',
+    })
       .then(({ data }) => {
         if (Object.keys(data.ratings).length === 0) {
           dispatch({ type: ERROR });
@@ -91,8 +94,7 @@ function Reviews({ productId, theme }) {
           setSize(data.characteristics.Fit?.value || data.characteristics.Size?.value);
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         dispatch({ type: ERROR });
       });
   };

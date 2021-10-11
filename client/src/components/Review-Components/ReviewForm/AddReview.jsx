@@ -31,7 +31,7 @@ const AddReview = (props) => {
   const { productInfo } = useContext(ProductContext);
 
   const {
-    characteristics, sizefit, widthlength, getReviews, productId, selected, count,
+    characteristics, sizefit, widthlength, getReviews, productId, selected,
   } = props;
 
   const mapArray = new Array(5).fill(1);
@@ -50,20 +50,24 @@ const AddReview = (props) => {
   const postNewReview = (e) => {
     e.preventDefault();
     if (state.bodyText.length >= 50) {
-      axios.post('/api/reviews', {
-        product_id: productId,
-        rating: state.selectedRating,
-        summary: state.summaryText,
-        body: state.bodyText,
-        recommend: state.selectRec === 'true',
-        name: state.addUsername,
-        email: state.addEmail,
-        photos: [],
-        characteristics: {
-          [sizefit.id]: state.size || state.fit,
-          [widthlength.id]: state.width || state.length,
-          [characteristics.Comfort.id]: state.comfort,
-          [characteristics.Quality.id]: state.quality,
+      axios({
+        url: 'http://localhost:3030/api/reviews',
+        method: 'POST',
+        data: {
+          product_id: productId,
+          rating: state.selectedRating,
+          summary: state.summaryText,
+          body: state.bodyText,
+          recommend: state.selectRec === 'true',
+          name: state.addUsername,
+          email: state.addEmail,
+          photos: [],
+          characteristics: {
+            [sizefit.id]: state.size || state.fit,
+            [widthlength.id]: state.width || state.length,
+            [characteristics.Comfort.id]: state.comfort,
+            [characteristics.Quality.id]: state.quality,
+          },
         },
       })
         .then(() => {
@@ -73,10 +77,9 @@ const AddReview = (props) => {
           getReviews(productId, selected);
           console.log('Review Posted');
         })
-        .catch((err) => {
+        .catch(() => {
           setErrorMessage(true);
           setSubmitClick(false);
-          console.log(err.response.data);
         });
     } else {
       setErrorMessage(true);

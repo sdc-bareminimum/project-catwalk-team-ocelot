@@ -22,7 +22,10 @@ const ReviewListEntry = (props) => {
     });
 
   const helpfulRequest = (e) => {
-    axios.put(`/api/reviews/${review.review_id}/helpful`)
+    axios({
+      url: `http://localhost:3030/api/reviews/${review.review_id}/helpful`,
+      method: 'PUT',
+    })
       .then(() => {
         getReviews(productId, selected);
       });
@@ -34,7 +37,10 @@ const ReviewListEntry = (props) => {
   };
 
   const reportRequest = (e) => {
-    axios.put(`/api/reviews/${review.review_id}/report`)
+    axios({
+      url: `http://localhost:3030/api/reviews/${review.review_id}/report`,
+      method: 'PUT',
+    })
       .then(() => {
         getReviews(productId, selected);
       });

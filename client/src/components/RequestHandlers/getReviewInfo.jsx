@@ -2,7 +2,10 @@ import axios from 'axios';
 
 export const getReviewInfo = {
   getMetaData: (id, callback) => {
-    axios.get(`/api/reviews/meta?product_id=${id}`)
+    axios({
+      url: `http://localhost:3030/api/reviews/meta?product_id=${id}`,
+      method: 'GET',
+    })
       .then(({ data }) => {
         callback(data);
       })
@@ -12,30 +15,37 @@ export const getReviewInfo = {
   },
 
   helpfulRequest: (reviewId, callback) => {
-    axios.put(`/api/reviews/${reviewId}/helpful`)
+    axios({
+      url: `http://localhost:3030/api/reviews/${review_id}/helpful`,
+      method: 'PUT',
+    })
       .then(() => {
         console.log('Helpful Review added!');
       })
-      .catch(err => {
-        console.log(err);
+      .catch((err) => {
         callback(err);
       });
   },
 
   reportRequest: (reviewId, callback) => {
-    axios.put(`/api/reviews/${reviewId}/report`)
+    axios({
+      url: `http://localhost:3030/api/reviews/${review_id}/report`,
+      method: 'PUT',
+    })
       .then(() => {
         console.log('Review Reported');
       })
       .catch((err) => {
-        console.log(err);
         callback(err);
       });
   },
 };
 
 export const getAverageRating = (id, callback) => {
-  axios.get(`/api/reviews/meta?product_id=${id}`)
+  axios({
+    url: `http://localhost:3030/api/reviews/meta?product_id=${id}`,
+    method: 'GET',
+  })
     .then(({ data }) => {
       const average = Object.values(data.ratings)
         .reduce((r, a, i) => (Number(r) + Number(a)
@@ -50,7 +60,10 @@ export const getAverageRating = (id, callback) => {
 };
 
 export const getAllReviews = (id, selected, callback) => {
-  axios.get(`/api/reviews?product_id=${id}&count=100&sort=${selected}`)
+  axios({
+    url: `http://localhost:3030/api/reviews?product_id=${id}&count=100&sort=${selected}`,
+    method: 'GET',
+  })
     .then(({ data }) => {
       callback(null, data);
     })

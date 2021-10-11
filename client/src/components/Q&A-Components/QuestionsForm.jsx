@@ -22,21 +22,22 @@ const QuestionForm = ({ productId, fetchQuestions }) => {
     'Content-Type': 'application/json',
   };
   const postNewQuestion = () => {
-    axios.post('/api/qa/questions', data, {
-      headers,
-    })
-      .then(() => {
-        setBody('');
-        setName('');
-        setEmail('');
-      })
-      .then(() => {
-        fetchQuestions();
-      })
-      .catch(() => {
-        // console.log(err.response.data);
-        // console.log(err.response);
-      });
+    // axios.post('/api/qa/questions', data, {
+    //   headers,
+    // })
+    //   .then(() => {
+    //     setBody('');
+    //     setName('');
+    //     setEmail('');
+    //   })
+    //   .then(() => {
+    //     fetchQuestions();
+    //   })
+    //   .catch(() => {
+    //     // console.log(err.response.data);
+    //     // console.log(err.response);
+    //   });
+    console.log('postNewQuestion');
   };
 
   const handerSubmitQuestion = (e) => {

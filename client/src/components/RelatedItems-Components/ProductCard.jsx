@@ -10,21 +10,22 @@ const ProductCard = ({
   const displayUrl = product.photo === null ? 'No-Image-Placeholder.svg' : product.photo;
   const [currentAverage, setCurrentAverage] = useState(0);
   const getAverageRating = (id, callback) => {
-    axios({
-      url: `http://localhost:3030/api/reviews/meta?product_id=${id}`,
-      method: 'GET',
-    })
-      .then(({ data }) => {
-        const average = Object.values(data.ratings)
-          .reduce((r, a, i) => (Number(r) + Number(a)
-          * Number(Object.keys(data.ratings)[i])))
-          / Object.values(data.ratings)
-            .reduce((prev, curr) => Number(prev) + Number(curr)) || 0;
-        callback(average);
-      })
-      .catch((err) => {
-        callback(err);
-      });
+    // axios({
+    //   url: `http://localhost:3030/api/reviews/meta?product_id=${id}`,
+    //   method: 'GET',
+    // })
+    //   .then(({ data }) => {
+    //     const average = Object.values(data.ratings)
+    //       .reduce((r, a, i) => (Number(r) + Number(a)
+    //       * Number(Object.keys(data.ratings)[i])))
+    //       / Object.values(data.ratings)
+    //         .reduce((prev, curr) => Number(prev) + Number(curr)) || 0;
+    //     callback(average);
+    //   })
+    //   .catch((err) => {
+    //     callback(err);
+    //   });
+    console.log('getAverageRating');
   };
   useEffect(() => {
     getAverageRating(product.id, (results) => {

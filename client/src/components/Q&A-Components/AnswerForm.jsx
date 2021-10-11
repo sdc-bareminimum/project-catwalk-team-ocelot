@@ -19,22 +19,23 @@ const AnswerForm = ({ questionId, questionBody, fetchAnswers }) => {
     'Content-Type': 'application/json',
   };
   const postNewAnswer = () => {
-    axios.post(`/api/qa/questions/${questionId}/answers`, data, {
-      headers,
-    })
-      .then(() => {
-        setBody('');
-        setName('');
-        setEmail('');
-      })
-      .then(() => {
-        fetchAnswers();
-      })
-      .catch((err) => {
-        console.log(err);
-        // console.log(err.response.data);
-        // console.log(err.response);
-      });
+    // axios.post(`/api/qa/questions/${questionId}/answers`, data, {
+    //   headers,
+    // })
+    //   .then(() => {
+    //     setBody('');
+    //     setName('');
+    //     setEmail('');
+    //   })
+    //   .then(() => {
+    //     fetchAnswers();
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     // console.log(err.response.data);
+    //     // console.log(err.response);
+    //   });
+    console.log('postNewAnswer');
   };
 
   const handerSubmitAnswer = (e) => {

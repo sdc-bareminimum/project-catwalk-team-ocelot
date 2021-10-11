@@ -12,48 +12,50 @@ const Answer = ({ answer }) => {
   const { setRecordInteraction } = useContext(ProductContext);
 
   const handleHelpClick = (e) => {
-    if (!voted) {
-      setVoted((vote) => !vote);
-      setHelpful((helped) => helped + 1);
-      axios.put(
-        `/api/qa/answers/${answer.answer_id}/helpful`,
-        {
-          helpfulness: helpful,
-        },
-      )
-        .then(() => {
+    // if (!voted) {
+    //   setVoted((vote) => !vote);
+    //   setHelpful((helped) => helped + 1);
+    //   axios.put(
+    //     `/api/qa/answers/${answer.answer_id}/helpful`,
+    //     {
+    //       helpfulness: helpful,
+    //     },
+    //   )
+    //     .then(() => {
 
-        })
-        .catch((res, err) => {
-          Promise.reject(err);
-        });
-    }
-    setRecordInteraction({
-      element: `${e.target}`,
-      widget: 'QuestionsAndAnswers',
-      time: new Date(),
-    });
+    //     })
+    //     .catch((res, err) => {
+    //       Promise.reject(err);
+    //     });
+    // }
+    // setRecordInteraction({
+    //   element: `${e.target}`,
+    //   widget: 'QuestionsAndAnswers',
+    //   time: new Date(),
+    // });
+    console.log('handleHelpClick');
   };
 
   const handleReport = (e) => {
-    setReported(true);
-    axios.put(
-      `/api/qa/answers/${answer.answer_id}/report`,
-      {
-        reported: true,
-      },
-    )
-      .then(() => {
+    // setReported(true);
+    // axios.put(
+    //   `/api/qa/answers/${answer.answer_id}/report`,
+    //   {
+    //     reported: true,
+    //   },
+    // )
+    //   .then(() => {
 
-      })
-      .catch((err) => {
-        Promise.reject(err);
-      });
-    setRecordInteraction({
-      element: `${e.target}`,
-      widget: 'QuestionsAndAnswers',
-      time: new Date(),
-    });
+    //   })
+    //   .catch((err) => {
+    //     Promise.reject(err);
+    //   });
+    // setRecordInteraction({
+    //   element: `${e.target}`,
+    //   widget: 'QuestionsAndAnswers',
+    //   time: new Date(),
+    // });
+    console.log('handleReport');
   };
 
   return (

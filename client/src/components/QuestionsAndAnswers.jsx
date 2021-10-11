@@ -16,17 +16,18 @@ function QuestionsAndAnswers({ productId }) {
   const { setRecordInteraction } = useContext(ProductContext);
 
   const fetchQuestions = () => {
-    axios({
-      method: 'GET',
-      url: '/api/qa/questions',
-      params: {
-        product_id: productId,
-        count: 100,
-      },
-    })
-      .then((res) => {
-        setQuestions(res.data.results);
-      });
+    // axios({
+    //   method: 'GET',
+    //   url: '/api/qa/questions',
+    //   params: {
+    //     product_id: productId,
+    //     count: 100,
+    //   },
+    // })
+    //   .then((res) => {
+    //     setQuestions(res.data.results);
+    //   });
+    console.log('fetchQuestions');
   };
 
   useEffect(() => {

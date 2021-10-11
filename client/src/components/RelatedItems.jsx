@@ -21,13 +21,19 @@ function RelatedItems({ productId, setProductId }) {
 
   const { setRecordInteraction, outfitIds, setOutfitIds } = useContext(ProductContext);
 
-  const getItemData = (relatedId) => (axios.get(`/api/products/${relatedId}`)
-    .then(({ data }) => (data)))
-    .catch((err) => (console.log(err)));
+  const getItemData = (relatedId) => (
+    // axios.get(`/api/products/${relatedId}`)
+    //   .then(({ data }) => (data)))
+    //   .catch((err) => (console.log(err)));
+    console.log('getItemData')
+  );
 
-  const getStyleData = (relatedId) => (axios.get(`/api/products/${relatedId}/styles`)
-    .then(({ data }) => (data.results[0].photos[0].url || null)))
-    .catch((err) => (console.log(err)));
+  const getStyleData = (relatedId) => (
+    // axios.get(`/api/products/${relatedId}/styles`)
+    //   .then(({ data }) => (data.results[0].photos[0].url || null)))
+    //   .catch((err) => (console.log(err)));
+    console.log('getStyleData')
+    );
 
   const zipData = (infoData, styleData, isRelatedData) => {
     const data = infoData.map((item, i) => {
@@ -78,19 +84,21 @@ function RelatedItems({ productId, setProductId }) {
   };
 
   const getCurrentProductFeatures = (id) => {
-    axios.get(`/api/products/${id}`)
-      .then((productData) => {
-        const { features } = productData.data;
-        setCurrentFeatures(features);
-      });
+    // axios.get(`/api/products/${id}`)
+    //   .then((productData) => {
+    //     const { features } = productData.data;
+    //     setCurrentFeatures(features);
+    //   });
+    console.log('getCurrentProductFeatures');
   };
 
   const getRelatedItems = (id) => {
-    axios.get(`/api/products/${id}/related`)
-      .then(({ data }) => {
-        getAllData(data, true);
-      })
-      .catch((err) => console.log(err));
+    // axios.get(`/api/products/${id}/related`)
+    //   .then(({ data }) => {
+    //     getAllData(data, true);
+    //   })
+    //   .catch((err) => console.log(err));
+    console.log('getRelatedItems');
   };
 
   const changeCurrentItem = (id, e) => {

@@ -17,13 +17,14 @@ const Question = ({ question }) => {
   const { setRecordInteraction } = useContext(ProductContext);
 
   const fetchAnswers = () => {
-    axios.get(`/api/qa/questions/${question.question_id}/answers?count=100`)
-      .then((res) => {
-        if (res.data.results.length) {
-          // console.log(res.data.results);
-          setAnswers(res.data.results);
-        }
-      });
+    // axios.get(`/api/qa/questions/${question.question_id}/answers?count=100`)
+    //   .then((res) => {
+    //     if (res.data.results.length) {
+    //       // console.log(res.data.results);
+    //       setAnswers(res.data.results);
+    //     }
+    //   });
+    console.log('fetchAnswers');
   };
 
   useEffect(() => {
@@ -31,57 +32,59 @@ const Question = ({ question }) => {
   }, [question.question_id]);
 
   const handleHelpClick = (e) => {
-    if (!voted) {
-      setVoted((vote) => !vote);
-      setHelpful((helped) => helped + 1);
-      axios.put(
-        `/api/qa/questions/${question.question_id}/helpful`,
-        {
-          question_helpfulness: helpful,
-        },
-      )
-        .then(() => {
+    // if (!voted) {
+    //   setVoted((vote) => !vote);
+    //   setHelpful((helped) => helped + 1);
+    //   axios.put(
+    //     `/api/qa/questions/${question.question_id}/helpful`,
+    //     {
+    //       question_helpfulness: helpful,
+    //     },
+    //   )
+    //     .then(() => {
 
-        })
-        .catch((err) => {
-          Promise.reject(err);
-        });
-    }
-    setRecordInteraction({
-      element: `${e.target}`,
-      widget: 'QuestionsAndAnswers',
-      time: new Date(),
-    });
+    //     })
+    //     .catch((err) => {
+    //       Promise.reject(err);
+    //     });
+    // }
+    // setRecordInteraction({
+    //   element: `${e.target}`,
+    //   widget: 'QuestionsAndAnswers',
+    //   time: new Date(),
+    // });
+    console.log('handleHelpClick');
   };
 
   const handleReport = (e) => {
-    setReported(true);
-    axios.put(
-      `api/qa/questions/${question.question_id}/report`,
-      {
-        reported: true,
-      },
-    )
-      .then(() => {
+  //   setReported(true);
+  //   axios.put(
+  //     `api/qa/questions/${question.question_id}/report`,
+  //     {
+  //       reported: true,
+  //     },
+  //   )
+  //     .then(() => {
 
-      })
-      .catch((err) => {
-        Promise.reject(err);
-      });
-    setRecordInteraction({
-      element: `${e.target}`,
-      widget: 'QuestionsAndAnswers',
-      time: new Date(),
-    });
-  };
+  //     })
+  //     .catch((err) => {
+  //       Promise.reject(err);
+  //     });
+  //   setRecordInteraction({
+  //     element: `${e.target}`,
+  //     widget: 'QuestionsAndAnswers',
+  //     time: new Date(),
+  //   });
+  // };
 
-  const handleAddAnswer = (e) => {
-    setShowAnswerForm(true);
-    setRecordInteraction({
-      element: `${e.target}`,
-      widget: 'QuestionsAndAnswers',
-      time: new Date(),
-    });
+  // const handleAddAnswer = (e) => {
+  //   setShowAnswerForm(true);
+  //   setRecordInteraction({
+  //     element: `${e.target}`,
+  //     widget: 'QuestionsAndAnswers',
+  //     time: new Date(),
+  //   });
+    console.log('handleReport');
   };
 
   return (

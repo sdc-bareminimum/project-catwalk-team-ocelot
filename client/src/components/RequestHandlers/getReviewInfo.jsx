@@ -14,31 +14,31 @@ export const getReviewInfo = {
       });
   },
 
-  helpfulRequest: (reviewId, callback) => {
-    axios({
-      url: `http://localhost:3030/api/reviews/${review_id}/helpful`,
-      method: 'PUT',
-    })
-      .then(() => {
-        console.log('Helpful Review added!');
-      })
-      .catch((err) => {
-        callback(err);
-      });
-  },
+  // helpfulRequest: (reviewId, callback) => {
+  //   axios({
+  //     url: `http://localhost:3030/api/reviews/${review_id}/helpful`,
+  //     method: 'PUT',
+  //   })
+  //     .then(() => {
+  //       console.log('Helpful Review added!');
+  //     })
+  //     .catch((err) => {
+  //       callback(err);
+  //     });
+  // },
 
-  reportRequest: (reviewId, callback) => {
-    axios({
-      url: `http://localhost:3030/api/reviews/${review_id}/report`,
-      method: 'PUT',
-    })
-      .then(() => {
-        console.log('Review Reported');
-      })
-      .catch((err) => {
-        callback(err);
-      });
-  },
+  // reportRequest: (reviewId, callback) => {
+  //   axios({
+  //     url: `http://localhost:3030/api/reviews/${review_id}/report`,
+  //     method: 'PUT',
+  //   })
+  //     .then(() => {
+  //       console.log('Review Reported');
+  //     })
+  //     .catch((err) => {
+  //       callback(err);
+  //     });
+  // },
 };
 
 export const getAverageRating = (id, callback) => {
